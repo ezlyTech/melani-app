@@ -1,10 +1,7 @@
-import PropTypes from 'prop-types';
-
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import { alpha } from '@mui/material/styles';
-
-// ----------------------------------------------------------------------
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import { alpha } from "@mui/material/styles";
 
 export default function ColorPreview({ colors, limit = 3, sx }) {
   const renderColors = colors.slice(0, limit);
@@ -21,7 +18,7 @@ export default function ColorPreview({ colors, limit = 3, sx }) {
             width: 16,
             height: 16,
             bgcolor: color,
-            borderRadius: '50%',
+            borderRadius: "50%",
             border: (theme) => `solid 2px ${theme.palette.background.paper}`,
             boxShadow: (theme) => `inset -1px 1px 2px ${alpha(theme.palette.common.black, 0.24)}`,
           }}
@@ -29,7 +26,7 @@ export default function ColorPreview({ colors, limit = 3, sx }) {
       ))}
 
       {colors.length > limit && (
-        <Box component="span" sx={{ typography: 'subtitle2' }}>{`+${remainingColor}`}</Box>
+        <Box component="span" sx={{ typography: "subtitle2" }}>{`+${remainingColor}`}</Box>
       )}
     </Stack>
   );

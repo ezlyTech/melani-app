@@ -1,19 +1,16 @@
-import PropTypes from 'prop-types';
-
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import { alpha } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
-
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
-
-import Iconify from 'src/components/iconify';
-import SvgColor from 'src/components/svg-color';
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import { alpha } from "@mui/material/styles";
+import Grid from "@mui/material/Unstable_Grid2";
+import Typography from "@mui/material/Typography";
+import { fDate } from "src/utils/format-time";
+import { fShortenNumber } from "src/utils/format-number";
+import Iconify from "src/components/iconify";
+import SvgColor from "src/components/svg-color";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +29,7 @@ export default function PostCard({ post, index }) {
         zIndex: 9,
         width: 32,
         height: 32,
-        position: 'absolute',
+        position: "absolute",
         left: (theme) => theme.spacing(3),
         bottom: (theme) => theme.spacing(-2),
         ...((latestPostLarge || latestPost) && {
@@ -53,13 +50,13 @@ export default function PostCard({ post, index }) {
       underline="hover"
       sx={{
         height: 44,
-        overflow: 'hidden',
+        overflow: "hidden",
         WebkitLineClamp: 2,
-        display: '-webkit-box',
-        WebkitBoxOrient: 'vertical',
-        ...(latestPostLarge && { typography: 'h5', height: 60 }),
+        display: "-webkit-box",
+        WebkitBoxOrient: "vertical",
+        ...(latestPostLarge && { typography: "h5", height: 60 }),
         ...((latestPostLarge || latestPost) && {
-          color: 'common.white',
+          color: "common.white",
         }),
       }}
     >
@@ -75,13 +72,13 @@ export default function PostCard({ post, index }) {
       justifyContent="flex-end"
       sx={{
         mt: 3,
-        color: 'text.disabled',
+        color: "text.disabled",
       }}
     >
       {[
-        { number: comment, icon: 'eva:message-circle-fill' },
-        { number: view, icon: 'eva:eye-fill' },
-        { number: share, icon: 'eva:share-fill' },
+        { number: comment, icon: "eva:message-circle-fill" },
+        { number: view, icon: "eva:eye-fill" },
+        { number: share, icon: "eva:share-fill" },
       ].map((info, _index) => (
         <Stack
           key={_index}
@@ -89,7 +86,7 @@ export default function PostCard({ post, index }) {
           sx={{
             ...((latestPostLarge || latestPost) && {
               opacity: 0.48,
-              color: 'common.white',
+              color: "common.white",
             }),
           }}
         >
@@ -109,8 +106,8 @@ export default function PostCard({ post, index }) {
         top: 0,
         width: 1,
         height: 1,
-        objectFit: 'cover',
-        position: 'absolute',
+        objectFit: "cover",
+        position: "absolute",
       }}
     />
   );
@@ -121,10 +118,10 @@ export default function PostCard({ post, index }) {
       component="div"
       sx={{
         mb: 2,
-        color: 'text.disabled',
+        color: "text.disabled",
         ...((latestPostLarge || latestPost) && {
           opacity: 0.48,
-          color: 'common.white',
+          color: "common.white",
         }),
       }}
     >
@@ -141,9 +138,9 @@ export default function PostCard({ post, index }) {
         height: 36,
         zIndex: 9,
         bottom: -15,
-        position: 'absolute',
-        color: 'background.paper',
-        ...((latestPostLarge || latestPost) && { display: 'none' }),
+        position: "absolute",
+        color: "background.paper",
+        ...((latestPostLarge || latestPost) && { display: "none" }),
       }}
     />
   );
@@ -153,23 +150,23 @@ export default function PostCard({ post, index }) {
       <Card>
         <Box
           sx={{
-            position: 'relative',
-            pt: 'calc(100% * 3 / 4)',
+            position: "relative",
+            pt: "calc(100% * 3 / 4)",
             ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
+              pt: "calc(100% * 4 / 3)",
+              "&:after": {
                 top: 0,
                 content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
+                width: "100%",
+                height: "100%",
+                position: "absolute",
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
               },
             }),
             ...(latestPostLarge && {
               pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
+                xs: "calc(100% * 4 / 3)",
+                sm: "calc(100% * 3 / 4.66)",
               },
             }),
           }}
@@ -187,7 +184,7 @@ export default function PostCard({ post, index }) {
             ...((latestPostLarge || latestPost) && {
               width: 1,
               bottom: 0,
-              position: 'absolute',
+              position: "absolute",
             }),
           }}
         >

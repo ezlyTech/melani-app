@@ -1,77 +1,28 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import PropTypes from "prop-types";
+import { forwardRef } from "react";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import { RouterLink } from "src/routes/components";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import { useTheme } from '@mui/material/styles';
-
-import { RouterLink } from 'src/routes/components';
-
-// ----------------------------------------------------------------------
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
-  const theme = useTheme();
-
-  const PRIMARY_LIGHT = theme.palette.primary.light;
-
-  const PRIMARY_MAIN = theme.palette.primary.main;
-
-  const PRIMARY_DARK = theme.palette.primary.dark;
-
-  // OR using local (public folder)
-  // -------------------------------------------------------
-  // const logo = (
-  //   <Box
-  //     component="img"
-  //     src="/logo/logo_single.svg" => your path
-  //     sx={{ width: 40, height: 40, cursor: 'pointer', ...sx }}
-  //   />
-  // );
-
   const logo = (
     <Box
       ref={ref}
       component="div"
       sx={{
-        width: 40,
-        height: 40,
-        display: 'inline-flex',
+        width: 90,
+        height: 70,
+        display: "inline-flex",
         ...sx,
       }}
       {...other}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
-        <defs>
-          <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
-            <stop offset="0%" stopColor={PRIMARY_DARK} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
-
-          <linearGradient id="BG2" x1="50%" x2="50%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={PRIMARY_LIGHT} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
-
-          <linearGradient id="BG3" x1="50%" x2="50%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={PRIMARY_LIGHT} />
-            <stop offset="100%" stopColor={PRIMARY_MAIN} />
-          </linearGradient>
-        </defs>
-
-        <g fill={PRIMARY_MAIN} fillRule="evenodd" stroke="none" strokeWidth="1">
-          <path
-            fill="url(#BG1)"
-            d="M183.168 285.573l-2.918 5.298-2.973 5.363-2.846 5.095-2.274 4.043-2.186 3.857-2.506 4.383-1.6 2.774-2.294 3.939-1.099 1.869-1.416 2.388-1.025 1.713-1.317 2.18-.95 1.558-1.514 2.447-.866 1.38-.833 1.312-.802 1.246-.77 1.18-.739 1.111-.935 1.38-.664.956-.425.6-.41.572-.59.8-.376.497-.537.69-.171.214c-10.76 13.37-22.496 23.493-36.93 29.334-30.346 14.262-68.07 14.929-97.202-2.704l72.347-124.682 2.8-1.72c49.257-29.326 73.08 1.117 94.02 40.927z"
-          />
-          <path
-            fill="url(#BG2)"
-            d="M444.31 229.726c-46.27-80.956-94.1-157.228-149.043-45.344-7.516 14.384-12.995 42.337-25.267 42.337v-.142c-12.272 0-17.75-27.953-25.265-42.337C189.79 72.356 141.96 148.628 95.69 229.584c-3.483 6.106-6.828 11.932-9.69 16.996 106.038-67.127 97.11 135.667 184 137.278V384c86.891-1.611 77.962-204.405 184-137.28-2.86-5.062-6.206-10.888-9.69-16.994"
-          />
-          <path
-            fill="url(#BG3)"
-            d="M450 384c26.509 0 48-21.491 48-48s-21.491-48-48-48-48 21.491-48 48 21.491 48 48 48"
-          />
-        </g>
+      <svg width="100%" height="100%" viewBox="0 0 232 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M57.0765 0.606518C64.7598 0.606518 70.9884 6.83511 70.9884 14.5185V20.6832C70.9884 34.2187 52.5405 38.2053 46.9514 25.8776C42.487 16.0305 28.5014 16.0305 24.037 25.8776C18.4479 38.2053 0 34.2187 0 20.6832V14.5185C0 6.83513 6.22859 0.606518 13.9119 0.606518H57.0765Z" fill="#888C03"/>
+        <path d="M192.543 32.2892C186.745 32.2892 182.044 27.5886 182.044 21.7902V9.19947C182.044 -0.569717 195.786 -2.69807 198.741 6.61344C201.265 14.5641 212.515 14.5641 215.038 6.61344C217.993 -2.69807 231.736 -0.569733 231.736 9.19946V21.7902C231.736 27.5886 227.035 32.2892 221.237 32.2892H192.543Z" fill="#888C03"/>
+        <path d="M77.1542 13.1303C77.1542 6.08931 82.862 0.381451 89.903 0.381451H108.311C117.667 0.381451 120.454 13.1139 111.953 17.0228L93.3785 23.9482C89.6343 25.3442 90.5235 30.8752 94.5165 31.0272C98.8197 31.191 99.3492 37.3623 95.1368 38.2568L83.3744 40.7545C80.1708 41.4347 77.1542 38.9915 77.1542 35.7164L77.1542 13.1303Z" fill="#888C03"/>
+        <path d="M159.436 0.190613C170.354 0.190613 179.204 9.04105 179.204 19.9586V31.3918C179.204 35.995 175.473 39.7266 170.87 39.7266C167.353 39.7266 164.214 37.5189 163.025 34.2088L159.863 25.4021C156.772 16.7961 144.63 16.7169 141.427 25.2818C137.597 35.5244 122.414 32.7785 122.414 21.8433V11.8207C122.414 5.3976 127.621 0.190613 134.044 0.190613H159.436Z" fill="#888C03"/>
       </svg>
     </Box>
   );
@@ -81,7 +32,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link component={RouterLink} href="/" sx={{ display: 'contents' }}>
+    <Link component={RouterLink} href="/" sx={{ display: "contents" }}>
       {logo}
     </Link>
   );
