@@ -1,11 +1,11 @@
-import { 
-  lazy, 
-  Suspense, 
+import {
+  lazy,
+  Suspense,
 } from "react";
-import { 
-  Outlet, 
-  Navigate, 
-  useRoutes 
+import {
+  Outlet,
+  Navigate,
+  useRoutes
 } from "react-router-dom";
 
 import DashboardLayout from "src/layouts/dashboard";

@@ -43,7 +43,6 @@
   "rules": {
     "quotes": ["error", "double"],
     "indent": ["error", 2],
-    "import/grouped-imports": ["error", "always"],
     "no-alert": 0,
     "camelcase": 0,
     "no-console": 0,

@@ -1,12 +1,8 @@
-import PropTypes from 'prop-types';
-
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import { styled, useTheme } from '@mui/material/styles';
-
-import Chart, { useChart } from 'src/components/chart';
-
-// ----------------------------------------------------------------------
+import PropTypes from "prop-types";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import { styled, useTheme } from "@mui/material/styles";
+import Chart, { useChart } from "src/components/chart";
 
 const CHART_HEIGHT = 400;
 
@@ -14,17 +10,15 @@ const LEGEND_HEIGHT = 72;
 
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
-  '& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject': {
-    height: `100% !important`,
+  "& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject": {
+    height: "100% !important",
   },
-  '& .apexcharts-legend': {
+  "& .apexcharts-legend": {
     height: LEGEND_HEIGHT,
     borderTop: `dashed 1px ${theme.palette.divider}`,
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
 }));
-
-// ----------------------------------------------------------------------
 
 export default function AppCurrentSubject({ title, subheader, chart, ...other }) {
   const theme = useTheme();
@@ -41,8 +35,8 @@ export default function AppCurrentSubject({ title, subheader, chart, ...other })
     },
     legend: {
       floating: true,
-      position: 'bottom',
-      horizontalAlign: 'center',
+      position: "bottom",
+      horizontalAlign: "center",
     },
     xaxis: {
       categories,
