@@ -5,29 +5,29 @@ const icon = (name) => (
 );
 
 const navConfig = [
+  // {
+  //   title: "dashboard",
+  //   path: "/",
+  //   icon: icon("ic_analytics"),
+  // },
+  // {
+  //   title: "user",
+  //   path: "/user",
+  //   icon: icon("ic_user"),
+  // },
   {
-    title: "dashboard",
-    path: "/",
-    icon: icon("ic_analytics"),
-  },
-  {
-    title: "user",
-    path: "/user",
-    icon: icon("ic_user"),
-  },
-  {
-    title: "product",
-    path: "/products",
+    title: "menu",
+    path: "/menu",
     icon: icon("ic_cart"),
   },
+  // {
+  //   title: "blog",
+  //   path: "/blog",
+  //   icon: icon("ic_blog"),
+  // },
   {
-    title: "blog",
-    path: "/blog",
-    icon: icon("ic_blog"),
-  },
-  {
-    title: "login",
-    path: "/login",
+    title: "logout",
+    path: "/",
     icon: icon("ic_lock"),
   },
   {

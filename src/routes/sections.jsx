@@ -35,7 +35,7 @@ export default function Router() {
       children: [
         { path: "home", element: <HomePage /> },
         { path: "user", element: <UserPage /> },
-        { path: "products", element: <ProductsPage /> },
+        { path: "menu", element: <ProductsPage /> },
         { path: "blog", element: <BlogPage /> },
       ],
     },
