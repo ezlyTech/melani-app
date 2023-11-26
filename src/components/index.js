@@ -1,4 +1,4 @@
-import Card from "./Card";
+import ProductCard from "./ProductCard";
 import CardPlain from "./CardPlain";
 
-export { Card, CardPlain };
+export { ProductCard, CardPlain };
