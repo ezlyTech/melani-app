@@ -3,9 +3,8 @@ import {
   Typography,
 } from "@mui/material";
 
-
-const HomeCategoriesBlock = () => {
-  const test = "Categories";
+const Card = () => {
+  const test = "Card";
 
   return (
     <Container>
@@ -16,4 +15,4 @@ const HomeCategoriesBlock = () => {
   )
 }
 
-export default HomeCategoriesBlock;
+export default Card;
