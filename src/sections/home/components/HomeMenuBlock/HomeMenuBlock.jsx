@@ -1,11 +1,9 @@
 import {
-  Typography,
   Grid,
 } from "@mui/material";
-import { ProductCard } from "src/components"
+import { ProductCard, TitleTypography } from "src/components"
 
 const HomeMenuBlock = () => {
-  const test = "Menu";
   const sampleProducts = [
     {
       name: "Chocolate Obscura",
@@ -47,9 +45,8 @@ const HomeMenuBlock = () => {
 
   return (
     <>
-      <Typography sx={{ mb: 5 }}>
-        {test}
-      </Typography>
+      <TitleTypography value="Signature Dishes" />
+
       <Grid container spacing={2}>
         {sampleProducts.map((product) => (
           <Grid item xs key={product.key}>
