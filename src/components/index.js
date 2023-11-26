@@ -1,4 +1,5 @@
-import Card from "./Card";
+import ProductCard from "./ProductCard";
 import CardPlain from "./CardPlain";
+import TitleTypography from "./TitleTypography";
 
-export { Card, CardPlain };
+export { ProductCard, CardPlain, TitleTypography };
