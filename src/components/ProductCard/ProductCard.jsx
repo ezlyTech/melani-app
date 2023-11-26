@@ -8,15 +8,9 @@ import {
   IconButton,
 } from "@mui/material";
 import Iconify from "src/components/iconify";
+import PropTypes from "prop-types";
 
-const product = {
-  name: "Chocolate Obscura",
-  image: "/assets/images/products/1.png",
-  price: "154.00",
-  rating: 4,
-}
-
-const ProductCard = () => (
+const ProductCard = ({ product }) => (
   <Card
     sx={{
       minWidth: 135,
@@ -62,5 +56,8 @@ const ProductCard = () => (
   </Card>
 )
 
+ProductCard.propTypes = {
+  product: PropTypes.object,
+};
 
 export default ProductCard;
