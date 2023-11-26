@@ -1,1 +1,3 @@
-export { default as LoginView } from "./login-view";
+import Login from "./Login";
+
+export default Login;

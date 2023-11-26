@@ -1,5 +1,8 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+import {
+  Container,
+  Typography,
+} from "@mui/material";
+import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
   return (
@@ -7,6 +10,9 @@ export default function Home() {
       <Typography variant="h4" sx={{ mb: 5 }}>
         Home
       </Typography>
+
+      <HomeCategoriesBlock />
+      <HomeMenuBlock />
     </Container>
   );
 }

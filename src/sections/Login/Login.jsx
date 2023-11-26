@@ -3,8 +3,9 @@ import { Box, Stack, Button } from "@mui/material"
 import { useRouter } from "src/routes/hooks"
 import { bgGradient } from "src/theme/css"
 import Logo from "src/components/logo"
+import Iconify from "src/components/iconify";
 
-export default function LoginView() {
+const Login = () => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -34,9 +35,24 @@ export default function LoginView() {
         <Button
           fullWidth
           size='large'
+          variant='outlined'
+          sx={{
+            borderColor: "#888C03",
+            background: "#888C03",
+            mb: 2,
+            color: "#FFF"
+          }}
+          onClick={handleClick}
+        >
+          <Iconify icon="eva:facebook-fill" />
+          Order with Facebook
+        </Button>
+        <Button
+          fullWidth
+          size='large'
           color='inherit'
           variant='outlined'
-          sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+          sx={{ borderColor: "#888C03" }}
           onClick={handleClick}
         >
           Order as Guest
@@ -45,3 +61,5 @@ export default function LoginView() {
     </Box>
   )
 }
+
+export default Login;
