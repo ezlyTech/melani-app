@@ -20,6 +20,7 @@
     "vite:build": "vite build"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^8.1.0",
@@ -30,6 +31,8 @@
     "date-fns": "^2.30.0",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.1",
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

@@ -41,8 +41,14 @@
     }
   },
   "rules": {
-    "quotes": ["error", "double"],
-    "indent": ["error", 2],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
     "no-alert": 0,
     "camelcase": 0,
     "no-console": 0,
@@ -105,6 +111,12 @@
         "varsIgnorePattern": "^_",
         "args": "after-used",
         "argsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
       }
     ]
   }

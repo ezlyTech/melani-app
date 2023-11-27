@@ -1,16 +1,19 @@
 import { alpha, useTheme } from "@mui/material/styles"
 import { Box, Stack, Button } from "@mui/material"
-import { useRouter } from "src/routes/hooks"
 import { bgGradient } from "src/theme/css"
 import Logo from "src/components/logo"
 import Iconify from "src/components/iconify";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const Login = () => {
+
+  const { loginWithRedirect } = useAuth0();
   const theme = useTheme()
-  const router = useRouter()
+  // const router = useRouter()
 
   const handleClick = () => {
-    router.push("/home")
+    loginWithRedirect()
   }
 
   return (
