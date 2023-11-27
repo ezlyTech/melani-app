@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import { initDatabase } from "./database"
+import { initDatabase } from "./database.js"
 
 const app = express()
 dotenv.config()
