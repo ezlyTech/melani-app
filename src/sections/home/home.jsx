@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Home
+        Homesd
       </Typography>
 
       <HomeCategoriesBlock />
