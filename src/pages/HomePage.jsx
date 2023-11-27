@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async"
-import { Home } from "src/sections/home";
+import { Home } from "src/sections/Home";
 
 
 const HomePage = () => (
