@@ -4,16 +4,21 @@ import { bgGradient } from "src/theme/css"
 import Logo from "src/components/logo"
 import Iconify from "src/components/iconify";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "src/routes/hooks";
 
 
 const Login = () => {
 
   const { loginWithRedirect } = useAuth0();
   const theme = useTheme()
-  // const router = useRouter()
+  const router = useRouter()
 
   const handleClick = () => {
     loginWithRedirect()
+  }
+
+  const handleLoginGuest = () => {
+    router.push("/home");
   }
 
   return (
@@ -56,7 +61,7 @@ const Login = () => {
           color='inherit'
           variant='outlined'
           sx={{ borderColor: "#888C03" }}
-          onClick={handleClick}
+          onClick={handleLoginGuest}
         >
           Order as Guest
         </Button>
