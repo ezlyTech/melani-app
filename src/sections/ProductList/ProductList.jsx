@@ -2,7 +2,11 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import { TitleTypography, ProductCard } from "src/components";
+import {
+  TitleTypography,
+  ProductCard,
+  ProductFilter,
+} from "src/components";
 
 
 
@@ -49,6 +53,7 @@ const ProductList = () => {
 
   return (
     <Container>
+      <ProductFilter />
       <TitleTypography value={sampleCategoryName} />
 
       <Grid container spacing={2}>
