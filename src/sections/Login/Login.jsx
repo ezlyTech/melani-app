@@ -18,7 +18,7 @@ const Login = () => {
   }
 
   const handleLoginGuest = () => {
-    router.push("/home");
+    router.push("/login-guest");
   }
 
   return (
