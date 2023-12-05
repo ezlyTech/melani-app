@@ -15,7 +15,8 @@ const ProductCard = ({ product }) => (
     sx={{
       minWidth: 135,
       maxWidth: 180,
-      width: "100%"
+      width: "100%",
+      height: "100%"
     }}
   >
     <CardMedia
