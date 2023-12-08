@@ -8,15 +8,15 @@ import PropTypes from "prop-types";
 
 
 const CategoryCard = ({product}) => (
-  <Card
-    sx={{
-      minWidth: 135,
-      maxWidth: 180,
-      width: "100%"
-    }}
-  > 
+  <Card sx={{
+    minWidth: 90,
+    maxWidth: 111,
+    width: "100%",
+    height: "100%",
+    background: "#FFFAF6"
+  }}>
     <CardMedia
-      sx={{ height: 143 }}
+      sx={{ height: 100 }}
       image={product.image}
       title="1"
     />
@@ -24,20 +24,14 @@ const CategoryCard = ({product}) => (
       sx={{
         p: 1,
         pb: ".5em !important"
-      }}
-    >
-      <Typography gutterBottom variant="subtitle2" mb={0}>
+      }}>
+      <Typography gutterBottom variant="caption" component="div" mb={0}>
         {product.name}
       </Typography>
     </CardContent>
   </Card>
-  
-
-
-  
 )
   
-
 CategoryCard.propTypes = {
   product: PropTypes.object,
 };

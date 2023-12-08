@@ -1,7 +1,8 @@
 import {
   Grid,
 } from "@mui/material";
-import { ProductCard, TitleTypography } from "src/components"
+import ProductCard from "src/components/ProductCard";
+import TitleTypography from "src/components/TitleTypography";
 
 const HomeMenuBlock = () => {
   const sampleProducts = [
