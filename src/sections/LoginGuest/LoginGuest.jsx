@@ -11,11 +11,11 @@ import React, { useState } from "react";
 const LoginGuest = () => {
   const router = useRouter();
 
-  const [name, setName] = useState ("");
-  const [tableNumber, setTableNumber] = useState ("");
+  const [name, setName] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
   // for errors
-  const [nameError, setNameError] = useState (false);
-  const [tableNumberError, setTableNumberError] = useState (false);
+  const [nameError, setNameError] = useState(false);
+  const [tableNumberError, setTableNumberError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,16 +33,16 @@ const LoginGuest = () => {
     }
 
     if (name && isNumeric) {
-      console.log(name, `Table: ${  tableNumber}`);
+      console.log(name, `Table: ${tableNumber}`);
       router.push("/home");
     }
   };
   const getTableNumberLabel = () => tableNumberError ? "Enter your table number" : "Table Number";
-  
+
   return (
-    <Stack 
-      alignItems='center' 
-      justifyContent='space-evenly'  
+    <Stack
+      alignItems='center'
+      justifyContent='space-evenly'
       sx={{ position: "relative" }}
     >
       <Logo
@@ -60,10 +60,10 @@ const LoginGuest = () => {
         top: "25vh",
       }}>
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <TextField 
+          <TextField
             onChange={(e) => setName(e.target.value)}
-            id="name" 
-            label="Please enter your name" 
+            id="name"
+            label="Please enter your name"
             variant="outlined"
             required
             error={nameError}
@@ -73,14 +73,15 @@ const LoginGuest = () => {
             }}
           />
 
-          <TextField 
+          <TextField
             onChange={(e) => setTableNumber(e.target.value)}
-            id="tableNum" 
+            type="number"
+            id="tableNum"
             label={getTableNumberLabel()}
-            variant="outlined" 
+            variant="outlined"
             required
             error={tableNumberError}
-            sx={{width: "100%"}}
+            sx={{ width: "100%" }}
           />
 
           <Button
@@ -88,7 +89,7 @@ const LoginGuest = () => {
             size='large'
             color='inherit'
             variant='outlined'
-            sx={{ 
+            sx={{
               borderColor: "#888C03",
               borderRadius: "30px",
               mt: 20,
