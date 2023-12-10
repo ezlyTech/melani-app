@@ -1,5 +1,6 @@
 import ProductCard from "./ProductCard";
 import CardPlain from "./CardPlain";
 import TitleTypography from "./TitleTypography";
+import CategoryCard from "./CategoryCard";
 
-export { ProductCard, CardPlain, TitleTypography };
+export default { ProductCard, CardPlain, TitleTypography, CategoryCard };
