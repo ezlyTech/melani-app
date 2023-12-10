@@ -15,11 +15,11 @@ const navConfig = [
   //   path: "/user",
   //   icon: icon("ic_user"),
   // },
-  {
-    title: "menu",
-    path: "/menu",
-    icon: icon("ic_cart"),
-  },
+  // {
+  //   title: "menu",
+  //   path: "/menu",
+  //   icon: icon("ic_cart"),
+  // },
   // {
   //   title: "blog",
   //   path: "/blog",
