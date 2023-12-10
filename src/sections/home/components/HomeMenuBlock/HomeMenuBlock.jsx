@@ -39,7 +39,7 @@ const HomeMenuBlock = ({ title }) => {
 
   return (
     <Box sx={{ mb: 6 }}>
-      <TitleTypography value={title} />
+      <TitleTypography value={title} hasBtn />
 
       <Grid container spacing={2}>
         {sampleProducts.map((product) => (
