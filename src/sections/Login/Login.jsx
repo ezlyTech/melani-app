@@ -1,5 +1,5 @@
 import { alpha, useTheme } from "@mui/material/styles"
-import { Box, Stack, Button } from "@mui/material"
+import { Box, Stack, Button, Container } from "@mui/material"
 import { bgGradient } from "src/theme/css"
 import Logo from "src/components/logo"
 import Iconify from "src/components/iconify";
@@ -18,7 +18,7 @@ const Login = () => {
   }
 
   const handleLoginGuest = () => {
-    router.push("/home");
+    router.push("/login-guest");
   }
 
   return (
@@ -29,42 +29,55 @@ const Login = () => {
           imgUrl: "/assets/background/overlay_4.jpg",
         }),
         height: 1,
+        position: "relative",
       }}
     >
       <Logo
         sx={{
           position: "fixed",
-          top: { xs: 16, md: 24 },
-          left: { xs: "40%", md: "47%" },
+          top: { xs: "20%", md: "24%" },
+          left: { xs: "30%", md: "47%" },
+          width: "160px",
+          height: "15vh",
         }}
       />
 
       <Stack alignItems='center' justifyContent='center' sx={{ height: 1 }}>
-        <Button
-          fullWidth
-          size='large'
-          variant='outlined'
-          sx={{
-            borderColor: "#888C03",
-            background: "#888C03",
-            mb: 2,
-            color: "#FFF"
-          }}
-          onClick={handleClick}
-        >
-          <Iconify icon="eva:facebook-fill" />
+
+        <Container>
+          <Button
+            fullWidth
+            size='large'
+            variant='outlined'
+            sx={{
+              borderColor: "#888C03",
+              background: "#888C03",
+              borderRadius: "31px",
+              mb: 2,
+              mt: 35,
+              color: "#FFF"
+            }}
+            onClick={handleClick}
+          >
+            <Iconify icon="eva:facebook-fill" />
           Order with Facebook
-        </Button>
-        <Button
-          fullWidth
-          size='large'
-          color='inherit'
-          variant='outlined'
-          sx={{ borderColor: "#888C03" }}
-          onClick={handleLoginGuest}
-        >
+          </Button>
+
+          <Button
+            fullWidth
+            size='large'
+            color='inherit'
+            variant='outlined'
+            sx={{ 
+              borderColor: "#888C03",
+              borderRadius: "31px",
+            }}
+            onClick={handleLoginGuest}
+          >
           Order as Guest
-        </Button>
+          </Button>
+        </Container>
+        
       </Stack>
     </Box>
   )
