@@ -1,10 +1,10 @@
 import {
   Grid,
 } from "@mui/material";
-import ProductCard from "src/components/ProductCard";
-import TitleTypography from "src/components/TitleTypography";
+import { ProductCard, TitleTypography } from "src/components"
+import PropTypes from "prop-types";
 
-const HomeMenuBlock = () => {
+const HomeMenuBlock = ({title}) => {
   const sampleProducts = [
     {
       name: "Chocolate Obscura",
@@ -46,8 +46,8 @@ const HomeMenuBlock = () => {
 
   return (
     <>
-      <TitleTypography value="Signature Dishes" />
-
+      <TitleTypography value={title} />
+  
       <Grid container spacing={2}>
         {sampleProducts.map((product) => (
           <Grid item xs key={product.key}>
@@ -58,5 +58,9 @@ const HomeMenuBlock = () => {
     </>
   )
 }
+
+HomeMenuBlock.propTypes = {
+  title: PropTypes.string
+};
 
 export default HomeMenuBlock;
