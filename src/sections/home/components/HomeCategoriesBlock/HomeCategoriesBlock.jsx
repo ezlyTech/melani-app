@@ -1,6 +1,6 @@
 import {
   Grid,
-  Box
+  Container
 } from "@mui/material";
 import {
   CategoryCard,
@@ -42,14 +42,14 @@ const HomeCategoriesBlock = () => {
   ]
 
   return (
-    <Box sx={{bgcolor: "#FFFAF6"}}>
+    <Container sx={{ bgcolor: "#FFFAF6" }}>
       <TitleTypography value="Categories" />
 
-      <Grid container spacing={1} 
+      <Grid container spacing={1}
         sx={{
-          display:"flex",
-          justifyContent:"space-between",
-          pb:2
+          display: "flex",
+          justifyContent: "space-between",
+          pb: 4
         }}>
         {sampleProducts.map((product) => (
           <Grid item xs key={product.id}>
@@ -57,7 +57,7 @@ const HomeCategoriesBlock = () => {
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </Container>
   )
 }
 

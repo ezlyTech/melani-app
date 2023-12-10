@@ -7,13 +7,12 @@ import {
 import PropTypes from "prop-types";
 
 
-const CategoryCard = ({product}) => (
+const CategoryCard = ({ product }) => (
   <Card sx={{
     minWidth: 90,
     maxWidth: 111,
     width: "100%",
     height: "100%",
-    background: "#FFFAF6"
   }}>
     <CardMedia
       sx={{ height: 100 }}
@@ -31,7 +30,7 @@ const CategoryCard = ({product}) => (
     </CardContent>
   </Card>
 )
-  
+
 CategoryCard.propTypes = {
   product: PropTypes.object,
 };
