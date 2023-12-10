@@ -15,15 +15,15 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-const RATING_OPTIONS = ["up4Star", "up3Star", "up2Star", "up1Star"];
-
-const PRICE_OPTIONS = [
-  { value: "below", label: "Below ₱300" },
-  { value: "between", label: "Between ₱300 - ₱500" },
-  { value: "above", label: "Above ₱500" },
-];
-
-const ProductFilter = ({ openFilter, onOpenFilter, onCloseFilter, filters, setFilters }) => {
+const ProductFilter = ({
+  openFilter,
+  onOpenFilter,
+  onCloseFilter,
+  filters,
+  setFilters,
+  ratingOptions,
+  priceOptions,
+}) => {
   const handlePriceChange = (event) => {
     setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
   };
@@ -43,7 +43,7 @@ const ProductFilter = ({ openFilter, onOpenFilter, onCloseFilter, filters, setFi
     <Stack spacing={1}>
       <Typography variant="subtitle2">Price</Typography>
       <RadioGroup value={filters.price} onChange={handlePriceChange}>
-        {PRICE_OPTIONS.map((item) => (
+        {priceOptions.map((item) => (
           <FormControlLabel
             key={item.value}
             value={item.value}
@@ -59,7 +59,7 @@ const ProductFilter = ({ openFilter, onOpenFilter, onCloseFilter, filters, setFi
     <Stack spacing={1}>
       <Typography variant="subtitle2">Rating</Typography>
       <RadioGroup value={filters.rating} onChange={handleRatingChange}>
-        {RATING_OPTIONS.map((item, index) => (
+        {ratingOptions.map((item, index) => (
           <FormControlLabel
             key={item}
             value={item}
@@ -152,6 +152,8 @@ ProductFilter.propTypes = {
   onCloseFilter: PropTypes.func,
   filters: PropTypes.object,
   setFilters: PropTypes.func,
-};
+  priceOptions: PropTypes.object,
+  ratingOptions: PropTypes.object,
+}
 
 export default ProductFilter;
