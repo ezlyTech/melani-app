@@ -7,6 +7,8 @@ import {
   Grid,
   Rating,
   Tab,
+  Button,
+  Paper,
 } from "@mui/material";
 import {
   TabContext,
@@ -14,13 +16,25 @@ import {
   TabPanel,
 } from "@mui/lab";
 import { useState } from "react";
+import Iconify from "src/components/iconify";
 import { ProductDetailInformationPanel, ProductDetailUploadsPanel } from "./components";
 
 const ProductDetail = () => {
   const [value, setValue] = useState("1");
+  const [quantity, setQuantity] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleIncrement = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 0) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
   };
 
   const sampleDetails = {
@@ -78,7 +92,8 @@ const ProductDetail = () => {
                 display: "flex",
                 alignItems: "center",
                 gap: ".5em",
-                mt: .5
+                mt: .5,
+                color: "#525252"
               }}
             >
               Reviews 4.5 (89)
@@ -103,6 +118,7 @@ const ProductDetail = () => {
                 <Tab label="Uploads" value="2" />
               </TabList>
             </Box>
+
             <TabPanel value="1">
               <ProductDetailInformationPanel
                 information={sampleDetails.information}
@@ -115,7 +131,61 @@ const ProductDetail = () => {
           </TabContext>
         </Box>
       </Container>
-      <Box />
+      <Paper
+        elevation={4}
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          borderRadius: "20px 20px 0 0",
+          p: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Button
+            onClick={handleDecrement}
+            sx={{
+              minWidth: "auto",
+              mr: 1,
+              color: quantity === 0 ? "#B1B1B1" : "#333333"
+            }}
+          >
+            <Iconify icon="eva:minus-outline" />
+          </Button>
+          <Typography
+            sx={{
+              background: "#FFF2ED",
+              color: "#DDA15E",
+              p: ".5em 1em .5em 1em",
+              borderRadius: "4px",
+              fontWeight: 600,
+              minWidth: "55px",
+              textAlign: "center"
+            }}>
+            {quantity}
+          </Typography>
+          <Button
+            onClick={handleIncrement}
+            sx={{
+              minWidth: "auto",
+              ml: 1,
+              color: "#333333"
+            }}
+          >
+            <Iconify icon="eva:plus-outline" />
+          </Button>
+        </Box>
+        <Box>
+          <Button variant="contained" sx={{ ml: 2 }}>
+            <Iconify icon="eva:shopping-cart-outline" mr={1} />
+            Add to Cart
+          </Button>
+        </Box>
+      </Paper >
     </>
   )
 }
