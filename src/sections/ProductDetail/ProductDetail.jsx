@@ -77,8 +77,15 @@ const ProductDetail = () => {
                 <Tab label="Uploads" value="2" />
               </TabList>
             </Box>
-            <TabPanel value="1"><ProductDetailInformationPanel /></TabPanel>
-            <TabPanel value="2"><ProductDetailUploadsPanel /></TabPanel>
+            <TabPanel value="1">
+              <ProductDetailInformationPanel
+                information={sampleDetails.information}
+                option={sampleDetails.option}
+              />
+            </TabPanel>
+            <TabPanel value="2">
+              <ProductDetailUploadsPanel />
+            </TabPanel>
           </TabContext>
         </Box>
       </Container>
