@@ -7,7 +7,12 @@ import { useState } from "react";
 import { ProductCard, TitleTypography } from "src/components";
 import ProductFilter from "./components";
 
-const RATING_OPTIONS = ["up4Star", "up3Star", "up2Star", "up1Star"];
+const RATING_OPTIONS = [
+  "up4Star",
+  "up3Star",
+  "up2Star",
+  "up1Star",
+];
 const RATING_LABELS = {
   up4Star: "4+",
   up3Star: "3+",
@@ -16,9 +21,18 @@ const RATING_LABELS = {
 };
 
 const PRICE_OPTIONS = [
-  { value: "below", label: "Below ₱300" },
-  { value: "between", label: "Between ₱300 - ₱500" },
-  { value: "above", label: "Above ₱500" },
+  {
+    value: "below",
+    label: "Below ₱300"
+  },
+  {
+    value: "between",
+    label: "Between ₱300 - ₱500"
+  },
+  {
+    value: "above",
+    label: "Above ₱500"
+  },
 ];
 
 const sampleProducts = [
@@ -123,7 +137,15 @@ const ProductList = () => {
       />
 
       {/* Display chips for selected filters */}
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px", marginTop: ".5em" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          flexWrap: "wrap",
+          marginBottom: "16px",
+          marginTop: ".5em"
+        }}
+      >
         {filters.price && (
           <Chip
             label={`Price: ${PRICE_OPTIONS.find((opt) => opt.value === filters.price)?.label}`}
