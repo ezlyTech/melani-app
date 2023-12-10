@@ -29,7 +29,33 @@ const ProductDetail = () => {
     image: "/assets/images/products/detail1.png",
     rating: 3,
     information: "Lorem ipsum dolor sit amet consectetur. Eros laoreet cursus sapien ut vulputate.",
-    option: ["slice", "whole"]
+    option: ["slice", "whole"],
+    uploads: [
+      {
+        id: 1,
+        url: "/assets/images/products/1.png",
+      },
+      {
+        id: 2,
+        url: "/assets/images/products/2.png",
+      },
+      {
+        id: 3,
+        url: "/assets/images/products/3.png",
+      },
+      {
+        id: 4,
+        url: "/assets/images/products/4.png",
+      },
+      {
+        id: 5,
+        url: "/assets/images/products/5.png",
+      },
+      {
+        id: 6,
+        url: "/assets/images/products/6.png",
+      },
+    ],
   }
 
   return (
@@ -84,7 +110,7 @@ const ProductDetail = () => {
               />
             </TabPanel>
             <TabPanel value="2">
-              <ProductDetailUploadsPanel />
+              <ProductDetailUploadsPanel uploads={sampleDetails.uploads} />
             </TabPanel>
           </TabContext>
         </Box>
