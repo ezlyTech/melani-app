@@ -30,7 +30,7 @@ const HomeMenuBlock = ({ title, category }) => {
   return (
     !isLoading &&
     <Box sx={{ mb: 6 }}>
-      <TitleTypography value={title} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
+      <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
 
       <Grid container spacing={2}>
         {products.map((product, index) => (
