@@ -10,7 +10,7 @@ import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
   const name = "John";
-  const [categories, setCategories] = useState()
+  const [categories, setCategories] = useState([])
   const [isLoading, setIsLoading] = useState()
 
   useEffect(() => {
@@ -51,13 +51,9 @@ export default function Home() {
       </Card>
       <HomeCategoriesBlock categories={categories} />
       <Container>
-        <HomeMenuBlock title="Signature Drinks" />
-        <HomeMenuBlock title="Drinks" />
-        <HomeMenuBlock title="Cakes" />
-        <HomeMenuBlock title="Ala Cartes" />
-        <HomeMenuBlock title="Pastas" />
-        <HomeMenuBlock title="Starters" />
-        <HomeMenuBlock title="Burger & Sandwich" />
+        {categories.map((category, index) =>
+          <HomeMenuBlock title={category.name} key={index} />
+        )}
       </Container>
     </>
   );
