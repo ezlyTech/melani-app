@@ -6,10 +6,12 @@ import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 const HomeMenuBlock = ({ title, categoryID }) => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +35,18 @@ const HomeMenuBlock = ({ title, categoryID }) => {
       <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid item xs key={index}>
-            <ProductCard product={product} />
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(`/product-detail/${product.product_id}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  console.log("test");
+                }
+              }}
+            >
+              <ProductCard product={product} />
+            </div>
           </Grid>
         ))}
       </Grid>
