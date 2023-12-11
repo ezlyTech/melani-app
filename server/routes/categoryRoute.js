@@ -17,7 +17,8 @@ categoryRoute.get('/', async (req, res) => {
     for (let i in itemData.data.categories) {
       categories.push({
         name: itemData.data.categories[i].name,
-        image: "/assets/images/products/1.png"
+        image: "/assets/images/products/1.png",
+        category_id: itemData.data.categories[i].id
       })
     }
 
