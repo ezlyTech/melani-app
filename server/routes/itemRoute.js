@@ -20,7 +20,8 @@ itemRoute.get('/:categoryID', async (req, res) => {
           name: itemData.data.items[i].item_name,
           image: itemData.data.items[i].image_url,
           price: itemData.data.items[i].variants[0].default_price,
-          rating: 4
+          rating: 4,
+          product_id: itemData.data.items[i].id
         })
       }
     }
