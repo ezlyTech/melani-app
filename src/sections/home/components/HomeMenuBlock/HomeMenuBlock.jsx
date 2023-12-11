@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 
-const HomeMenuBlock = ({ title, categoryID }) => {
+const HomeMenuBlock = ({ title, category }) => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
@@ -16,7 +16,7 @@ const HomeMenuBlock = ({ title, categoryID }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/list/${categoryID}`)
+        const productData = await axios.get(`http://localhost:3031/api/items/list/${category.category_id}`)
         setProducts(productData.data)
         setIsLoading(false)
       } catch (err) {
@@ -24,13 +24,13 @@ const HomeMenuBlock = ({ title, categoryID }) => {
       }
     }
     fetchData()
-  }, [categoryID])
+  }, [category])
 
 
   return (
     !isLoading &&
     <Box sx={{ mb: 6 }}>
-      <TitleTypography value={title} hasBtn />
+      <TitleTypography value={title} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
 
       <Grid container spacing={2}>
         {products.map((product, index) => (
@@ -56,7 +56,7 @@ const HomeMenuBlock = ({ title, categoryID }) => {
 
 HomeMenuBlock.propTypes = {
   title: PropTypes.string,
-  categoryID: PropTypes.string
+  category: PropTypes.array
 };
 
 export default HomeMenuBlock;

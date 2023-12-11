@@ -53,8 +53,7 @@ export default function Home() {
       <Container>
         {categories.map((category, index) =>
           <HomeMenuBlock
-            title={category.name}
-            categoryID={category.category_id}
+            category={category}
             key={index} />
         )}
       </Container>

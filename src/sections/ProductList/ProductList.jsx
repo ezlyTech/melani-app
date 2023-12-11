@@ -38,7 +38,7 @@ const PRICE_OPTIONS = [
 ];
 
 const ProductList = () => {
-  const { categoryID } = useParams();
+  const { categoryName, categoryID } = useParams();
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true);
   const [productData, setProductData] = useState([]);
@@ -139,7 +139,7 @@ const ProductList = () => {
         )}
       </div>
 
-      <TitleTypography value="Signature Dishes" />
+      <TitleTypography value={categoryName} />
 
       <Grid container spacing={2}>
         {filteredProducts.map((product, index) => (

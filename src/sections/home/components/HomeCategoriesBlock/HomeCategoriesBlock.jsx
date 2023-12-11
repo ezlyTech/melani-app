@@ -21,10 +21,10 @@ const HomeCategoriesBlock = ({ categories }) => {
             <div
               role="button"
               tabIndex={0}
-              onClick={() => navigate(`/product-list/${category.category_id}`)}
+              onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  navigate(`/product-list/${category.category_id}`)
+                  navigate(`/product-list/${category.name}/${category.category_id}`)
                 }
               }}
             >
