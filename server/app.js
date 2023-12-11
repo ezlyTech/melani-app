@@ -7,7 +7,8 @@ import axios from "axios";
 import { initDatabase } from "./database.js";
 
 //ROUTES
-import categories from "./routes/categories.js";
+import categoryRoute from "./routes/categoryRoute.js";
+import itemRoute from "./routes/itemRoute.js";
 
 const app = express();
 dotenv.config();
@@ -32,4 +33,5 @@ app.get("/", (req, res) => {
 });
 
 //ROUTES
-app.use('/api/categories', categories)
+app.use('/api/categories', categoryRoute)
+app.use('/api/items', itemRoute)
