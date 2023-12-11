@@ -19,6 +19,7 @@ export const BlogPage = lazy(() => import("src/pages/blog"));
 export const UserPage = lazy(() => import("src/pages/user"));
 export const ProductsPage = lazy(() => import("src/pages/products"));
 export const Page404 = lazy(() => import("src/pages/page-not-found"));
+export const ReceiptPage = lazy(() => import("src/pages/ReceiptPage"));
 
 export default function Router() {
   const routes = useRoutes([
@@ -29,6 +30,10 @@ export default function Router() {
     {
       path: "login-guest",
       element: <LoginGuestPage />,
+    },
+    {
+      path: "receipt-page",
+      element: <ReceiptPage />,
     },
     {
       element: (
