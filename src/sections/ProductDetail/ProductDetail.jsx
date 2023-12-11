@@ -15,13 +15,18 @@ import {
   TabList,
   TabPanel,
 } from "@mui/lab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Iconify from "src/components/iconify";
+import { useParams } from "react-router-dom";
+import axios from "axios"
 import { ProductDetailInformationPanel, ProductDetailUploadsPanel } from "./components";
 
 const ProductDetail = () => {
   const [value, setValue] = useState("1");
   const [quantity, setQuantity] = useState(0);
+  const [productDetails, setProductDetails] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const { productID } = useParams()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,6 +34,7 @@ const ProductDetail = () => {
 
   const handleIncrement = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
+    console.log(productID)
   };
 
   const handleDecrement = () => {
@@ -37,54 +43,33 @@ const ProductDetail = () => {
     }
   };
 
-  const sampleDetails = {
-    name: "Biscuit Munch",
-    price: "146.00",
-    image: "/assets/images/products/detail1.png",
-    rating: 3,
-    information: "Lorem ipsum dolor sit amet consectetur. Eros laoreet cursus sapien ut vulputate.",
-    option: ["slice", "whole"],
-    uploads: [
-      {
-        id: 1,
-        url: "/assets/images/products/1.png",
-      },
-      {
-        id: 2,
-        url: "/assets/images/products/2.png",
-      },
-      {
-        id: 3,
-        url: "/assets/images/products/3.png",
-      },
-      {
-        id: 4,
-        url: "/assets/images/products/4.png",
-      },
-      {
-        id: 5,
-        url: "/assets/images/products/5.png",
-      },
-      {
-        id: 6,
-        url: "/assets/images/products/6.png",
-      },
-    ],
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productData = await axios.get(`http://localhost:3031/api/items/single/${productID}`)
+        setProductDetails(productData.data)
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [productID])
 
   return (
+    !isLoading &&
     <>
       <Card sx={{ borderRadius: 0 }}>
         <CardMedia
           sx={{ height: 180 }}
-          image={sampleDetails.image}
+          image={productDetails.image}
         />
       </Card>
       <Container>
         <Grid container spacing={2} pt={2} pb={2}>
           <Grid item xs>
             <Typography fontWeight={600}>
-              {sampleDetails.name}
+              {productDetails.name}
             </Typography>
             <Typography
               variant="caption"
@@ -96,17 +81,17 @@ const ProductDetail = () => {
                 color: "#525252"
               }}
             >
-              Reviews 4.5 (89)
+              Reviews {productDetails.rating} (89)
               <Rating
                 name="read-only"
-                value={sampleDetails.rating}
+                value={productDetails.rating}
                 readOnly
                 size="small"
               />
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography fontWeight={600}>₱ {sampleDetails.price}</Typography>
+            <Typography fontWeight={600}>₱ {productDetails.price}</Typography>
           </Grid>
         </Grid>
 
@@ -121,12 +106,12 @@ const ProductDetail = () => {
 
             <TabPanel value="1">
               <ProductDetailInformationPanel
-                information={sampleDetails.information}
-                option={sampleDetails.option}
+                information={productDetails.information}
+                option={productDetails.option}
               />
             </TabPanel>
             <TabPanel value="2">
-              <ProductDetailUploadsPanel uploads={sampleDetails.uploads} />
+              <ProductDetailUploadsPanel uploads={productDetails.uploads} />
             </TabPanel>
           </TabContext>
         </Box>

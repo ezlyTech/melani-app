@@ -16,7 +16,7 @@ const HomeMenuBlock = ({ title, categoryID }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/${categoryID}`)
+        const productData = await axios.get(`http://localhost:3031/api/items/list/${categoryID}`)
         setProducts(productData.data)
         setIsLoading(false)
       } catch (err) {
@@ -41,7 +41,7 @@ const HomeMenuBlock = ({ title, categoryID }) => {
               onClick={() => navigate(`/product-detail/${product.product_id}`)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  console.log("test");
+                  navigate(`/product-detail/${product.product_id}`)
                 }
               }}
             >
