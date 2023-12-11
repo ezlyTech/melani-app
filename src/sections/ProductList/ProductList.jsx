@@ -3,8 +3,10 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProductCard, TitleTypography } from "src/components";
+import axios from "axios"
+import { useParams, useNavigate } from "react-router-dom";
 import ProductFilter from "./components";
 
 const RATING_OPTIONS = [
@@ -35,57 +37,34 @@ const PRICE_OPTIONS = [
   },
 ];
 
-const sampleProducts = [
-  {
-    id: 1,
-    name: "Chocolate Obscura",
-    image: "/assets/images/products/1.png",
-    price: "78.00",
-    rating: 2,
-  },
-  {
-    id: 2,
-    name: "Biscuit Munch",
-    image: "/assets/images/products/2.png",
-    price: "200.00",
-    rating: 3,
-  },
-  {
-    id: 3,
-    name: "Alfredo Penne",
-    image: "/assets/images/products/3.png",
-    price: "154.00",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Cinnamon Rolls",
-    image: "/assets/images/products/4.png",
-    price: "600.00",
-    rating: 5,
-  },
-  {
-    id: 5,
-    name: "Velvet Eclipse",
-    image: "/assets/images/products/5.png",
-    price: "439.00",
-    rating: 5,
-  },
-  {
-    id: 6,
-    name: "Strawberry Cake",
-    image: "/assets/images/products/6.png",
-    price: "136.00",
-    rating: 2,
-  },
-];
-
 const ProductList = () => {
+  const { categoryID } = useParams();
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(true);
+  const [productData, setProductData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [filters, setFilters] = useState({
     price: null,
     rating: null,
   });
+  const [error, setError] = useState(null); // Add state for error handling
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3031/api/items/list/${categoryID}`);
+        setProductData(response.data);
+        setIsLoading(false);
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [categoryID]);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -102,7 +81,6 @@ const ProductList = () => {
   const applyFilters = (products) => {
     let filteredProducts = [...products];
 
-    // Apply price filter
     if (filters.price === "below") {
       filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 300);
     } else if (filters.price === "between") {
@@ -113,16 +91,15 @@ const ProductList = () => {
       filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) > 500);
     }
 
-    // Apply rating filter
     if (filters.rating) {
-      const minRating = parseInt(filters.rating.substr(2, 1), 10);
+      const minRating = parseInt(filters.rating?.substr(2, 1), 10);
       filteredProducts = filteredProducts.filter((product) => product.rating >= minRating);
     }
 
     return filteredProducts;
   };
 
-  const filteredProducts = applyFilters(sampleProducts);
+  const filteredProducts = applyFilters(productData);
 
   return (
     <Container>
@@ -136,14 +113,16 @@ const ProductList = () => {
         priceOptions={PRICE_OPTIONS}
       />
 
-      {/* Display chips for selected filters */}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+
       <div
         style={{
           display: "flex",
           gap: "8px",
           flexWrap: "wrap",
           marginBottom: "16px",
-          marginTop: ".5em"
+          marginTop: ".5em",
         }}
       >
         {filters.price && (
@@ -163,13 +142,24 @@ const ProductList = () => {
       <TitleTypography value="Signature Dishes" />
 
       <Grid container spacing={2}>
-        {filteredProducts.map((product) => (
-          <Grid item xs key={product.id}>
-            <ProductCard product={product} />
+        {filteredProducts.map((product, index) => (
+          <Grid item xs key={index}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(`/product-detail/${product.product_id}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  console.log("test")
+                }
+              }}
+            >
+              <ProductCard product={product} />
+            </div>
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </Container >
   );
 };
 
