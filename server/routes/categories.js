@@ -13,7 +13,7 @@ categories.get('/', async (req, res) => {
       }
     })
     console.log("successfully fetched categories")
-    res.send(itemData.data)
+    res.send(itemData.data.categories)
   } catch (err) {
     console.log(err)
   }
