@@ -7,58 +7,23 @@ import {
   TitleTypography,
 } from "src/components";
 
-const HomeCategoriesBlock = () => {
-  const sampleProducts = [
-    {
-      id: 1,
-      name: "Drinks",
-      image: "/assets/images/products/1.png",
-    },
-    {
-      id: 2,
-      name: "Cakes",
-      image: "/assets/images/products/2.png",
-    },
-    {
-      id: 3,
-      name: "Ala Cartes",
-      image: "/assets/images/products/3.png",
-    },
-    {
-      id: 4,
-      name: "Pastas",
-      image: "/assets/images/products/4.png",
-    },
-    {
-      id: 5,
-      name: "Starters",
-      image: "/assets/images/products/5.png",
-    },
-    {
-      id: 6,
-      name: "Burger & Sandwich",
-      image: "/assets/images/products/6.png",
-    },
-  ]
+import { PropTypes } from "prop-types";
 
-  return (
-    <Container sx={{ bgcolor: "#FFFAF6" }}>
-      <TitleTypography value="Categories" />
+const HomeCategoriesBlock = ({ categories }) => (
+  <Container sx={{ bgcolor: "#FFFAF6" }}>
+    <TitleTypography value="Categories" />
+    <Grid container spacing={1} sx={{ display: "flex", justifyContent: "space-between", pb: 4 }}>
+      {categories.map((product, index) => (
+        <Grid item xs key={index}>
+          <CategoryCard product={product} />
+        </Grid>
+      ))}
+    </Grid>
+  </Container>
+);
 
-      <Grid container spacing={1}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          pb: 4
-        }}>
-        {sampleProducts.map((product) => (
-          <Grid item xs key={product.id}>
-            <CategoryCard product={product} />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  )
-}
+HomeCategoriesBlock.propTypes = {
+  categories: PropTypes.array,
+};
 
 export default HomeCategoriesBlock;

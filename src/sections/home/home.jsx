@@ -11,13 +11,14 @@ import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 export default function Home() {
   const name = "John";
   const [categories, setCategories] = useState()
+  const [isLoading, setIsLoading] = useState()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const itemData = await axios.get("http://localhost:3031/api/categories")
         setCategories(itemData.data)
-
+        setIsLoading(false)
       } catch (err) {
         console.log(err)
       }
@@ -27,10 +28,11 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    console.log("categories: ", categories)
+    console.log(categories)
   }, [categories])
 
   return (
+    !isLoading &&
     <>
       <Container sx={{ bgcolor: "#FFEEE1" }}>
         <Typography
@@ -47,7 +49,7 @@ export default function Home() {
           image="/assets/images/banner.png"
         />
       </Card>
-      <HomeCategoriesBlock />
+      <HomeCategoriesBlock categories={categories} />
       <Container>
         <HomeMenuBlock title="Signature Drinks" />
         <HomeMenuBlock title="Drinks" />
