@@ -4,46 +4,35 @@ import {
 } from "@mui/material";
 import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import axios from "axios"
 
-const HomeMenuBlock = ({ title }) => {
-  const sampleProducts = [
-    {
-      id: 1,
-      name: "Chocolate Obscura",
-      image: "/assets/images/products/1.png",
-      price: "154.00",
-      rating: 4,
-    },
-    {
-      id: 2,
-      name: "Biscuit Munch",
-      image: "/assets/images/products/2.png",
-      price: "154.00",
-      rating: 3,
-    },
-    {
-      id: 3,
-      name: "Alfredo Penne",
-      image: "/assets/images/products/3.png",
-      price: "154.00",
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: "Cinnamon Rolls",
-      image: "/assets/images/products/4.png",
-      price: "154.00",
-      rating: 5,
-    },
-  ]
+const HomeMenuBlock = ({ title, categoryID }) => {
+  const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productData = await axios.get(`http://localhost:3031/api/items/${categoryID}`)
+        setProducts(productData.data)
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [categoryID])
+
 
   return (
+    !isLoading &&
     <Box sx={{ mb: 6 }}>
       <TitleTypography value={title} hasBtn />
 
       <Grid container spacing={2}>
-        {sampleProducts.map((product) => (
-          <Grid item xs key={product.id}>
+        {products.map((product, index) => (
+          <Grid item xs key={index}>
             <ProductCard product={product} />
           </Grid>
         ))}
@@ -53,7 +42,8 @@ const HomeMenuBlock = ({ title }) => {
 }
 
 HomeMenuBlock.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  categoryID: PropTypes.string
 };
 
 export default HomeMenuBlock;

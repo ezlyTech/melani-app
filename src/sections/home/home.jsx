@@ -52,7 +52,10 @@ export default function Home() {
       <HomeCategoriesBlock categories={categories} />
       <Container>
         {categories.map((category, index) =>
-          <HomeMenuBlock title={category.name} key={index} />
+          <HomeMenuBlock
+            title={category.name}
+            categoryID={category.category_id}
+            key={index} />
         )}
       </Container>
     </>
