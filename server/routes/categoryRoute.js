@@ -3,25 +3,23 @@ import axios from "axios";
 
 const categoryRoute = express.Router()
 
-const token = "c444dac47f47470bb0ee9ddf4213fa75"
-
 categoryRoute.get('/', async (req, res) => {
 
   try {
     const categoryData = await axios.get("https://api.loyverse.com/v1.0/categories", {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
 
     const itemsData = await axios.get("https://api.loyverse.com/v1.0/items", {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
 
-
     let categories = []
+
     for (let i in categoryData.data.categories) {
       let image = ""
 

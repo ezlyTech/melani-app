@@ -3,13 +3,12 @@ import axios from 'axios'
 import { JSDOM } from 'jsdom'
 
 const itemRoute = express.Router()
-const token = "c444dac47f47470bb0ee9ddf4213fa75"
 
 itemRoute.get('/list/:categoryID', async (req, res) => {
   try {
     const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
 
@@ -38,7 +37,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
   try {
     const itemData = await axios.get(`https://api.loyverse.com/v1.0/items/${req.params.productID}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
     // Create a DOM from the HTML content
