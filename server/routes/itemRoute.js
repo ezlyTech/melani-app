@@ -19,7 +19,7 @@ itemRoute.get('/list/:categoryID', async (req, res) => {
         items.push({
           name: itemData.data.items[i].item_name,
           image: itemData.data.items[i].image_url,
-          price: itemData.data.items[i].variants[0].default_price,
+          price: itemData.data.items[i].variants[0].stores[0].price,
           rating: 4,
           product_id: itemData.data.items[i].id
         })
@@ -57,7 +57,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
 
     res.send({
       name: itemData.data.item_name,
-      price: itemData.data.variants[0].default_price,
+      price: itemData.data.variants[0].stores[0].price,
       image: itemData.data.image_url,
       rating: 4,
       information: dom.window.document.body.innerHTML,
