@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
@@ -5,31 +6,26 @@ import {
   Typography
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
-  const name = "John";
-  const [categories, setCategories] = useState([])
-  const [isLoading, setIsLoading] = useState()
+  const { name } = useContext(UserContext);
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const itemData = await axios.get("http://localhost:3031/api/categories")
-        setCategories(itemData.data)
-        setIsLoading(false)
+        const itemData = await axios.get("http://localhost:3031/api/categories");
+        setCategories(itemData.data);
+        setIsLoading(false);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    console.log(categories)
-  }, [categories])
+    };
+    fetchData();
+  }, []);
 
   return (
     !isLoading &&
