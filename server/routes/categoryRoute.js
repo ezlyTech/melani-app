@@ -6,20 +6,38 @@ const categoryRoute = express.Router()
 const token = "c444dac47f47470bb0ee9ddf4213fa75"
 
 categoryRoute.get('/', async (req, res) => {
-  let categories = []
+
   try {
-    const itemData = await axios.get("https://api.loyverse.com/v1.0/categories", {
+    const categoryData = await axios.get("https://api.loyverse.com/v1.0/categories", {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
 
-    for (let i in itemData.data.categories) {
+    const itemsData = await axios.get("https://api.loyverse.com/v1.0/items", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+
+    let categories = []
+    for (let i in categoryData.data.categories) {
+      let image = ""
+
+      for (let j in itemsData.data.items) {
+        if (itemsData.data.items[j].category_id === categoryData.data.categories[i].id) {
+          image = itemsData.data.items[j].image_url
+          break
+        }
+      }
+
       categories.push({
-        name: itemData.data.categories[i].name,
-        image: "/assets/images/products/1.png",
-        category_id: itemData.data.categories[i].id
+        name: categoryData.data.categories[i].name,
+        image: image,
+        category_id: categoryData.data.categories[i].id
       })
+
     }
 
     console.log("successfully fetched categories")
