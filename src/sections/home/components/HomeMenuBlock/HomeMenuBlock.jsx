@@ -1,72 +1,62 @@
 import {
   Grid,
+  Box,
 } from "@mui/material";
 import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
-const HomeMenuBlock = ({title}) => {
-  const sampleProducts = [
-    {
-      id: 1,
-      name: "Chocolate Obscura",
-      image: "/assets/images/products/1.png",
-      price: "154.00",
-      rating: 4,
-    },
-    {
-      id: 2,
-      name: "Biscuit Munch",
-      image: "/assets/images/products/2.png",
-      price: "154.00",
-      rating: 3,
-    },
-    {
-      id: 3,
-      name: "Alfredo Penne",
-      image: "/assets/images/products/3.png",
-      price: "154.00",
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: "Cinnamon Rolls",
-      image: "/assets/images/products/4.png",
-      price: "154.00",
-      rating: 5,
-    },
-    {
-      id: 5,
-      name: "Velvet Eclipse",
-      image: "/assets/images/products/5.png",
-      price: "154.00",
-      rating: 5,
-    },
-    {
-      id: 6,
-      name: "Strawberry Cake",
-      image: "/assets/images/products/6.png",
-      price: "154.00",
-      rating: 5,
-    },
-  ]
+const HomeMenuBlock = ({ title, category }) => {
+  const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productData = await axios.get(`http://localhost:3031/api/items/list/${category.category_id}`)
+        setProducts(productData.data)
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [category])
+
 
   return (
-    <>
-      <TitleTypography value={title} />
-  
+    !isLoading &&
+    <Box sx={{ mb: 6 }}>
+      <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
+
       <Grid container spacing={2}>
-        {sampleProducts.map((product) => (
-          <Grid item xs key={product.id}>
-            <ProductCard product={product} />
+        {products.map((product, index) => (
+          <Grid item xs key={index}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(`/product-detail/${product.product_id}`)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  navigate(`/product-detail/${product.product_id}`)
+                }
+              }}
+            >
+              <ProductCard product={product} />
+            </div>
           </Grid>
         ))}
       </Grid>
-    </>
+    </Box>
   )
 }
 
 HomeMenuBlock.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  category: PropTypes.array
 };
 
 export default HomeMenuBlock;

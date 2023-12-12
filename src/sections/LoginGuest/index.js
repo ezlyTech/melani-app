@@ -1,3 +1,3 @@
-import LoginGuest from "./LoginGuest"
+import LoginGuest from "./LoginGuest";
 
-export default LoginGuest
+export default LoginGuest;
