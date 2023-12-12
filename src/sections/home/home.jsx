@@ -6,10 +6,12 @@ import {
   Typography
 } from "@mui/material";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
+  const { user, isAuthenticated } = useAuth0()
   const { name } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +38,7 @@ export default function Home() {
           variant="h4"
           color="#3D2209"
         >
-          Welcome, {name}!
+          Welcome, {isAuthenticated ? user.given_name : name}!
         </Typography>
       </Container>
       <Card sx={{ borderRadius: 0 }}>
