@@ -3,7 +3,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 
-const TitleTypography = ({ value, color, hasBtn }) => (
+const TitleTypography = ({ value, color, hasBtn, onClick }) => (
   <Typography
     sx={{
       mb: 2.0,
@@ -19,7 +19,9 @@ const TitleTypography = ({ value, color, hasBtn }) => (
     {hasBtn && (
       <Button
         size="small"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+        onClick={onClick}
+      >
         See All
       </Button>
     )}
@@ -30,6 +32,7 @@ TitleTypography.propTypes = {
   value: PropTypes.string.isRequired,
   color: PropTypes.string,
   hasBtn: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 TitleTypography.defaultProps = {

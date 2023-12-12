@@ -12,7 +12,7 @@ root.render(
     domain={import.meta.env.VITE_AUTH0_DOMAIN}
     clientId={import.meta.env.VITE_CLIEND_ID}
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: "http://localhost:3030/home"
     }}
   >
     <HelmetProvider>
