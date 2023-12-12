@@ -54,7 +54,7 @@ const ProductCard = ({ product }) => (
         </IconButton>
       </Box>
     </CardContent>
-  </Card> 
+  </Card>
 )
 
 ProductCard.propTypes = {

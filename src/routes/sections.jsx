@@ -38,8 +38,8 @@ export default function Router() {
       ),
       children: [
         { path: "home", element: <HomePage /> },
-        { path: "product-list", element: <ProductListPage /> },
-        { path: "product-detail", element: <ProductDetailPage /> },
+        { path: "product-list/:categoryName/:categoryID", element: <ProductListPage /> },
+        { path: "product-detail/:productID", element: <ProductDetailPage /> },
         { path: "review", element: <ReviewPage /> }
       ],
     },

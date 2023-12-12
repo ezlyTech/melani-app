@@ -1,15 +1,36 @@
+import { useContext, useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
   Container,
   Typography
 } from "@mui/material";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
-  const name = "John";
+  const { user, isAuthenticated } = useAuth0()
+  const { name } = useContext(UserContext);
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const itemData = await axios.get("http://localhost:3031/api/categories");
+        setCategories(itemData.data);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
+    !isLoading &&
     <>
       <Container sx={{ bgcolor: "#FFEEE1" }}>
         <Typography
@@ -17,7 +38,7 @@ export default function Home() {
           variant="h4"
           color="#3D2209"
         >
-          Welcome, {name}!
+          Welcome, {isAuthenticated ? user.given_name : name}!
         </Typography>
       </Container>
       <Card sx={{ borderRadius: 0 }}>
@@ -26,15 +47,13 @@ export default function Home() {
           image="/assets/images/banner.png"
         />
       </Card>
-      <HomeCategoriesBlock />
+      <HomeCategoriesBlock categories={categories} />
       <Container>
-        <HomeMenuBlock title="Signature Drinks" />
-        <HomeMenuBlock title="Drinks" />
-        <HomeMenuBlock title="Cakes" />
-        <HomeMenuBlock title="Ala Cartes" />
-        <HomeMenuBlock title="Pastas" />
-        <HomeMenuBlock title="Starters" />
-        <HomeMenuBlock title="Burger & Sandwich" />
+        {categories.map((category, index) =>
+          <HomeMenuBlock
+            category={category}
+            key={index} />
+        )}
       </Container>
     </>
   );
