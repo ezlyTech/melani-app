@@ -1,0 +1,125 @@
+import {
+  Container,
+  Box,
+  Grid,
+  Autocomplete,
+  Typography,
+  Button,
+  TextField,
+} from "@mui/material"
+import { PropTypes } from "prop-types"
+import { useState } from "react";
+
+const CartPreviewBlock = ({sampleCartItems, quantities }) => {
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
+
+  const subtotal = sampleCartItems.reduce(
+    (total, item) => 
+      total + (parseFloat(item.price) || 0) * (item.quantity || 0),
+    0
+  );
+
+  const total = subtotal * (1 - voucherDiscount);
+
+  const handleVoucherSelect = (event, value) => {
+    if (value) {
+      setVoucherDiscount(value.discount);
+    } else {
+      setVoucherDiscount(0);
+    }
+  };
+
+  const voucher = [
+    {
+      id: 1,
+      label: "Student",
+      discount: 0.125
+    },
+    {
+      id: 2,
+      label: "Person w/ Disabilities",
+      discount: 0.1
+    },
+    {
+      id: 3,
+      label: "Senior",
+      discount: 0.1
+    }
+  ]
+
+  return (
+    <Container
+      sx={{
+        width: "100%",
+        height: 190,
+        borderRadius: 1,
+        position: "fixed",
+        bottom: 0,
+        backgroundColor: "#FFF",
+        boxShadow: "0px -5px 5px 0px rgba(0, 0, 0, 0.04)"
+      }}
+    >
+      <Box 
+        sx={{
+          height: 35, 
+          mb: 7
+        }}>
+        <Typography variant="caption">
+          {sampleCartItems.length} items
+        </Typography>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={voucher}
+          getOptionLabel={(option) => option.label}
+          onChange={handleVoucherSelect}
+          sx={{ width: 300, height: 121}}
+          renderInput={(params) => <TextField {...params} label="Voucher" />}
+        />
+      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Typography variant="subtitle2">Subtotal:</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle2">₱{subtotal.toFixed(2)}</Typography>
+        </Grid>
+      </Grid>
+      <Grid 
+        container 
+        spacing={2} 
+        sx={{
+          position: "fixed", 
+          bottom: 15, 
+          alignItems: "center"
+        }}>
+        <Grid item xs={4}>
+          <Box>
+            <Typography variant="caption">Total</Typography>
+            <Typography variant="h5">₱{total.toFixed(2)}</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={8}>
+          <Button 
+            sx={{
+              ml: 3,
+              borderRadius: 31,
+              border: "1px solid #888C03",
+              background: "#888C03",
+              color: "#FFF",
+            }}>
+              Proceed to Payment
+          </Button>
+        </Grid>
+      </Grid> 
+    </Container>
+
+  )
+}
+
+CartPreviewBlock.propTypes = {
+  sampleCartItems: PropTypes.array.isRequired,
+  quantities: PropTypes.object.isRequired,
+};
+
+export default CartPreviewBlock
