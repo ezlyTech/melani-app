@@ -40,7 +40,8 @@ const Review = () => {
               style={{
                 height: "75px",
                 width: "106px",
-                objectFit: "cover"
+                objectFit: "cover",
+                borderRadius: "15px"
               }} />
             <Box>
               <Typography sx={{ fontWeight: "bold" }}>Double Choco Cake</Typography>
@@ -74,7 +75,8 @@ const Review = () => {
               style={{
                 height: "75px",
                 width: "106px",
-                objectFit: "cover"
+                objectFit: "cover",
+                borderRadius: "15px"
               }} />
             <Box>
               <Typography sx={{ fontWeight: "bold" }}>Biscuit Munch</Typography>
@@ -90,8 +92,15 @@ const Review = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Button variant="contained">Contained</Button>
+      <Button variant="contained"
+        sx={{
+          width: "100%",
+          borderRadius: "31px",
+          objectPosition: "Bottom"
+        }}
+      >Submit</Button>
     </Container >
+
 
 
   )
