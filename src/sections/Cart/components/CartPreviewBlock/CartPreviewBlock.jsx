@@ -10,11 +10,11 @@ import {
 import { PropTypes } from "prop-types"
 import { useState } from "react";
 
-const CartPreviewBlock = ({sampleCartItems, quantities }) => {
+const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
   const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   const subtotal = sampleCartItems.reduce(
-    (total, item) => 
+    (total, item) =>
       total + (parseFloat(item.price) || 0) * (item.quantity || 0),
     0
   );
@@ -51,7 +51,6 @@ const CartPreviewBlock = ({sampleCartItems, quantities }) => {
     <Container
       sx={{
         width: "100%",
-        height: 190,
         borderRadius: 1,
         position: "fixed",
         bottom: 0,
@@ -59,11 +58,7 @@ const CartPreviewBlock = ({sampleCartItems, quantities }) => {
         boxShadow: "0px -5px 5px 0px rgba(0, 0, 0, 0.04)"
       }}
     >
-      <Box 
-        sx={{
-          height: 35, 
-          mb: 7
-        }}>
+      <Box pt={1}>
         <Typography variant="caption">
           {sampleCartItems.length} items
         </Typography>
@@ -73,26 +68,23 @@ const CartPreviewBlock = ({sampleCartItems, quantities }) => {
           options={voucher}
           getOptionLabel={(option) => option.label}
           onChange={handleVoucherSelect}
-          sx={{ width: 300, height: 121}}
+          sx={{ mt: 1, mb: 2 }}
           renderInput={(params) => <TextField {...params} label="Voucher" />}
         />
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
-          <Typography variant="subtitle2">Subtotal:</Typography>
+          <Typography variant="subtitle2" color="#637381">Subtotal:</Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="subtitle2">₱{subtotal.toFixed(2)}</Typography>
+          <Typography variant="subtitle2" textAlign="right" color="#637381">₱{subtotal.toFixed(2)}</Typography>
         </Grid>
       </Grid>
-      <Grid 
-        container 
-        spacing={2} 
-        sx={{
-          position: "fixed", 
-          bottom: 15, 
-          alignItems: "center"
-        }}>
+      <Grid
+        container
+        spacing={2}
+        pb={2}
+      >
         <Grid item xs={4}>
           <Box>
             <Typography variant="caption">Total</Typography>
@@ -100,18 +92,19 @@ const CartPreviewBlock = ({sampleCartItems, quantities }) => {
           </Box>
         </Grid>
         <Grid item xs={8}>
-          <Button 
+          <Button
             sx={{
-              ml: 3,
+              mt: 1,
               borderRadius: 31,
               border: "1px solid #888C03",
               background: "#888C03",
               color: "#FFF",
+              width: "100%"
             }}>
-              Proceed to Payment
+            Proceed to Payment
           </Button>
         </Grid>
-      </Grid> 
+      </Grid>
     </Container>
 
   )
