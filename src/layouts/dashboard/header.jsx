@@ -5,6 +5,7 @@ import {
   Toolbar,
   IconButton,
   Box,
+  Badge,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useResponsive } from "src/hooks/use-responsive";
@@ -35,8 +36,10 @@ export default function Header({ onOpenNav }) {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <NotificationsPopover /> */}
-        <IconButton>
-          <Iconify icon="eva:shopping-cart-fill" />
+        <IconButton href="/cart">
+          <Badge badgeContent={4} color="primary">
+            <Iconify icon="eva:shopping-cart-fill" />
+          </Badge>
         </IconButton>
       </Stack>
     </Box>

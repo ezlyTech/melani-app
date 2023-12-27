@@ -1,15 +1,14 @@
 import { Helmet } from "react-helmet-async"
-import { Home } from "src/sections/HomePage";
+import Receipt from "src/sections/Receipt"
 
-
-const HomePage = () => (
+const ReceiptPage = () => (
   <>
     <Helmet>
       <title> Melani Bakehouse </title>
     </Helmet>
 
-    <Home />
+    <Receipt />
   </>
 )
 
-export default HomePage;
+export default ReceiptPage;
