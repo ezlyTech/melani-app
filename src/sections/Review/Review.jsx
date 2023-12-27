@@ -48,6 +48,7 @@ const Review = () => {
               <Typography>1x Slice</Typography>
               <Rating /></Box>
           </Box>
+
         </AccordionSummary>
 
         <AccordionDetails>
@@ -94,9 +95,11 @@ const Review = () => {
 
       <Button variant="contained"
         sx={{
-          width: "100%",
+          width: "90%",
           borderRadius: "31px",
-          objectPosition: "Bottom"
+          position: "fixed",
+          bottom: "20px",
+          display: "block"
         }}
       >Submit</Button>
     </Container >
