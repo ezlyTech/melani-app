@@ -55,12 +55,13 @@ const Login = () => {
               borderRadius: "31px",
               mb: 2,
               mt: 35,
-              color: "#FFF"
+              color: "#FFF",
+              gap: 1
             }}
             onClick={handleClick}
           >
-            <Iconify icon="eva:facebook-fill" />
-          Order with Facebook
+            <Iconify icon="eva:google-fill" />
+            Login with Google
           </Button>
 
           <Button
@@ -68,16 +69,16 @@ const Login = () => {
             size='large'
             color='inherit'
             variant='outlined'
-            sx={{ 
+            sx={{
               borderColor: "#888C03",
               borderRadius: "31px",
             }}
             onClick={handleLoginGuest}
           >
-          Order as Guest
+            Order as Guest
           </Button>
         </Container>
-        
+
       </Stack>
     </Box>
   )
