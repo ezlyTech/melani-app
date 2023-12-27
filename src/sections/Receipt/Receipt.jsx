@@ -1,4 +1,5 @@
 import {
+  Box,
   Container,
   Typography,
 } from "@mui/material";
@@ -14,15 +15,18 @@ const Receipt = () => (
     position: "absolute",
     top: "15vh",
   }}>
-    <Logo
+    <Box
       sx={{
         position: "fixed",
-        top: { xs: 16, md: 24 },
-        left: { xs: "40%", md: "47%" },
+        top: 0,
+        background: "#F9FAFB",
+        width: "100%"
       }}
-    />
+    >
+      <Logo sx={{ display: "flex", margin: "0 auto" }} />
+    </Box>
 
-    <Typography align="center" 
+    <Typography align="center"
       sx={{
         color: "#3D2209",
         fontWeight: "bold"
@@ -30,7 +34,7 @@ const Receipt = () => (
       Please go to the counter and show this receipt
     </Typography>
 
-    <ReceiptBlock/>
+    <ReceiptBlock />
   </Container >
 )
 
