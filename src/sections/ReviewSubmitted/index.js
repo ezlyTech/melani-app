@@ -1,3 +1,3 @@
-import ReviewSubmitted from "./ReviewSumbitted"
+import ReviewSubmitted from "./ReviewSubmitted";
 
-export default ReviewSubmitted
+export default ReviewSubmitted;
