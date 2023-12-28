@@ -108,7 +108,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
               color: "#FFF",
               width: "100%"
             }}>
-            Proceed to Payment
+            <Typography variant="subtitle1" >Place Order</Typography>
           </Button>
         </Grid>
       </Grid>
