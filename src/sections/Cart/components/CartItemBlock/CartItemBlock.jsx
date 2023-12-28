@@ -30,6 +30,13 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities }) => {
 
   return (
     <Container>
+      <Typography 
+        sx={{
+          color: "#3D2209",
+          fontWeight: 600, 
+        }}>
+        Cart
+      </Typography>
       <Stack spacing={1} sx={{ paddingBottom: 22 }}>
         {sampleCartItems.map((product) => (
 
