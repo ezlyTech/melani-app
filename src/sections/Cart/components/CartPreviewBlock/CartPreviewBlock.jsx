@@ -2,16 +2,15 @@ import {
   Container,
   Box,
   Grid,
-  Autocomplete,
   Typography,
   Button,
   TextField,
 } from "@mui/material"
 import { PropTypes } from "prop-types"
-import { useState } from "react";
+// import { useState } from "react";
 
 const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
-  const [voucherDiscount, setVoucherDiscount] = useState(0);
+  // const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   const subtotal = sampleCartItems.reduce(
     (total, item) =>
@@ -19,33 +18,34 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
     0
   );
 
-  const total = subtotal * (1 - voucherDiscount);
+  const total = subtotal;
+  // const total = subtotal * (1 - voucherDiscount);
 
-  const handleVoucherSelect = (event, value) => {
-    if (value) {
-      setVoucherDiscount(value.discount);
-    } else {
-      setVoucherDiscount(0);
-    }
-  };
+  // const handleVoucherSelect = (event, value) => {
+  //   if (value) {
+  //     setVoucherDiscount(value.discount);
+  //   } else {
+  //     setVoucherDiscount(0);
+  //   }
+  // };
 
-  const voucher = [
-    {
-      id: 1,
-      label: "Student",
-      discount: 0.125
-    },
-    {
-      id: 2,
-      label: "Person w/ Disabilities",
-      discount: 0.1
-    },
-    {
-      id: 3,
-      label: "Senior",
-      discount: 0.1
-    }
-  ]
+  // const voucher = [
+  //   {
+  //     id: 1,
+  //     label: "Student",
+  //     discount: 0.125
+  //   },
+  //   {
+  //     id: 2,
+  //     label: "Person w/ Disabilities",
+  //     discount: 0.1
+  //   },
+  //   {
+  //     id: 3,
+  //     label: "Senior",
+  //     discount: 0.1
+  //   }
+  // ]
 
   return (
     <Container
@@ -58,26 +58,33 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
         boxShadow: "0px -5px 5px 0px rgba(0, 0, 0, 0.04)"
       }}
     >
-      <Box pt={1}>
-        <Typography variant="caption">
-          {sampleCartItems.length} items
-        </Typography>
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={voucher}
-          getOptionLabel={(option) => option.label}
-          onChange={handleVoucherSelect}
-          sx={{ mt: 1, mb: 2 }}
-          renderInput={(params) => <TextField {...params} label="Voucher" />}
-        />
-      </Box>
-      <Grid container spacing={2} mb={2}>
+      <Typography variant="caption">
+        {sampleCartItems.length} items
+      </Typography>
+      <TextField
+        required
+        id="outlined-number"
+        label="Table Number"
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        size="small"
+        sx={{
+          width:"100%",
+          // pt: 1,
+          mt: 2,
+          pb: 2,
+          borderBottom: "1px solid #637381"
+        }}
+      />
+
+      <Grid container spacing={2} sx={{pt: 1, mb: 2}}>
         <Grid item xs={8}>
-          <Typography variant="subtitle2" color="#637381">Subtotal:</Typography>
+          <Typography variant="subtitle2" color="#000">Subtotal:</Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="subtitle2" textAlign="right" color="#637381">₱{subtotal.toFixed(2)}</Typography>
+          <Typography variant="subtitle2" textAlign="right" color="#000">₱{subtotal.toFixed(2)}</Typography>
         </Grid>
       </Grid>
       <Grid
