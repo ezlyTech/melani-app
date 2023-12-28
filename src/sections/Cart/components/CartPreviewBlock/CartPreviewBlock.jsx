@@ -2,42 +2,50 @@ import {
   Container,
   Box,
   Grid,
+  Autocomplete,
   Typography,
   Button,
   TextField,
-  // Divider
 } from "@mui/material"
 import { PropTypes } from "prop-types"
-// import { useState } from "react";
+import { useState } from "react";
 
 const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
-  // const [voucherDiscount, setVoucherDiscount] = useState(0);
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   const subtotal = sampleCartItems.reduce(
     (total, item) =>
       total + (parseFloat(item.price) || 0) * (item.quantity || 0),
     0
   );
-  const total = subtotal;
-  // const total = subtotal * (1 - voucherDiscount);
 
-  // const voucher = [
-  //   {
-  //     id: 1,
-  //     label: "Student",
-  //     discount: 0.125
-  //   },
-  //   {
-  //     id: 2,
-  //     label: "Person w/ Disabilities",
-  //     discount: 0.1
-  //   },
-  //   {
-  //     id: 3,
-  //     label: "Senior",
-  //     discount: 0.1
-  //   }
-  // ]
+  const total = subtotal * (1 - voucherDiscount);
+
+  const handleVoucherSelect = (event, value) => {
+    if (value) {
+      setVoucherDiscount(value.discount);
+    } else {
+      setVoucherDiscount(0);
+    }
+  };
+
+  const voucher = [
+    {
+      id: 1,
+      label: "Student",
+      discount: 0.125
+    },
+    {
+      id: 2,
+      label: "Person w/ Disabilities",
+      discount: 0.1
+    },
+    {
+      id: 3,
+      label: "Senior",
+      discount: 0.1
+    }
+  ]
 
   return (
     <Container
@@ -50,32 +58,26 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
         boxShadow: "0px -5px 5px 0px rgba(0, 0, 0, 0.04)"
       }}
     >
-      
-      <TextField
-        required
-        id="outlined-number"
-        label="Table Number"
-        type="number"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        sx={{
-          width:"100%",
-          pt: 2,
-          mt: 2,
-          pb: 2,
-          borderBottom: "1px solid black"
-        }}
-      />
-      
-      {/* <Divider variant="middle"/> */}
-
-      <Grid container spacing={2} sx={{pt: 1, mb: 2}}>
+      <Box pt={1}>
+        <Typography variant="caption">
+          {sampleCartItems.length} items
+        </Typography>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={voucher}
+          getOptionLabel={(option) => option.label}
+          onChange={handleVoucherSelect}
+          sx={{ mt: 1, mb: 2 }}
+          renderInput={(params) => <TextField {...params} label="Voucher" />}
+        />
+      </Box>
+      <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
-          <Typography variant="subtitle2" color="#000">Subtotal:</Typography>
+          <Typography variant="subtitle2" color="#637381">Subtotal:</Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="subtitle2" textAlign="right" color="#000">₱{subtotal.toFixed(2)}</Typography>
+          <Typography variant="subtitle2" textAlign="right" color="#637381">₱{subtotal.toFixed(2)}</Typography>
         </Grid>
       </Grid>
       <Grid
@@ -89,7 +91,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
             <Typography variant="h5">₱{total.toFixed(2)}</Typography>
           </Box>
         </Grid>
-        <Grid item paddingTop={0} xs={8} >
+        <Grid item xs={8}>
           <Button
             sx={{
               mt: 1,
