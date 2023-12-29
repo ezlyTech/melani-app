@@ -19,7 +19,11 @@ import { useEffect, useState } from "react";
 import Iconify from "src/components/iconify";
 import { useParams } from "react-router-dom";
 import axios from "axios"
-import { ProductDetailInformationPanel, ProductDetailUploadsPanel } from "./components";
+import {
+  ProductDetailInformationPanel,
+  ProductDetailUploadsPanel,
+  ProductDetailReviewsPanel,
+} from "./components";
 
 const ProductDetail = () => {
   const [value, setValue] = useState("1");
@@ -55,6 +59,29 @@ const ProductDetail = () => {
     }
     fetchData()
   }, [productID])
+
+  const SampleReviews = [
+    {
+      name: "Alex Kim",
+      rating: 4,
+      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
+    },
+    {
+      name: "Justin Timberlake",
+      rating: 5,
+      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
+    },
+    {
+      name: "Ji Chang Wook",
+      rating: 5,
+      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
+    },
+    {
+      name: "Steph",
+      rating: 5,
+      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
+    },
+  ]
 
   return (
     !isLoading &&
@@ -100,7 +127,8 @@ const ProductDetail = () => {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange} aria-label="tabs">
                 <Tab label="Information" value="1" />
-                <Tab label="Uploads" value="2" />
+                <Tab label="Reviews" value="2" />
+                <Tab label="Uploads" value="3" />
               </TabList>
             </Box>
 
@@ -111,6 +139,9 @@ const ProductDetail = () => {
               />
             </TabPanel>
             <TabPanel value="2">
+              <ProductDetailReviewsPanel reviews={SampleReviews} />
+            </TabPanel>
+            <TabPanel value="3">
               <ProductDetailUploadsPanel uploads={productDetails.uploads} />
             </TabPanel>
           </TabContext>
