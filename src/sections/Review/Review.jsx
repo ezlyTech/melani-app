@@ -191,12 +191,12 @@ const Review = () => {
           <Typography id="modal-modal-description" variant="h6" component="h2" sx={{ mb: "40px" }}>
             Review Submitted!
           </Typography>
-          <Button onClick={handleClose} variant="outlined"
+          <Button onClick={handleClose} variant="contained"
             sx={{
               top: "8%",
               borderRadius: "31px",
               width: "100%",
-              color: "#000000"
+              color: "#FFF"
             }} >
             Back to Main Menu
           </Button>
