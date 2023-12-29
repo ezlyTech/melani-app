@@ -4,9 +4,11 @@ import {
   FormControlLabel,
   Chip,
   Box,
+  IconButton
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import Iconify from "src/components/iconify";
 
 const ProductDetailInformationPanel = ({ information }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -17,13 +19,47 @@ const ProductDetailInformationPanel = ({ information }) => {
 
   return (
     <div>
+      <Box 
+        sx={{
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center",
+          m:"-24px -40px 10px -40px", 
+          background: "#FFF1E6"
+        }}>
+        <Typography 
+          variant="body2" 
+          sx={{
+            fontWeight: "bold",
+            pl: 5
+          }}>
+          Discount Available:
+          <span 
+            style={{
+              fontWeight: "normal",
+              paddingLeft:5
+            }}>
+              Student, Senior, PWDs
+          </span>
+        </Typography>
+        <IconButton sx={{pr: 5}}>
+          <Iconify icon="mdi:information-outline"/>
+        </IconButton>
+      </Box>
+      
       <Typography variant="body2">{information}</Typography>
 
       <Box mt={2}>
         <Typography variant="subtitle2">Select option:</Typography>
 
         <FormGroup>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
+          <Box 
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mt: 1,
+              ml: 1.5
+            }}>
             <FormControlLabel
               control={
                 <Chip
