@@ -1,4 +1,5 @@
 import ProductDetailInformationPanel from "./ProductDetailInformationPanel";
 import ProductDetailUploadsPanel from "./ProductDetailUploadsPanel";
+import ProductDetailReviewsPanel from "./ProductDetailReviewsPanel";
 
-export { ProductDetailInformationPanel, ProductDetailUploadsPanel };
+export { ProductDetailInformationPanel, ProductDetailUploadsPanel, ProductDetailReviewsPanel };
