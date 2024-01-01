@@ -24,19 +24,13 @@ export default function usePreventReload() {
 
   useEffect(() => {
     if (!name && !isAuthenticated) {
-      // Delay the navigation by 1.5 seconds
-      const delay = 1500; // 1.5 seconds in milliseconds
-
+      const delay = 1500;
       const timeoutId = setTimeout(() => {
-        // Your navigation logic here
         navigate("/");
       }, delay);
 
-      // Cleanup the timeout to avoid memory leaks
       return () => clearTimeout(timeoutId);
     }
-
-    // Return a value to satisfy ESLint
     return undefined;
   }, [isAuthenticated, name, navigate]);
 }
