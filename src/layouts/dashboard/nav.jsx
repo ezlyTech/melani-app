@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -12,13 +12,16 @@ import { RouterLink } from "src/routes/components";
 import { useResponsive } from "src/hooks/use-responsive";
 import Logo from "src/components/logo";
 import Scrollbar from "src/components/scrollbar";
+import UserContext from "src/UserContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-
   const upLg = useResponsive("up", "lg");
+  const { name } = useContext(UserContext)
+  const { isAuthenticated, user } = useAuth0()
 
   useEffect(() => {
     if (openNav) {
@@ -40,10 +43,15 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src="/assets/images/avatars/avatar_1.jpg" alt="photoURL" />
+      <Avatar
+        src={isAuthenticated ? user.picture : "/assets/images/avatars/avatar_1.jpg"}
+        alt="photoURL"
+      />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">John</Typography>
+        <Typography variant="subtitle2">
+          {isAuthenticated ? user.given_name : name}
+        </Typography>
       </Box>
     </Box>
   );
