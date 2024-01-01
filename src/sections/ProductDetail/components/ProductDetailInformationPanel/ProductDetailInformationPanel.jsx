@@ -44,10 +44,6 @@ const ProductDetailInformationPanel = ({ information, options }) => {
     setSelectedAddons(options.addons.map((option) => option.variations[0].name));
   }, [options.addons]);
 
-  useEffect(() => {
-    console.log(selectedAddons)
-  }, [selectedAddons])
-
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
