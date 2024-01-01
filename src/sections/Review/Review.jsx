@@ -176,14 +176,19 @@ const Review = () => {
 
       <Button onClick={handleOpen} variant="contained" color="primary"
         sx={{
-          width: "90%",
+          mt: 2,
+          width: "100%",
           borderRadius: "31px",
-          position: "fixed",
-          bottom: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
         }}>
         Submit
+      </Button>
+      <Button variant="outlined" color="primary"
+        sx={{
+          mt: 1,
+          width: "100%",
+          borderRadius: "31px",
+        }}>
+        Cancel
       </Button>
 
       <Modal
