@@ -17,6 +17,8 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  usePreventReload()
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,8 +31,6 @@ export default function Home() {
     };
     fetchData();
   }, []);
-
-  usePreventReload()
 
   return (
     !isLoading &&
