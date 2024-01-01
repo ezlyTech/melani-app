@@ -53,12 +53,17 @@ const ProductDetail = () => {
         const productData = await axios.get(`http://localhost:3031/api/items/single/${productID}`)
         setProductDetails(productData.data)
         setIsLoading(false)
+        console.log(productData.data)
       } catch (err) {
         console.log(err)
       }
     }
     fetchData()
   }, [productID])
+
+  useEffect(() => {
+    console.log(productDetails)
+  }, [productDetails])
 
   const SampleReviews = [
     {
@@ -135,7 +140,7 @@ const ProductDetail = () => {
             <TabPanel value="1">
               <ProductDetailInformationPanel
                 information={productDetails.information}
-                option={productDetails.option}
+                options={productDetails.option}
               />
             </TabPanel>
             <TabPanel value="2">

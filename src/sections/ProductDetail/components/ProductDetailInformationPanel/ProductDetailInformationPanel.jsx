@@ -13,18 +13,13 @@ import {
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-const ProductDetailInformationPanel = ({ information }) => {
+const ProductDetailInformationPanel = ({ information, options }) => {
   const [selectedVariation, setSelectedVariation] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
   const [selectedAddons, setSelectedAddons] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleVariationChange = (option) => {
-    setSelectedVariation(option);
-  };
-
-  const handleSizeChange = (option) => {
-    setSelectedSize(option);
+  const handleVariationChange = (variation) => {
+    setSelectedVariation(variation);
   };
 
   const handleAddonsChange = (event) => {
@@ -35,10 +30,6 @@ const ProductDetailInformationPanel = ({ information }) => {
     setSelectedVariation(null);
   };
 
-  const clearSize = () => {
-    setSelectedSize(null);
-  };
-
   const clearAddons = () => {
     setSelectedAddons(null);
   };
@@ -47,73 +38,37 @@ const ProductDetailInformationPanel = ({ information }) => {
     <div>
       <Typography variant="body2">{information}</Typography>
 
-      {/* Option for Cakes */}
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Variation
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
-          </span>
-        </Typography>
-        <FormGroup>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
-            <FormControlLabel
-              control={
-                <Chip
-                  label="Sliced"
-                  clickable
-                  color={selectedVariation === "sliced" ? "primary" : "default"}
-                  onClick={() => handleVariationChange("sliced")}
-                />
-              }
-            />
-            <FormControlLabel
-              control={
-                <Chip
-                  label="Whole"
-                  clickable
-                  color={selectedVariation === "whole" ? "primary" : "default"}
-                  onClick={() => handleVariationChange("whole")}
-                />
-              }
-            />
-          </Box>
-        </FormGroup>
-      </Box>
+      {/* Options with no additional cost */}
 
-      {/* Option for Drinks */}
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Size
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedSize} onClick={clearSize}>Clear</Button>
-          </span>
-        </Typography>
-        <FormGroup>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
-            <FormControlLabel
-              control={
-                <Chip
-                  label="16oz"
-                  clickable
-                  color={selectedSize === "16oz" ? "primary" : "default"}
-                  onClick={() => handleSizeChange("16oz")}
-                />
+      {options.free.map((option, i) =>
+        <Box mt={3} key={i}>
+          <Typography variant="subtitle2">
+            {option.name}
+            <span style={{ float: "right" }}>
+              <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
+            </span>
+          </Typography>
+          <FormGroup>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
+              {
+                option.variations.map((variation, j) =>
+                  <FormControlLabel
+                    key={j}
+                    control={
+                      <Chip
+                        label={variation}
+                        clickable
+                        color={selectedVariation === variation ? "primary" : "default"}
+                        onClick={() => handleVariationChange(variation)}
+                      />
+                    }
+                  />
+                )
               }
-            />
-            <FormControlLabel
-              control={
-                <Chip
-                  label="24oz"
-                  clickable
-                  color={selectedSize === "24oz" ? "primary" : "default"}
-                  onClick={() => handleSizeChange("24oz")}
-                />
-              }
-            />
-          </Box>
-        </FormGroup>
-      </Box>
+            </Box>
+          </FormGroup>
+        </Box>
+      )}
 
       <Box mt={3}>
         <Typography variant="subtitle2">
@@ -212,6 +167,7 @@ const ProductDetailInformationPanel = ({ information }) => {
 
 ProductDetailInformationPanel.propTypes = {
   information: PropTypes.string,
+  options: PropTypes.object,
 };
 
 export default ProductDetailInformationPanel;
