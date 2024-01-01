@@ -61,7 +61,26 @@ itemRoute.get('/single/:productID', async (req, res) => {
       image: itemData.data.image_url,
       rating: 4,
       information: dom.window.document.body.innerHTML,
-      option: ["slice", "whole"],
+      option: {
+        free: [
+          {
+            name: "Variations",
+            variations: ["Sliced", "Whole"]
+          },
+        ],
+        addons: [
+          {
+            name: "Size",
+            variations: [
+              {
+                name: "small",
+                cost: 20
+              }
+            ]
+          }
+        ]
+      },
+
       uploads: [
         {
           url: "/assets/images/products/1.png",
