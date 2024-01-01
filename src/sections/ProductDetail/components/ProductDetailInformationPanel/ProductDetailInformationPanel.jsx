@@ -11,28 +11,35 @@ import {
   Button,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ProductDetailInformationPanel = ({ information, options }) => {
-  const [selectedVariation, setSelectedVariation] = useState(null);
+  const [selectedVariation, setSelectedVariation] = useState([]);
   const [selectedAddons, setSelectedAddons] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleVariationChange = (variation) => {
-    setSelectedVariation(variation);
+  const handleVariationChange = (variation, i) => {
+    const modifiedVariation = [...selectedVariation];
+    modifiedVariation[i] = variation;
+    setSelectedVariation(modifiedVariation);
   };
+
 
   const handleAddonsChange = (event) => {
     setSelectedAddons(event.target.value);
   };
 
-  const clearVariation = () => {
-    setSelectedVariation(null);
-  };
-
   const clearAddons = () => {
     setSelectedAddons(null);
   };
+
+  useEffect(() => {
+    setSelectedVariation(options.free.map((option) => option.variations[0]))
+  }, [options.free])
+
+  useEffect(() => {
+    console.log("Seclected: ", selectedVariation)
+  }, [selectedVariation])
 
   return (
     <div>
@@ -44,9 +51,6 @@ const ProductDetailInformationPanel = ({ information, options }) => {
         <Box mt={3} key={i}>
           <Typography variant="subtitle2">
             {option.name}
-            <span style={{ float: "right" }}>
-              <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
-            </span>
           </Typography>
           <FormGroup>
             <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
@@ -58,8 +62,8 @@ const ProductDetailInformationPanel = ({ information, options }) => {
                       <Chip
                         label={variation}
                         clickable
-                        color={selectedVariation === variation ? "primary" : "default"}
-                        onClick={() => handleVariationChange(variation)}
+                        color={selectedVariation[i] === variation ? "primary" : "default"}
+                        onClick={() => handleVariationChange(variation, i)}
                       />
                     }
                   />

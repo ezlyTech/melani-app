@@ -67,6 +67,10 @@ itemRoute.get('/single/:productID', async (req, res) => {
             name: "Variations",
             variations: ["Sliced", "Whole"]
           },
+          {
+            name: "Size",
+            variations: ["Small", "Large"]
+          },
         ],
         addons: [
           {
