@@ -8,6 +8,7 @@ import {
   Chip,
   Box,
   Divider,
+  Button,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import { useState } from "react";
 const ProductDetailInformationPanel = ({ information }) => {
   const [selectedVariation, setSelectedVariation] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedAddons, setSelectedAddons] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleVariationChange = (option) => {
@@ -25,13 +27,34 @@ const ProductDetailInformationPanel = ({ information }) => {
     setSelectedSize(option);
   };
 
+  const handleAddonsChange = (event) => {
+    setSelectedAddons(event.target.value);
+  };
+
+  const clearVariation = () => {
+    setSelectedVariation(null);
+  };
+
+  const clearSize = () => {
+    setSelectedSize(null);
+  };
+
+  const clearAddons = () => {
+    setSelectedAddons(null);
+  };
+
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
 
       {/* Option for Cakes */}
       <Box mt={3}>
-        <Typography variant="subtitle2">Variation</Typography>
+        <Typography variant="subtitle2">
+          Variation
+          <span style={{ float: "right" }}>
+            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
+          </span>
+        </Typography>
         <FormGroup>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
             <FormControlLabel
@@ -60,7 +83,12 @@ const ProductDetailInformationPanel = ({ information }) => {
 
       {/* Option for Drinks */}
       <Box mt={3}>
-        <Typography variant="subtitle2">Size</Typography>
+        <Typography variant="subtitle2">
+          Size
+          <span style={{ float: "right" }}>
+            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedSize} onClick={clearSize}>Clear</Button>
+          </span>
+        </Typography>
         <FormGroup>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
             <FormControlLabel
@@ -88,7 +116,12 @@ const ProductDetailInformationPanel = ({ information }) => {
       </Box>
 
       <Box mt={3}>
-        <Typography variant="subtitle2">Upgrade your drink</Typography>
+        <Typography variant="subtitle2">
+          Size
+          <span style={{ float: "right" }}>
+            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedAddons} onClick={clearAddons}>Clear</Button>
+          </span>
+        </Typography>
         <Typography variant="caption">Select one</Typography> <br />
         <FormControl
           sx={{
@@ -101,6 +134,8 @@ const ProductDetailInformationPanel = ({ information }) => {
             aria-labelledby="demo-radio-buttons-group-label"
             // defaultValue="female"
             name="radio-buttons-group"
+            value={selectedAddons}
+            onChange={handleAddonsChange}
           >
             <FormControlLabel
               value="espresso"
