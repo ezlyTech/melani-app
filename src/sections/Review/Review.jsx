@@ -1,31 +1,42 @@
-
 import {
+  Box,
+  Modal,
+  Input,
+  Rating,
+  Button,
+  Container,
+  Accordion,
+  TextField,
   Typography,
   AccordionSummary,
   AccordionDetails,
-  Accordion,
-  Container,
-  Box,
-  Rating,
-  TextField,
-  Button,
 } from "@mui/material"
 
 import { useState } from "react";
 
-
 const Review = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
 
   const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpanded(isExpanded ? [...expanded, panel] : expanded.filter((p) => p !== panel));
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <Container>
-      <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}
+      <Accordion
+        expanded={expanded.includes("panel1")}
+        onChange={handleChange("panel1")}
         sx={{
-          backgroundColor: "#FFFAF6",
           borderRadius: "15px",
           marginBottom: "8px"
         }}>
@@ -35,7 +46,7 @@ const Review = () => {
           id="panel1bh-header"
         >
           <Box sx={{ display: "flex", gap: "1em" }}>
-            <img src="/assets/images/products/2.png"
+            <img src="/assets/images/products/1.png"
               alt=""
               style={{
                 height: "75px",
@@ -44,7 +55,7 @@ const Review = () => {
                 borderRadius: "15px"
               }} />
             <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Double Choco Cake</Typography>
+              <Typography sx={{ fontWeight: "bold" }}>Double Choco</Typography>
               <Typography>1x Slice</Typography>
               <Rating /></Box>
           </Box>
@@ -53,16 +64,27 @@ const Review = () => {
 
         <AccordionDetails>
           <Typography>
-            <TextField id="outlined-basic" label="Write a review" variant="outlined" sx={{ width: "100%" }} />
+            <TextField
+              id="outlined-basic"
+              label="Write a review"
+              variant="outlined"
+              sx={{ width: "100%" }}
+            />
           </Typography>
+
+          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+            Upload Photo
+            <Input type="file" style={{ display: "none" }} />
+          </Button>
 
         </AccordionDetails>
       </Accordion>
 
 
-      <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}
+      <Accordion
+        expanded={expanded.includes("panel2")}
+        onChange={handleChange("panel2")}
         sx={{
-          backgroundColor: "#FFFAF6",
           borderRadius: "15px",
           marginBottom: "8px"
         }}>
@@ -87,24 +109,150 @@ const Review = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <TextField id="outlined-basic" label="Write a review" variant="outlined" sx={{ width: "100%" }} />
+            <TextField
+              id="outlined-basic"
+              label="Write a review"
+              variant="outlined"
+              sx={{ width: "100%" }}
+            />
           </Typography>
+
+          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+            Upload Photo
+            <Input type="file" style={{ display: "none" }} />
+          </Button>
 
         </AccordionDetails>
       </Accordion>
 
-      <Button variant="contained"
+
+      <Accordion
+        expanded={expanded.includes("panel3")}
+        onChange={handleChange("panel3")}
+        sx={{
+          borderRadius: "15px",
+          marginBottom: "8px"
+        }}>
+        <AccordionSummary
+          //  expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Box sx={{ display: "flex", gap: "1em" }}>
+            <img src="/assets/images/products/3.png"
+              alt=""
+              style={{
+                height: "75px",
+                width: "106px",
+                objectFit: "cover",
+                borderRadius: "15px"
+              }} />
+            <Box>
+              <Typography sx={{ fontWeight: "bold" }}>Red Velvet</Typography>
+              <Typography>1x Slice</Typography>
+              <Rating /></Box>
+          </Box>
+
+        </AccordionSummary>
+
+        <AccordionDetails>
+          <Typography>
+            <TextField
+              id="outlined-basic"
+              label="Write a review"
+              variant="outlined"
+              sx={{ width: "100%" }} />
+          </Typography>
+
+          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+            Upload Photo
+            <Input type="file" style={{ display: "none" }} />
+          </Button>
+
+        </AccordionDetails>
+      </Accordion>
+
+
+
+      <Button onClick={handleOpen} variant="contained" color="primary"
         sx={{
           width: "90%",
           borderRadius: "31px",
           position: "fixed",
           bottom: "20px",
-          display: "block"
-        }}
-      >Submit</Button>
-    </Container >
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}>
+        Submit
+      </Button>
 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: {
+              xs: "90%",
+              sm: "70%",
+              md: "60%",
+              lg: "50%"
+            },
+            height: {
+              xs: "60%",
+              sm: "50%",
+              md: "40%",
+              lg: "35%"
+            },
+            bgcolor: "background.paper",
+            p: 2,
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}>
+          <Box
+            id="modal-modal-title"
+            sx={{
+              mb: {
+                xs: "16px",
+                md: "22px"
+              }
+            }}>
+            <img src="/assets/images/checkmark.png" alt="" style={{ width: "100%" }} />
+          </Box>
+          <Typography
+            id="modal-modal-description"
+            variant="h6"
+            component="h2"
+            sx={{
+              mb: {
+                xs: "24px",
+                md: "40px"
+              }
+            }}>
+            Review Submitted!
+          </Typography>
+          <Button onClick={handleClose} variant="contained"
+            sx={{
+              width: "100%",
+              borderRadius: "31px",
+              color: "#FFF",
+            }} >
+            Back to Main Menu
+          </Button>
+        </Box>
+      </Modal>
 
+    </Container>
 
   )
 }
