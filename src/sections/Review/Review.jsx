@@ -33,6 +33,13 @@ const Review = () => {
 
   return (
     <Container>
+      <Container sx={{ background: "#888c05", p: 2, borderRadius: "1em" }}>
+        <Typography variant="caption" color='#FFF'>
+          Thank you for choosing <b> Melani&apos;s Bakehouse! </b> We&apos;re crafting a sweet surprise just for you. How was your ordering experience? <br /> <br />
+          <b> Share your thoughts and help us sprinkle more joy into each order! 🍰</b>
+        </Typography>
+      </Container>
+
       <Accordion
         expanded={expanded.includes("panel1")}
         onChange={handleChange("panel1")}
