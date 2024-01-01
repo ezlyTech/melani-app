@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 
 const ProductDetailInformationPanel = ({ information, options }) => {
   const [selectedVariation, setSelectedVariation] = useState([]);
-  const [selectedAddons, setSelectedAddons] = useState(null);
+  const [selectedAddons, setSelectedAddons] = useState(Array(options.addons.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
 
   const handleVariationChange = (variation, i) => {
@@ -24,22 +24,29 @@ const ProductDetailInformationPanel = ({ information, options }) => {
     setSelectedVariation(modifiedVariation);
   };
 
-
-  const handleAddonsChange = (event) => {
-    setSelectedAddons(event.target.value);
+  const handleAddonsChange = (event, i) => {
+    const modifiedAddons = [...selectedAddons]
+    modifiedAddons[i] = event.target.value
+    setSelectedAddons(modifiedAddons)
   };
 
-  const clearAddons = () => {
-    setSelectedAddons(null);
+  const clearAddons = (index) => {
+    const clearedAddons = [...selectedAddons]
+    clearedAddons[index] = ""
+    setSelectedAddons(clearedAddons)
   };
 
   useEffect(() => {
-    setSelectedVariation(options.free.map((option) => option.variations[0]))
-  }, [options.free])
+    setSelectedVariation(options.free.map((option) => option.variations[0]));
+  }, [options.free]);
 
   useEffect(() => {
-    console.log("Seclected: ", selectedVariation)
-  }, [selectedVariation])
+    setSelectedAddons(Array(options.addons.length).fill(""));
+  }, [options.addons]);
+
+  useEffect(() => {
+    console.log(selectedAddons)
+  }, [selectedAddons])
 
   return (
     <div>
@@ -74,70 +81,63 @@ const ProductDetailInformationPanel = ({ information, options }) => {
         </Box>
       )}
 
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Size
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedAddons} onClick={clearAddons}>Clear</Button>
-          </span>
-        </Typography>
-        <Typography variant="caption">Select one</Typography> <br />
-        <FormControl
-          sx={{
-            width: "100%",
-            "& .MuiFormControlLabel-label": {
-              width: "100%"
-            }
-          }}>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            // defaultValue="female"
-            name="radio-buttons-group"
-            value={selectedAddons}
-            onChange={handleAddonsChange}
-          >
-            <FormControlLabel
-              value="espresso"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Espresso Shot
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-            <FormControlLabel
-              value="milk"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Milk
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-            <FormControlLabel
-              value="vanilla"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Vanilla
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-          </RadioGroup>
-        </FormControl>
-      </Box>
+      {/* Options with additional cost */}
+
+      {
+        options.addons.map((addon, i) =>
+          <Box mt={3} key={i}>
+            <Typography variant="subtitle2">
+              {addon.name}
+              <span style={{ float: "right" }}>
+                <Button
+                  sx={{ fontWeight: 500 }}
+                  size="small"
+                  disabled={selectedAddons[i] === ""}
+                  onClick={() => clearAddons(i)}
+                >
+                  Clear
+                </Button>
+
+              </span>
+            </Typography>
+            <Typography variant="caption">Select one</Typography> <br />
+            <FormControl
+              sx={{
+                width: "100%",
+                "& .MuiFormControlLabel-label": {
+                  width: "100%"
+                }
+              }}>
+              <RadioGroup
+                aria-labelledby={`addon-radio-group-${i}`}
+                name={`addon-radio-group-${i}`}
+                value={selectedAddons[i]}
+                onChange={(event) => handleAddonsChange(event, i)}
+              >
+                {
+                  addon.variations.map((variation, j) =>
+                    <FormControlLabel
+                      key={j}
+                      value={variation.name}
+                      control={<Radio size="small" />}
+                      label={(
+                        <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                          <Typography fontSize='14px'>
+                            {variation.name}
+                          </Typography>
+                          <Typography fontSize='14px' color='#525252'>
+                            {`₱ + ${variation.cost.toFixed(2)}`}
+                          </Typography>
+                        </Box>
+                      )} />
+                  )
+                }
+
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        )
+      }
 
       <Divider sx={{ mt: 2 }} />
 
