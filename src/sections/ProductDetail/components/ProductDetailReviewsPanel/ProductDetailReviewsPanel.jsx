@@ -62,7 +62,7 @@ const ProductDetailReviewsPanel = ({ reviews }) => (
 )
 
 ProductDetailReviewsPanel.propTypes = {
-  reviews: PropTypes.object,
+  reviews: PropTypes.array,
 };
 
 export default ProductDetailReviewsPanel

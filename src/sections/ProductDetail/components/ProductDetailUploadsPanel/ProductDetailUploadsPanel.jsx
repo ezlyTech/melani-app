@@ -27,7 +27,7 @@ const ProductDetailUploadsPanel = ({ uploads }) => (
 )
 
 ProductDetailUploadsPanel.propTypes = {
-  uploads: PropTypes.object,
+  uploads: PropTypes.array,
 };
 
 export default ProductDetailUploadsPanel
