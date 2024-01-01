@@ -2,27 +2,52 @@ import {
   Container,
   Typography,
   Box,
-  Button
+  Button,
+  Grid
 } from "@mui/material";
 import React from "react";
+import { useRouter } from "src/routes/hooks";
+
 
 
 const ReceiptBlock = () => {
   const store = "Melani's Bakehouse";
   const address = "30 Bayacal Street, Sabutan, Silang, Cavite, Philippines";
   const orderNum = 69; 
-  const cashierName = "Soobin"
+  const customerName = "Soobin"
+  const tableNum = 3;
 
   const items = [
     { name: "Double Choco Cake", price: 120.00 },
     { name: "Biscuit Munch", price: 146.00 },
-  ]
-
-  const subtotal = items.reduce((acc, item) => acc + item.price, 0);
-  const discountRate = 0.1; // 10% discount rate
-  const discount = subtotal * discountRate;
-  const total = subtotal - discount;
+  ];
   
+  const userDiscountRates = {
+    "Double Choco Cake": 0.1, // 10%
+    "Biscuit Munch": 0.1, // 10%
+  };
+  
+  const calculateItemTotal = (item) => {
+    const discountRate = userDiscountRates[item.name] || 0;
+    const itemDiscount = item.price * discountRate;
+    const itemTotal = item.price - itemDiscount;
+    return { original: item.price, discounted: itemTotal };
+  };
+  
+  const subtotal = items.reduce((acc, item) => acc + calculateItemTotal(item).original, 0);
+  const total = items.reduce((acc, item) => acc + calculateItemTotal(item).discounted, 0);
+  
+
+  
+  const router = useRouter();
+  const redirectToReview = () => {
+    
+    if (router.push) {
+      router.push("/review");
+    } else {
+      router.push("/404")
+    }
+  };
   
   return (
     <Container>
@@ -53,34 +78,63 @@ const ReceiptBlock = () => {
           Order Number
         </Typography>
         <h5>Time & Date: 5:53 03/04/19</h5>
-        <h5>Cashier: {cashierName}</h5>
+        <h5>Table Number: {tableNum}</h5>
+        <h5>Customer: {customerName}</h5>
       </Box>
 
-      <Box 
-        sx={{ 
-          pb: 5,
-          borderTop: 1,
-          "& ul": {
-            listStyleType: "none",
-            pl: 1,
-            "& li":{
-              display: "flex",
-              justifyContent: "space-between", 
-              marginBottom: "8px",
-              fontWeight: "bold",
-            }
-          }
-        }} >
-        
-        <ul>
-          {items.map((item, index) => (
-            <li key={index}>
-              <span>{item.name}:</span>
-              <span>₱{item.price.toFixed(2)}</span>
-            </li>
-          ))}
-        </ul>
+
+      <Box sx={{ 
+        flexGrow: 2,
+        pb: 2,
+        borderTop: 1,
+        widht: "100%",
+      }}>
+        {items.map((item, index) => (
+          <Grid container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            key={index}>
+
+            {/* Orig Price */}
+            <Grid item xs={8}>
+              <strong>
+                <p>{item.name}:</p>
+              </strong>
+            </Grid>
+            <Grid item xs={4} >
+              <strong>
+                <p style={{ textAlign: "end" }}>₱{item.price.toFixed(2)}</p>
+              </strong>
+              
+            </Grid>
+
+            {/* DISCOUNT */}
+            <Grid item xs={8}>
+              <p  
+                style={{ 
+                  marginTop:-5,
+                  marginLeft: 10,
+                  marginBottom:2,
+                  color:"#979797"
+                }}>
+                Student Discount ({(userDiscountRates[item.name] * 100).toFixed(2)}%):
+              </p>
+            </Grid>
+            <Grid item xs={4} >
+              <p style={{ 
+                textAlign: "end", 
+                marginTop:-5,
+                marginBottom:2,
+                color:"#979797"
+              }}>
+                -₱{(item.price * userDiscountRates[item.name]).toFixed(2)}
+              </p>
+            </Grid>
+          </Grid>
+        ))}
       </Box>
+
 
       <Box>
         <Typography
@@ -91,28 +145,28 @@ const ReceiptBlock = () => {
             mb: 2,
             "& strong": {
               mt: 1,
+              ml:1,
               display: "flex",
               justifyContent: "space-between",
-              width: "100%",
+              width: "95%",
             },
           }}
         >
           <strong>
             <span>Subtotal:</span>
-            <span >₱{subtotal.toFixed(2)}</span>
+            <span>₱{subtotal.toFixed(2)}</span>
           </strong>
 
-          <strong>
-            <span>
-        Discount: Student ({(discountRate * 100).toFixed(2)}%):
-            </span>
-            <span>-₱{discount.toFixed(2)}</span>
-          </strong>
-          
+          {items.map((item, index) => (
+            <strong key={index}>
+              <span>
+                {item.name}: ({(-userDiscountRates[item.name] * 100).toFixed(2)}%):
+              </span>
+              <span>-₱{(item.price * userDiscountRates[item.name]).toFixed(2)}</span>
+            </strong>
+          ))}
         </Typography>
 
-          
-        
         <Box 
           sx={{
             borderTop: 1,
@@ -128,8 +182,6 @@ const ReceiptBlock = () => {
           
         </Box>
       </Box>
-      <subTotalBlock/>
-
       <Button
         fullWidth
         size='large'
@@ -137,14 +189,14 @@ const ReceiptBlock = () => {
         sx={{
           borderColor: "#888C03",
           background: "#888C03",
-          borderRadius: "31px",
-          mb: 2,
-          mt: 6,
-          color: "#FFF"
+          color: "#FFF",
+          borderRadius: "30px",
+          mt:5,
+          mb: 2
         }}
-        onClick={console.log("Clicked")}
+        onClick={redirectToReview}
       >
-          DONE
+            Done
       </Button>
     </Container>
   );
