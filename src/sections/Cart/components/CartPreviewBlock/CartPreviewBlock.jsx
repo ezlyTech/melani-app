@@ -2,16 +2,14 @@ import {
   Container,
   Box,
   Grid,
-  Autocomplete,
   Typography,
   Button,
   TextField,
 } from "@mui/material"
 import { PropTypes } from "prop-types"
-import { useState } from "react";
 
 const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
-  const [voucherDiscount, setVoucherDiscount] = useState(0);
+  // const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   const subtotal = sampleCartItems.reduce(
     (total, item) =>
@@ -19,33 +17,33 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
     0
   );
 
-  const total = subtotal * (1 - voucherDiscount);
+  const total = subtotal * (1);
 
-  const handleVoucherSelect = (event, value) => {
-    if (value) {
-      setVoucherDiscount(value.discount);
-    } else {
-      setVoucherDiscount(0);
-    }
-  };
+  // const handleVoucherSelect = (event, value) => {
+  //   if (value) {
+  //     setVoucherDiscount(value.discount);
+  //   } else {
+  //     setVoucherDiscount(0);
+  //   }
+  // };
 
-  const voucher = [
-    {
-      id: 1,
-      label: "Student",
-      discount: 0.125
-    },
-    {
-      id: 2,
-      label: "Person w/ Disabilities",
-      discount: 0.1
-    },
-    {
-      id: 3,
-      label: "Senior",
-      discount: 0.1
-    }
-  ]
+  // const voucher = [
+  //   {
+  //     id: 1,
+  //     label: "Student",
+  //     discount: 0.125
+  //   },
+  //   {
+  //     id: 2,
+  //     label: "Person w/ Disabilities",
+  //     discount: 0.1
+  //   },
+  //   {
+  //     id: 3,
+  //     label: "Senior",
+  //     discount: 0.1
+  //   }
+  // ]
 
   return (
     <Container
@@ -62,7 +60,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
         <Typography variant="caption">
           {sampleCartItems.length} items
         </Typography>
-        <Autocomplete
+        {/* <Autocomplete
           disablePortal
           id="combo-box-demo"
           options={voucher}
@@ -70,7 +68,8 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
           onChange={handleVoucherSelect}
           sx={{ mt: 1, mb: 2 }}
           renderInput={(params) => <TextField {...params} label="Voucher" />}
-        />
+        /> */}
+        <TextField label="Table Number" variant="outlined" sx={{ width: "100%", mt: 1, mb: 1 }} />
       </Box>
       <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
