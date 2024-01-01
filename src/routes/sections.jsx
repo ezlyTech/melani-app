@@ -31,7 +31,7 @@ export default function Router() {
       element: <LoginGuestPage />,
     },
     {
-      path: "receipt-page",
+      path: "receipt",
       element: <ReceiptPage />,
     },
     {
