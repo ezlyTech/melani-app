@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import usePreventReload from "src/routes/hooks/usePreventReload";
 import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
@@ -28,6 +29,8 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
+  usePreventReload()
 
   return (
     !isLoading &&
