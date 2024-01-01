@@ -41,7 +41,7 @@ const ProductDetailInformationPanel = ({ information, options }) => {
   }, [options.free]);
 
   useEffect(() => {
-    setSelectedAddons(Array(options.addons.length).fill(""));
+    setSelectedAddons(options.addons.map((option) => option.variations[0].name));
   }, [options.addons]);
 
   useEffect(() => {
