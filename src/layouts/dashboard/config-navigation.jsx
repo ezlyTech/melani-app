@@ -16,25 +16,35 @@ const navConfig = [
   //   icon: icon("ic_user"),
   // },
   // {
-  //   title: "menu",
-  //   path: "/menu",
-  //   icon: icon("ic_cart"),
-  // },
-  // {
   //   title: "blog",
   //   path: "/blog",
   //   icon: icon("ic_blog"),
   // },
   {
+    title: "home",
+    path: "/home",
+    icon: icon("ic_home"),
+  },
+  {
+    title: "cart",
+    path: "/cart",
+    icon: icon("ic_cart"),
+  },
+  {
+    title: "favorites",
+    path: "/favorites",
+    icon: icon("ic_bookmark"),
+  },
+  {
     title: "logout",
     path: "/",
     icon: icon("ic_lock"),
   },
-  {
-    title: "Not found",
-    path: "/404",
-    icon: icon("ic_disabled"),
-  },
+  // {
+  //   title: "Not found",
+  //   path: "/404",
+  //   icon: icon("ic_disabled"),
+  // },
 ];
 
 export default navConfig;
