@@ -36,6 +36,11 @@ const navConfig = [
     icon: icon("ic_bookmark"),
   },
   {
+    title: "rate us",
+    path: "/review",
+    icon: icon("ic_review"),
+  },
+  {
     title: "logout",
     path: "/",
     icon: icon("ic_lock"),
