@@ -18,8 +18,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
     0
   );
 
-  const total = subtotal;
-  // const total = subtotal * (1 - voucherDiscount);
+  const total = subtotal * (1);
 
   // const handleVoucherSelect = (event, value) => {
   //   if (value) {
@@ -58,28 +57,22 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
         boxShadow: "0px -5px 5px 0px rgba(0, 0, 0, 0.04)"
       }}
     >
-      <Typography variant="caption">
-        {sampleCartItems.length} items
-      </Typography>
-      <TextField
-        required
-        id="outlined-number"
-        label="Table Number"
-        type="number"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        size="small"
-        sx={{
-          width:"100%",
-          // pt: 1,
-          mt: 2,
-          pb: 2,
-          borderBottom: "1px solid #637381"
-        }}
-      />
-
-      <Grid container spacing={2} sx={{pt: 1, mb: 2}}>
+      <Box pt={1}>
+        <Typography variant="caption">
+          {sampleCartItems.length} items
+        </Typography>
+        {/* <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={voucher}
+          getOptionLabel={(option) => option.label}
+          onChange={handleVoucherSelect}
+          sx={{ mt: 1, mb: 2 }}
+          renderInput={(params) => <TextField {...params} label="Voucher" />}
+        /> */}
+        <TextField label="Table Number" variant="outlined" sx={{ width: "100%", mt: 1, mb: 1 }} />
+      </Box>
+      <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
           <Typography variant="subtitle2" color="#000">Subtotal:</Typography>
         </Grid>
