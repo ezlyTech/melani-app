@@ -9,9 +9,11 @@ import {
   Box,
   Divider,
   Button,
+  IconButton
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import Iconify from "src/components/iconify";
 
 const ProductDetailInformationPanel = ({ information }) => {
   const [selectedVariation, setSelectedVariation] = useState(null);
@@ -43,8 +45,40 @@ const ProductDetailInformationPanel = ({ information }) => {
     setSelectedAddons(null);
   };
 
+  const discountIsAvailable = true;
+
   return (
     <div>
+      {discountIsAvailable && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            m: "-24px -40px 10px -40px",
+            background: "#FFF1E6"
+          }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: "bold",
+              pl: 5
+            }}>
+            Discount Available:
+            <span
+              style={{
+                fontWeight: "normal",
+                paddingLeft: 5
+              }}>
+              Student, Senior, PWDs
+            </span>
+          </Typography>
+          <IconButton sx={{ mr: 2 }}>
+            <Iconify icon="mdi:information-outline" />
+          </IconButton>
+        </Box>
+      )}
+
       <Typography variant="body2">{information}</Typography>
 
       {/* Option for Cakes */}
@@ -56,7 +90,13 @@ const ProductDetailInformationPanel = ({ information }) => {
           </span>
         </Typography>
         <FormGroup>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mt: 1,
+              ml: 1.5
+            }}>
             <FormControlLabel
               control={
                 <Chip
