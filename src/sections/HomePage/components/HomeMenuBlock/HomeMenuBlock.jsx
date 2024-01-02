@@ -56,7 +56,7 @@ const HomeMenuBlock = ({ title, category }) => {
 
 HomeMenuBlock.propTypes = {
   title: PropTypes.string,
-  category: PropTypes.array
+  category: PropTypes.object
 };
 
 export default HomeMenuBlock;
