@@ -11,13 +11,14 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Chip,
 } from "@mui/material"
 import Iconify from "src/components/iconify";
 import { PropTypes } from "prop-types";
 import { useState } from "react";
 
-const CartItemBlock = ({ sampleCartItems, quantities, setQuantities }) => {
+const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, selectedSize, setSelectedSize, clearAddons }) => {
   const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   const handleVoucherSelect = (event, value) => {
@@ -63,6 +64,7 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities }) => {
   };
 
   console.log(voucherDiscount)
+  console.log(selectedSize)
   return (
     <Container>
       <Typography 
@@ -93,7 +95,8 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities }) => {
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    ml: 2
+                    ml: 2,
+                    gap: .5
                   }}>
                   <CardContent
                     sx={{
@@ -113,6 +116,36 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities }) => {
                       ₱ {product.price}
                     </Typography>
                   </CardContent>
+                  <FormControl 
+                    sx={{ 
+                      width:  "fit-content",
+                      minWidth: 80, 
+                      fontSize: "1rem", 
+                      zIndex:0, 
+                      height: "auto",
+                      // p: .1,
+                      "& .MuiOutlinedInput-input": {
+                        fontSize: 12,
+                      }
+                    }} 
+                    size="small">
+                    <InputLabel id="demo-select-small-label">Size</InputLabel>
+                    <Select
+                      labelId="demo-select-small-label"
+                      id="demo-select-small"
+                      value={selectedSize}
+                      label="Size"
+                      onChange={(event) => setSelectedSize(event.target.value)}
+                    >
+                      <MenuItem value="default">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="16oz">16oz</MenuItem>
+                      <MenuItem value="24oz">24oz</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Chip label="Expresso Shot" variant="outlined" onDelete={<IconButton size="small">{clearAddons}</IconButton>} sx={{width: "fit-content", height:20}} />
+                  <Chip label="Milk" variant="outlined" onDelete={<IconButton size="small">{clearAddons}</IconButton>} sx={{width: "fit-content", height:20}} />
                 </Box>
               </Grid>
 
@@ -209,6 +242,9 @@ CartItemBlock.propTypes = {
   sampleCartItems: PropTypes.array.isRequired,
   quantities: PropTypes.object.isRequired,
   setQuantities: PropTypes.func.isRequired,
+  selectedSize: PropTypes.string.isRequired,
+  setSelectedSize: PropTypes.func.isRequired,
+  clearAddons: PropTypes.func.isRequired,
 };
 
 export default CartItemBlock
