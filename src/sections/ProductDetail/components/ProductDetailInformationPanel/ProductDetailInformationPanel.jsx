@@ -153,7 +153,7 @@ const ProductDetailInformationPanel = ({ information }) => {
 
       <Box mt={3}>
         <Typography variant="subtitle2">
-          Size
+          Upgrade your Drink
           <span style={{ float: "right" }}>
             <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedAddons} onClick={clearAddons}>Clear</Button>
           </span>
