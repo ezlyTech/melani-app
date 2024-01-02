@@ -21,7 +21,7 @@ const navConfig = [
   //   icon: icon("ic_blog"),
   // },
   {
-    title: "home",
+    title: "menu",
     path: "/home",
     icon: icon("ic_home"),
   },
