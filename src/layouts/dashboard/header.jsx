@@ -37,7 +37,7 @@ export default function Header({ onOpenNav }) {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <NotificationsPopover /> */}
-        <IconButton onClick={navigate("/cart")}>
+        <IconButton onClick={() => navigate("/cart")}>
           <Badge badgeContent={4} color="primary">
             <Iconify icon="eva:shopping-cart-fill" />
           </Badge>
