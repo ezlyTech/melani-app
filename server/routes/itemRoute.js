@@ -40,6 +40,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
         'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
+
     // Create a DOM from the HTML content
     const dom = new JSDOM(itemData.data.description);
     const paragraphs = dom.window.document.querySelectorAll("p");
@@ -52,37 +53,68 @@ itemRoute.get('/single/:productID', async (req, res) => {
       }
       parent.removeChild(p);
     });
-
     console.log("successfully fetched an item")
+
+    let variants = {
+      free: [],
+      addon: []
+    }
+
+    let prices = []
+    let minimumPrice
+
+    for (let i in itemData.data.variants) {
+      prices.push(itemData.data.variants[i].stores[0].price)
+    }
+    prices.sort()
+    minimumPrice = prices[0]
+
+
+    if (itemData.data.option1_name && itemData.data.option2_name && itemData.data.option3_name) {
+
+    } else if (itemData.data.option1_name && itemData.data.option2_name) {
+
+    } else if (itemData.data.option1_name) {
+      let isFree = true
+
+      for (let i in itemData.data.variants) {
+        if (itemData.data.variants[i].stores[0].price > minimumPrice) {
+          isFree = false
+          variants.addon.push({
+            name: itemData.data.option1_name,
+            variations: []
+          })
+          break
+        }
+      }
+      if (isFree) {
+        variants.free.push({
+          name: itemData.data.option1_name,
+          variations: []
+        })
+      }
+
+      for (let i in itemData.data.variants) {
+        if (isFree) {
+          variants.free[0].variations.push(itemData.data.variants[i].option1_value)
+        } else {
+          variants.addon[0].variations.push({
+            name: itemData.data.variants[i].option1_value,
+            cost: itemData.data.variants[i].stores[0].price - minimumPrice
+          })
+        }
+      }
+    }
 
     res.send({
       name: itemData.data.item_name,
-      price: itemData.data.variants[0].stores[0].price,
+      price: minimumPrice,
       image: itemData.data.image_url,
       rating: 4,
       information: dom.window.document.body.innerHTML,
       option: {
-        free: [
-          {
-            name: "Variations",
-            variations: ["Sliced", "Whole"]
-          },
-          {
-            name: "Size",
-            variations: ["Small", "Large"]
-          },
-        ],
-        addons: [
-          {
-            name: "Size",
-            variations: [
-              {
-                name: "small",
-                cost: 20
-              }
-            ]
-          }
-        ]
+        free: variants.free,
+        addons: variants.addon,
       },
 
       uploads: [
