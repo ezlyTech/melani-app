@@ -36,6 +36,12 @@ const ProductDetailInformationPanel = ({ information, options }) => {
     setSelectedAddons(clearedAddons)
   };
 
+  const clearVariation = (index) => {
+    const clearedVariations = [...selectedVariation]
+    clearedVariations[index] = ""
+    setSelectedVariation(clearedVariations)
+  };
+
   useEffect(() => {
     setSelectedVariation(options.free.map((option) => option.variations[0]));
   }, [options.free]);
