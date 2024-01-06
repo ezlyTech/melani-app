@@ -8,7 +8,7 @@ import {
   Chip,
   Box,
   Divider,
-  Button,
+  Button
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
@@ -48,12 +48,14 @@ const ProductDetailInformationPanel = ({ information, options }) => {
     <div>
       <Typography variant="body2">{information}</Typography>
 
-      {/* Options with no additional cost */}
-
+      {/* Option for Cakes */}
       {options.free.map((option, i) =>
         <Box mt={3} key={i}>
           <Typography variant="subtitle2">
             {option.name}
+            <span style={{ float: "right" }}>
+              <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
+            </span>
           </Typography>
           <FormGroup>
             <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
@@ -71,7 +73,7 @@ const ProductDetailInformationPanel = ({ information, options }) => {
                     }
                   />
                 )
-              }
+              }-
             </Box>
           </FormGroup>
         </Box>
