@@ -12,12 +12,13 @@ import { useResponsive } from "src/hooks/use-responsive";
 import { bgBlur } from "src/theme/css";
 import Iconify from "src/components/iconify";
 import Logo from "src/components/logo";
+import { useNavigate } from "react-router-dom";
 import { NAV, HEADER } from "./config-layout";
 // import NotificationsPopover from "./common/notifications-popover";
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-
+  const navigate = useNavigate();
   const lgUp = useResponsive("up", "lg");
 
   const renderContent = (
@@ -36,7 +37,7 @@ export default function Header({ onOpenNav }) {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <NotificationsPopover /> */}
-        <IconButton href="/cart">
+        <IconButton onClick={() => navigate("/cart")}>
           <Badge badgeContent={4} color="primary">
             <Iconify icon="eva:shopping-cart-fill" />
           </Badge>

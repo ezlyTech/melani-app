@@ -11,180 +11,137 @@ import {
   Button
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const ProductDetailInformationPanel = ({ information }) => {
-  const [selectedVariation, setSelectedVariation] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedAddons, setSelectedAddons] = useState(null);
+const ProductDetailInformationPanel = ({ information, options }) => {
+  const [selectedVariation, setSelectedVariation] = useState([]);
+  const [selectedAddons, setSelectedAddons] = useState(Array(options.addons.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleVariationChange = (option) => {
-    setSelectedVariation(option);
+  const handleVariationChange = (variation, i) => {
+    const modifiedVariation = [...selectedVariation];
+    modifiedVariation[i] = variation;
+    setSelectedVariation(modifiedVariation);
   };
 
-  const handleSizeChange = (option) => {
-    setSelectedSize(option);
+  const handleAddonsChange = (event, i) => {
+    const modifiedAddons = [...selectedAddons]
+    modifiedAddons[i] = event.target.value
+    setSelectedAddons(modifiedAddons)
   };
 
-  const handleAddonsChange = (event) => {
-    setSelectedAddons(event.target.value);
+  const clearAddons = (index) => {
+    const clearedAddons = [...selectedAddons]
+    clearedAddons[index] = ""
+    setSelectedAddons(clearedAddons)
   };
 
-  const clearVariation = () => {
-    setSelectedVariation(null);
+  const clearVariation = (index) => {
+    const clearedVariations = [...selectedVariation]
+    clearedVariations[index] = ""
+    setSelectedVariation(clearedVariations)
   };
 
-  const clearSize = () => {
-    setSelectedSize(null);
-  };
+  useEffect(() => {
+    setSelectedVariation(options.free.map((option) => option.variations[0]));
+  }, [options.free]);
 
-  const clearAddons = () => {
-    setSelectedAddons(null);
-  };
+  useEffect(() => {
+    setSelectedAddons(options.addons.map((option) => option.variations[0].name));
+  }, [options.addons]);
 
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
 
       {/* Option for Cakes */}
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Variation
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
-          </span>
-        </Typography>
-        <FormGroup>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mt: 1,
-              ml: 1.5
-            }}>
-            <FormControlLabel
-              control={
-                <Chip
-                  label="Sliced"
-                  clickable
-                  color={selectedVariation === "sliced" ? "primary" : "default"}
-                  onClick={() => handleVariationChange("sliced")}
-                />
-              }
-            />
-            <FormControlLabel
-              control={
-                <Chip
-                  label="Whole"
-                  clickable
-                  color={selectedVariation === "whole" ? "primary" : "default"}
-                  onClick={() => handleVariationChange("whole")}
-                />
-              }
-            />
-          </Box>
-        </FormGroup>
-      </Box>
+      {options.free.map((option, i) =>
+        <Box mt={3} key={i}>
+          <Typography variant="subtitle2">
+            {option.name}
+            <span style={{ float: "right" }}>
+              <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
+            </span>
+          </Typography>
+          <FormGroup>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
+              {
+                option.variations.map((variation, j) =>
+                  <FormControlLabel
+                    key={j}
+                    control={
+                      <Chip
+                        label={variation}
+                        clickable
+                        color={selectedVariation[i] === variation ? "primary" : "default"}
+                        onClick={() => handleVariationChange(variation, i)}
+                      />
+                    }
+                  />
+                )
+              }-
+            </Box>
+          </FormGroup>
+        </Box>
+      )}
 
-      {/* Option for Drinks */}
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Size
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedSize} onClick={clearSize}>Clear</Button>
-          </span>
-        </Typography>
-        <FormGroup>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
-            <FormControlLabel
-              control={
-                <Chip
-                  label="16oz"
-                  clickable
-                  color={selectedSize === "16oz" ? "primary" : "default"}
-                  onClick={() => handleSizeChange("16oz")}
-                />
-              }
-            />
-            <FormControlLabel
-              control={
-                <Chip
-                  label="24oz"
-                  clickable
-                  color={selectedSize === "24oz" ? "primary" : "default"}
-                  onClick={() => handleSizeChange("24oz")}
-                />
-              }
-            />
-          </Box>
-        </FormGroup>
-      </Box>
+      {/* Options with additional cost */}
 
-      <Box mt={3}>
-        <Typography variant="subtitle2">
-          Upgrade your Drink
-          <span style={{ float: "right" }}>
-            <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedAddons} onClick={clearAddons}>Clear</Button>
-          </span>
-        </Typography>
-        <Typography variant="caption">Select one</Typography> <br />
-        <FormControl
-          sx={{
-            width: "100%",
-            "& .MuiFormControlLabel-label": {
-              width: "100%"
-            }
-          }}>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            // defaultValue="female"
-            name="radio-buttons-group"
-            value={selectedAddons}
-            onChange={handleAddonsChange}
-          >
-            <FormControlLabel
-              value="espresso"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Espresso Shot
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-            <FormControlLabel
-              value="milk"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Milk
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-            <FormControlLabel
-              value="vanilla"
-              control={<Radio size="small" />}
-              label={(
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <Typography fontSize='14px'>
-                    Vanilla
-                  </Typography>
-                  <Typography fontSize='14px' color='#525252'>
-                    ₱ + 20.00
-                  </Typography>
-                </Box>
-              )} />
-          </RadioGroup>
-        </FormControl>
-      </Box>
+      {
+        options.addons.map((addon, i) =>
+          <Box mt={3} key={i}>
+            <Typography variant="subtitle2">
+              {addon.name}
+              <span style={{ float: "right" }}>
+                <Button
+                  sx={{ fontWeight: 500 }}
+                  size="small"
+                  disabled={selectedAddons[i] === ""}
+                  onClick={() => clearAddons(i)}
+                >
+                  Clear
+                </Button>
+
+              </span>
+            </Typography>
+            <Typography variant="caption">Select one</Typography> <br />
+            <FormControl
+              sx={{
+                width: "100%",
+                "& .MuiFormControlLabel-label": {
+                  width: "100%"
+                }
+              }}>
+              <RadioGroup
+                aria-labelledby={`addon-radio-group-${i}`}
+                name={`addon-radio-group-${i}`}
+                value={selectedAddons[i]}
+                onChange={(event) => handleAddonsChange(event, i)}
+              >
+                {
+                  addon.variations.map((variation, j) =>
+                    <FormControlLabel
+                      key={j}
+                      value={variation.name}
+                      control={<Radio size="small" />}
+                      label={(
+                        <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                          <Typography fontSize='14px'>
+                            {variation.name}
+                          </Typography>
+                          <Typography fontSize='14px' color='#525252'>
+                            {`₱ + ${variation.cost.toFixed(2)}`}
+                          </Typography>
+                        </Box>
+                      )} />
+                  )
+                }
+
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        )
+      }
 
       <Divider sx={{ mt: 2 }} />
 
@@ -218,6 +175,7 @@ const ProductDetailInformationPanel = ({ information }) => {
 
 ProductDetailInformationPanel.propTypes = {
   information: PropTypes.string,
+  options: PropTypes.object,
 };
 
 export default ProductDetailInformationPanel;
