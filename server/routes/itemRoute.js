@@ -55,6 +55,8 @@ itemRoute.get('/single/:productID', async (req, res) => {
     });
     console.log("successfully fetched an item")
 
+
+    // SEARCH MINIMUM PRICE
     let options = []
     let prices = []
     let minimumPrice
@@ -65,6 +67,8 @@ itemRoute.get('/single/:productID', async (req, res) => {
     prices.sort()
     minimumPrice = prices[0]
 
+
+    // STRUCTURING ITEM OPTION DATA
 
     if (itemData.data.option1_name && itemData.data.option2_name && itemData.data.option3_name) {
       options.push({
@@ -134,6 +138,22 @@ itemRoute.get('/single/:productID', async (req, res) => {
       })
     }
 
+
+    // STRUCTURING ITEM MODIFIER DATA
+
+    let modifiers = []
+
+    if (itemData.data.modifier_ids.length > 0) {
+      for (let i in itemData.data.modifier_ids) {
+        const modifierData = await axios.get(`https://api.loyverse.com/v1.0/modifiers/${itemData.data.modifier_ids[i]}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+          }
+        })
+        modifiers.push(modifierData.data)
+      }
+    }
+
     res.send({
       name: itemData.data.item_name,
       price: minimumPrice,
@@ -141,6 +161,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
       rating: 4,
       information: dom.window.document.body.innerHTML,
       option: options,
+      addons: modifiers,
       variants: variantData,
       uploads: [
         {
