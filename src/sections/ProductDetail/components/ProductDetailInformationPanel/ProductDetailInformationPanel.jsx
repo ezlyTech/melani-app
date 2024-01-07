@@ -46,7 +46,7 @@ const ProductDetailInformationPanel = ({
     <div>
       <Typography variant="body2">{information}</Typography>
 
-      {/* Option for Cakes */}
+      {/* Options */}
       {options.map((option, i) =>
         <Box mt={3} key={i}>
           <Typography variant="subtitle2">
@@ -77,7 +77,7 @@ const ProductDetailInformationPanel = ({
         </Box>
       )}
 
-      {/* Options with additional cost */}
+      {/* Addons */}
 
       {/* {
         options.addons.map((addon, i) =>

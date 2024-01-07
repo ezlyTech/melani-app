@@ -130,7 +130,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
         option1: itemData.data.variants[i].option1_value || null,
         option2: itemData.data.variants[i].option2_value || null,
         option3: itemData.data.variants[i].option3_value || null,
-        price: itemData.data.variants[i].default_ptice
+        price: itemData.data.variants[i].stores[0].price
       })
     }
 

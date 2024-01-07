@@ -31,6 +31,8 @@ const ProductDetail = () => {
   const [productDetails, setProductDetails] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [selectedVariation, setSelectedVariation] = useState([]);
+  const [selectedVariantID, setSelectedVariantID] = useState("")
+  const [price, setPrice] = useState()
   const { productID } = useParams()
 
   const handleVariationChange = (variation, i) => {
@@ -77,14 +79,52 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productDetails && productDetails.option) {
       setSelectedVariation(productDetails.option.map((option) => option.variations[0]));
+      console.log(productDetails)
     }
   }, [productDetails?.option, productDetails]);
 
+  useEffect(() => {
+    if (productDetails && productDetails.variants) {
+      const matchingVariant = productDetails.variants.find((variant) => {
+
+        if (selectedVariation.length === 1) {
+          return variant.option1 === selectedVariation[0];
+        }
+
+        if (selectedVariation.length === 2) {
+          return (
+            variant.option1 === selectedVariation[0] &&
+            variant.option2 === selectedVariation[1]
+          );
+        }
+
+        if (selectedVariation.length === 3) {
+          return (
+            variant.option1 === selectedVariation[0] &&
+            variant.option2 === selectedVariation[1] &&
+            variant.option3 === selectedVariation[2]
+          );
+        }
+
+        return false;
+      });
+
+      if (matchingVariant) {
+        setSelectedVariantID(matchingVariant.variantID);
+      }
+    }
+  }, [selectedVariation, productDetails?.variants, productDetails]);
 
   useEffect(() => {
-    console.log(selectedVariation)
-  }, [selectedVariation])
+    if (productDetails && productDetails.option) {
+      setSelectedVariation(productDetails.option.map((option) => option.variations[0]));
+      console.log(productDetails)
+    }
+  }, [productDetails?.option, productDetails]);
 
+  useEffect(() => {
+    console.log(selectedVariantID)
+  }, [selectedVariantID])
 
   const SampleReviews = [
     {
