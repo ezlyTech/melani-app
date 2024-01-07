@@ -33,6 +33,7 @@ const ProductDetail = () => {
   const [selectedVariation, setSelectedVariation] = useState([]);
   const [selectedVariantID, setSelectedVariantID] = useState("")
   const [selectedAddons, setSelectedAddons] = useState([""]);
+  const [selectedAddonList, setSelectedAddonList] = useState([])
   const [price, setPrice] = useState()
   const { productID } = useParams()
 
@@ -48,10 +49,23 @@ const ProductDetail = () => {
   //   setSelectedVariation(clearedVariations)
   // };
 
-  const handleAddonsChange = (event, i) => {
+  const handleAddonsChange = (event, index) => {
     console.log("Handling addon change");
     const modifiedAddons = [...selectedAddons];
-    modifiedAddons[i] = event.target.value !== undefined ? event.target.value : "";
+    modifiedAddons[index] = event.target.value !== undefined ? event.target.value : "";
+
+    Object.keys(productDetails.addons).forEach((i) => {
+      Object.keys(productDetails.addons[i].modifier_options).forEach((j) => {
+        if (productDetails.addons[i].modifier_options[j].id === event.target.value) {
+          setSelectedAddonList([{
+            id: productDetails.addons[i].modifier_options[j].id,
+            price: productDetails.addons[i].modifier_options[j].price,
+          }])
+        }
+      });
+    });
+
+
     setSelectedAddons(modifiedAddons);
   };
 
@@ -139,7 +153,17 @@ const ProductDetail = () => {
         const matchingVariant = await productDetails.variants.find((variant) => variant.variantID === selectedVariantID);
 
         if (matchingVariant) {
-          setPrice(matchingVariant.price * quantity);
+          if (selectedAddonList.length > 0) {
+            let addonTotal = 0
+            Object.values(selectedAddonList).forEach((addon) => {
+              addonTotal += addon.price;
+            });
+
+            setPrice((matchingVariant.price + addonTotal) * quantity)
+          }
+          else {
+            setPrice(matchingVariant.price * quantity);
+          }
         }
       }
     };
@@ -150,6 +174,7 @@ const ProductDetail = () => {
     productDetails?.variants,
     productDetails,
     quantity,
+    selectedAddonList
   ])
 
   useEffect(() => {
