@@ -27,7 +27,7 @@ import {
 
 const ProductDetail = () => {
   const [value, setValue] = useState("1");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [productDetails, setProductDetails] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [selectedVariation, setSelectedVariation] = useState([]);
@@ -57,7 +57,7 @@ const ProductDetail = () => {
   };
 
   const handleDecrement = () => {
-    if (quantity > 0) {
+    if (quantity > 1) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
@@ -111,16 +111,16 @@ const ProductDetail = () => {
 
       if (matchingVariant) {
         setSelectedVariantID(matchingVariant.variantID);
+        setPrice(matchingVariant.price * quantity)
       }
     }
-  }, [selectedVariation, productDetails?.variants, productDetails]);
+  }, [
+    selectedVariation,
+    productDetails?.variants,
+    productDetails,
+    quantity,
+  ]);
 
-  useEffect(() => {
-    if (productDetails && productDetails.option) {
-      setSelectedVariation(productDetails.option.map((option) => option.variations[0]));
-      console.log(productDetails)
-    }
-  }, [productDetails?.option, productDetails]);
 
   useEffect(() => {
     console.log(selectedVariantID)
@@ -184,7 +184,7 @@ const ProductDetail = () => {
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography fontWeight={600}>₱ {productDetails.price}</Typography>
+            <Typography fontWeight={600}>₱ {price}</Typography>
           </Grid>
         </Grid>
 
