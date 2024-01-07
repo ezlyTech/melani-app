@@ -55,11 +55,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
     });
     console.log("successfully fetched an item")
 
-    let variants = {
-      free: [],
-      addon: []
-    }
-
+    let variants = []
     let prices = []
     let minimumPrice
 
@@ -75,34 +71,13 @@ itemRoute.get('/single/:productID', async (req, res) => {
     } else if (itemData.data.option1_name && itemData.data.option2_name) {
 
     } else if (itemData.data.option1_name) {
-      let isFree = true
+      variants.push({
+        name: itemData.data.option1_name,
+        variations: []
+      })
 
       for (let i in itemData.data.variants) {
-        if (itemData.data.variants[i].stores[0].price > minimumPrice) {
-          isFree = false
-          variants.addon.push({
-            name: itemData.data.option1_name,
-            variations: []
-          })
-          break
-        }
-      }
-      if (isFree) {
-        variants.free.push({
-          name: itemData.data.option1_name,
-          variations: []
-        })
-      }
-
-      for (let i in itemData.data.variants) {
-        if (isFree) {
-          variants.free[0].variations.push(itemData.data.variants[i].option1_value)
-        } else {
-          variants.addon[0].variations.push({
-            name: itemData.data.variants[i].option1_value,
-            cost: itemData.data.variants[i].stores[0].price - minimumPrice
-          })
-        }
+        variants[0].variations.push(itemData.data.variants[i].option1_value)
       }
     }
 
@@ -112,11 +87,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
       image: itemData.data.image_url,
       rating: 4,
       information: dom.window.document.body.innerHTML,
-      option: {
-        free: variants.free,
-        addons: variants.addon,
-      },
-
+      option: variants,
       uploads: [
         {
           url: "/assets/images/products/1.png",

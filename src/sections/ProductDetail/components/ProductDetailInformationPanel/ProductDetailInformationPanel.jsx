@@ -2,9 +2,9 @@ import {
   Typography,
   FormGroup,
   FormControlLabel,
-  FormControl,
-  RadioGroup,
-  Radio,
+  // FormControl,
+  // RadioGroup,
+  // Radio,
   Chip,
   Box,
   Divider,
@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 
 const ProductDetailInformationPanel = ({ information, options }) => {
   const [selectedVariation, setSelectedVariation] = useState([]);
-  const [selectedAddons, setSelectedAddons] = useState(Array(options.addons.length).fill(""));
+  // const [selectedAddons, setSelectedAddons] = useState(Array(options.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
 
   const handleVariationChange = (variation, i) => {
@@ -24,17 +24,17 @@ const ProductDetailInformationPanel = ({ information, options }) => {
     setSelectedVariation(modifiedVariation);
   };
 
-  const handleAddonsChange = (event, i) => {
-    const modifiedAddons = [...selectedAddons]
-    modifiedAddons[i] = event.target.value
-    setSelectedAddons(modifiedAddons)
-  };
+  // const handleAddonsChange = (event, i) => {
+  //   const modifiedAddons = [...selectedAddons]
+  //   modifiedAddons[i] = event.target.value
+  //   setSelectedAddons(modifiedAddons)
+  // };
 
-  const clearAddons = (index) => {
-    const clearedAddons = [...selectedAddons]
-    clearedAddons[index] = ""
-    setSelectedAddons(clearedAddons)
-  };
+  // const clearAddons = (index) => {
+  //   const clearedAddons = [...selectedAddons]
+  //   clearedAddons[index] = ""
+  //   setSelectedAddons(clearedAddons)
+  // };
 
   const clearVariation = (index) => {
     const clearedVariations = [...selectedVariation]
@@ -43,19 +43,27 @@ const ProductDetailInformationPanel = ({ information, options }) => {
   };
 
   useEffect(() => {
-    setSelectedVariation(options.free.map((option) => option.variations[0]));
-  }, [options.free]);
+    setSelectedVariation(options.map((option) => option.variations[0]));
+  }, [options]);
 
   useEffect(() => {
-    setSelectedAddons(options.addons.map((option) => option.variations[0].name));
-  }, [options.addons]);
+    console.log(selectedVariation)
+  }, [selectedVariation])
 
+  // useEffect(() => {
+  //   setSelectedAddons(options.addons.map((option) => option.variations[0].name));
+  // }, [options.addons]);
+
+
+  useEffect(() => {
+    console.log("options", options)
+  }, [options])
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
 
       {/* Option for Cakes */}
-      {options.free.map((option, i) =>
+      {options.map((option, i) =>
         <Box mt={3} key={i}>
           <Typography variant="subtitle2">
             {option.name}
@@ -87,7 +95,7 @@ const ProductDetailInformationPanel = ({ information, options }) => {
 
       {/* Options with additional cost */}
 
-      {
+      {/* {
         options.addons.map((addon, i) =>
           <Box mt={3} key={i}>
             <Typography variant="subtitle2">
@@ -141,7 +149,7 @@ const ProductDetailInformationPanel = ({ information, options }) => {
             </FormControl>
           </Box>
         )
-      }
+      } */}
 
       <Divider sx={{ mt: 2 }} />
 
