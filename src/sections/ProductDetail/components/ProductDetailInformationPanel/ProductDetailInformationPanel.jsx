@@ -2,13 +2,13 @@ import {
   Typography,
   FormGroup,
   FormControlLabel,
-  // FormControl,
-  // RadioGroup,
-  // Radio,
+  FormControl,
+  RadioGroup,
+  Radio,
   Chip,
   Box,
   Divider,
-  // Button
+  Button
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
@@ -17,31 +17,27 @@ const ProductDetailInformationPanel = ({
   information,
   options,
   onVariationChange,
-  selectedVariation
+  selectedVariation,
+  addons
 }) => {
-  // const [selectedAddons, setSelectedAddons] = useState(Array(options.length).fill(""));
+  const [selectedAddons, setSelectedAddons] = useState(Array(options.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
 
-  // const handleAddonsChange = (event, i) => {
-  //   const modifiedAddons = [...selectedAddons]
-  //   modifiedAddons[i] = event.target.value
-  //   setSelectedAddons(modifiedAddons)
-  // };
+  const handleAddonsChange = (event, i) => {
+    const modifiedAddons = [...selectedAddons]
+    modifiedAddons[i] = event.target.value
+    setSelectedAddons(modifiedAddons)
+  };
 
-  // const clearAddons = (index) => {
-  //   const clearedAddons = [...selectedAddons]
-  //   clearedAddons[index] = ""
-  //   setSelectedAddons(clearedAddons)
-  // };
-
-  // useEffect(() => {
-  //   setSelectedAddons(options.addons.map((option) => option.variations[0].name));
-  // }, [options.addons]);
-
+  const clearAddons = (index) => {
+    const clearedAddons = [...selectedAddons]
+    clearedAddons[index] = ""
+    setSelectedAddons(clearedAddons)
+  };
 
   useEffect(() => {
-    console.log("options", options)
-  }, [options])
+    console.log("addons", addons)
+  }, [addons])
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
@@ -79,8 +75,8 @@ const ProductDetailInformationPanel = ({
 
       {/* Addons */}
 
-      {/* {
-        options.addons.map((addon, i) =>
+      {
+        addons.map((addon, i) =>
           <Box mt={3} key={i}>
             <Typography variant="subtitle2">
               {addon.name}
@@ -111,10 +107,10 @@ const ProductDetailInformationPanel = ({
                 onChange={(event) => handleAddonsChange(event, i)}
               >
                 {
-                  addon.variations.map((variation, j) =>
+                  addon.modifier_options.map((variation, j) =>
                     <FormControlLabel
                       key={j}
-                      value={variation.name}
+                      value={variation.id}
                       control={<Radio size="small" />}
                       label={(
                         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
@@ -122,7 +118,7 @@ const ProductDetailInformationPanel = ({
                             {variation.name}
                           </Typography>
                           <Typography fontSize='14px' color='#525252'>
-                            {`₱ + ${variation.cost.toFixed(2)}`}
+                            {`₱ + ${variation.price.toFixed(2)}`}
                           </Typography>
                         </Box>
                       )} />
@@ -133,7 +129,7 @@ const ProductDetailInformationPanel = ({
             </FormControl>
           </Box>
         )
-      } */}
+      }
 
       <Divider sx={{ mt: 2 }} />
 
@@ -170,6 +166,7 @@ ProductDetailInformationPanel.propTypes = {
   options: PropTypes.array,
   onVariationChange: PropTypes.func,
   selectedVariation: PropTypes.array,
+  addons: PropTypes.array,
 };
 
 export default ProductDetailInformationPanel;

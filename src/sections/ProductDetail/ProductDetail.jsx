@@ -217,6 +217,7 @@ const ProductDetail = () => {
               <ProductDetailInformationPanel
                 information={productDetails.information}
                 options={productDetails.option}
+                addons={productDetails.addons}
                 onVariationChange={handleVariationChange}
                 selectedVariation={selectedVariation}
               />
