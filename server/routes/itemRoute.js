@@ -55,7 +55,7 @@ itemRoute.get('/single/:productID', async (req, res) => {
     });
     console.log("successfully fetched an item")
 
-    let variants = []
+    let options = []
     let prices = []
     let minimumPrice
 
@@ -67,18 +67,71 @@ itemRoute.get('/single/:productID', async (req, res) => {
 
 
     if (itemData.data.option1_name && itemData.data.option2_name && itemData.data.option3_name) {
+      options.push({
+        name: itemData.data.option1_name,
+        variations: []
+      })
+      options.push({
+        name: itemData.data.option2_name,
+        variations: []
+      })
+      options.push({
+        name: itemData.data.option3_name,
+        variations: []
+      })
 
+      for (let i in itemData.data.variants) {
+        if (!options[0].variations.includes(itemData.data.variants[i].option1_value)) {
+          options[0].variations.push(itemData.data.variants[i].option1_value)
+        }
+        if (!options[1].variations.includes(itemData.data.variants[i].option2_value)) {
+          options[1].variations.push(itemData.data.variants[i].option2_value)
+        }
+        if (!options[2].variations.includes(itemData.data.variants[i].option3_value)) {
+          options[2].variations.push(itemData.data.variants[i].option3_value)
+        }
+      }
     } else if (itemData.data.option1_name && itemData.data.option2_name) {
+      options.push({
+        name: itemData.data.option1_name,
+        variations: []
+      })
+      options.push({
+        name: itemData.data.option2_name,
+        variations: []
+      })
+
+      for (let i in itemData.data.variants) {
+        if (!options[0].variations.includes(itemData.data.variants[i].option1_value)) {
+          options[0].variations.push(itemData.data.variants[i].option1_value)
+        }
+        if (!options[1].variations.includes(itemData.data.variants[i].option2_value)) {
+          options[1].variations.push(itemData.data.variants[i].option2_value)
+        }
+
+      }
 
     } else if (itemData.data.option1_name) {
-      variants.push({
+      options.push({
         name: itemData.data.option1_name,
         variations: []
       })
 
       for (let i in itemData.data.variants) {
-        variants[0].variations.push(itemData.data.variants[i].option1_value)
+        options[0].variations.push(itemData.data.variants[i].option1_value)
       }
+    }
+
+    let variantData = []
+
+    for (let i in itemData.data.variants) {
+      variantData.push({
+        variantID: itemData.data.variants[i].variant_id,
+        option1: itemData.data.variants[i].option1_value || null,
+        option2: itemData.data.variants[i].option2_value || null,
+        option3: itemData.data.variants[i].option3_value || null,
+        price: itemData.data.variants[i].default_ptice
+      })
     }
 
     res.send({
@@ -87,7 +140,8 @@ itemRoute.get('/single/:productID', async (req, res) => {
       image: itemData.data.image_url,
       rating: 4,
       information: dom.window.document.body.innerHTML,
-      option: variants,
+      option: options,
+      variants: variantData,
       uploads: [
         {
           url: "/assets/images/products/1.png",
