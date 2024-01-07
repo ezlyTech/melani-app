@@ -11,33 +11,20 @@ import {
   Button
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ProductDetailInformationPanel = ({
   information,
   options,
   onVariationChange,
   selectedVariation,
-  addons
+  addons,
+  onAddonsClear,
+  onAddonsChange,
+  selectedAddons,
 }) => {
-  const [selectedAddons, setSelectedAddons] = useState(Array(options.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleAddonsChange = (event, i) => {
-    const modifiedAddons = [...selectedAddons]
-    modifiedAddons[i] = event.target.value
-    setSelectedAddons(modifiedAddons)
-  };
-
-  const clearAddons = (index) => {
-    const clearedAddons = [...selectedAddons]
-    clearedAddons[index] = ""
-    setSelectedAddons(clearedAddons)
-  };
-
-  useEffect(() => {
-    console.log("addons", addons)
-  }, [addons])
   return (
     <div>
       <Typography variant="body2">{information}</Typography>
@@ -85,7 +72,7 @@ const ProductDetailInformationPanel = ({
                   sx={{ fontWeight: 500 }}
                   size="small"
                   disabled={selectedAddons[i] === ""}
-                  onClick={() => clearAddons(i)}
+                  onClick={() => onAddonsClear(i)}
                 >
                   Clear
                 </Button>
@@ -104,7 +91,7 @@ const ProductDetailInformationPanel = ({
                 aria-labelledby={`addon-radio-group-${i}`}
                 name={`addon-radio-group-${i}`}
                 value={selectedAddons[i]}
-                onChange={(event) => handleAddonsChange(event, i)}
+                onChange={(event) => onAddonsChange(event, i)}
               >
                 {
                   addon.modifier_options.map((variation, j) =>
@@ -167,6 +154,9 @@ ProductDetailInformationPanel.propTypes = {
   onVariationChange: PropTypes.func,
   selectedVariation: PropTypes.array,
   addons: PropTypes.array,
+  onAddonsClear: PropTypes.func,
+  onAddonsChange: PropTypes.func,
+  selectedAddons: PropTypes.array
 };
 
 export default ProductDetailInformationPanel;

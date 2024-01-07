@@ -32,6 +32,7 @@ const ProductDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedVariation, setSelectedVariation] = useState([]);
   const [selectedVariantID, setSelectedVariantID] = useState("")
+  const [selectedAddons, setSelectedAddons] = useState([""]);
   const [price, setPrice] = useState()
   const { productID } = useParams()
 
@@ -47,13 +48,25 @@ const ProductDetail = () => {
   //   setSelectedVariation(clearedVariations)
   // };
 
+  const handleAddonsChange = (event, i) => {
+    console.log("Handling addon change");
+    const modifiedAddons = [...selectedAddons];
+    modifiedAddons[i] = event.target.value !== undefined ? event.target.value : "";
+    setSelectedAddons(modifiedAddons);
+  };
+
+  const clearAddons = (index) => {
+    const clearedAddons = [...selectedAddons]
+    clearedAddons[index] = ""
+    setSelectedAddons(clearedAddons)
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const handleIncrement = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
-    console.log(productID)
   };
 
   const handleDecrement = () => {
@@ -79,7 +92,6 @@ const ProductDetail = () => {
   useEffect(() => {
     if (productDetails && productDetails.option) {
       setSelectedVariation(productDetails.option.map((option) => option.variations[0]));
-      console.log(productDetails)
     }
   }, [productDetails?.option, productDetails]);
 
@@ -124,10 +136,14 @@ const ProductDetail = () => {
   useEffect(() => {
     const updatePrice = async () => {
       if (productDetails && productDetails.variants) {
-        const matchingVariant = await productDetails.variants.find((variant) => variant.variantID === selectedVariantID)
-        setPrice(matchingVariant.price * quantity)
+        const matchingVariant = await productDetails.variants.find((variant) => variant.variantID === selectedVariantID);
+
+        if (matchingVariant) {
+          setPrice(matchingVariant.price * quantity);
+        }
       }
-    }
+    };
+
     updatePrice()
   }, [
     selectedVariantID,
@@ -136,10 +152,10 @@ const ProductDetail = () => {
     quantity,
   ])
 
-
   useEffect(() => {
-    console.log(selectedVariantID)
-  }, [selectedVariantID])
+    console.log("addons", selectedAddons)
+    console.log("options", selectedVariation)
+  }, [selectedAddons, selectedVariation])
 
   const SampleReviews = [
     {
@@ -220,6 +236,9 @@ const ProductDetail = () => {
                 addons={productDetails.addons}
                 onVariationChange={handleVariationChange}
                 selectedVariation={selectedVariation}
+                onAddonsClear={clearAddons}
+                onAddonsChange={handleAddonsChange}
+                selectedAddons={selectedAddons}
               />
             </TabPanel>
             <TabPanel value="2">
