@@ -30,7 +30,20 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(0);
   const [productDetails, setProductDetails] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedVariation, setSelectedVariation] = useState([]);
   const { productID } = useParams()
+
+  const handleVariationChange = (variation, i) => {
+    const modifiedVariation = [...selectedVariation];
+    modifiedVariation[i] = variation;
+    setSelectedVariation(modifiedVariation);
+  };
+
+  // const clearVariation = (index) => {
+  //   const clearedVariations = [...selectedVariation]
+  //   clearedVariations[index] = ""
+  //   setSelectedVariation(clearedVariations)
+  // };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,8 +75,16 @@ const ProductDetail = () => {
   }, [productID])
 
   useEffect(() => {
-    console.log(productDetails)
-  }, [productDetails])
+    if (productDetails && productDetails.option) {
+      setSelectedVariation(productDetails.option.map((option) => option.variations[0]));
+    }
+  }, [productDetails?.option, productDetails]);
+
+
+  useEffect(() => {
+    console.log(selectedVariation)
+  }, [selectedVariation])
+
 
   const SampleReviews = [
     {
@@ -141,6 +162,8 @@ const ProductDetail = () => {
               <ProductDetailInformationPanel
                 information={productDetails.information}
                 options={productDetails.option}
+                onVariationChange={handleVariationChange}
+                selectedVariation={selectedVariation}
               />
             </TabPanel>
             <TabPanel value="2">

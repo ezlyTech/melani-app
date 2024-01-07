@@ -8,21 +8,19 @@ import {
   Chip,
   Box,
   Divider,
-  Button
+  // Button
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
-const ProductDetailInformationPanel = ({ information, options }) => {
-  const [selectedVariation, setSelectedVariation] = useState([]);
+const ProductDetailInformationPanel = ({
+  information,
+  options,
+  onVariationChange,
+  selectedVariation
+}) => {
   // const [selectedAddons, setSelectedAddons] = useState(Array(options.length).fill(""));
   const [isFocused, setIsFocused] = useState(false);
-
-  const handleVariationChange = (variation, i) => {
-    const modifiedVariation = [...selectedVariation];
-    modifiedVariation[i] = variation;
-    setSelectedVariation(modifiedVariation);
-  };
 
   // const handleAddonsChange = (event, i) => {
   //   const modifiedAddons = [...selectedAddons]
@@ -35,20 +33,6 @@ const ProductDetailInformationPanel = ({ information, options }) => {
   //   clearedAddons[index] = ""
   //   setSelectedAddons(clearedAddons)
   // };
-
-  const clearVariation = (index) => {
-    const clearedVariations = [...selectedVariation]
-    clearedVariations[index] = ""
-    setSelectedVariation(clearedVariations)
-  };
-
-  useEffect(() => {
-    setSelectedVariation(options.map((option) => option.variations[0]));
-  }, [options]);
-
-  useEffect(() => {
-    console.log(selectedVariation)
-  }, [selectedVariation])
 
   // useEffect(() => {
   //   setSelectedAddons(options.addons.map((option) => option.variations[0].name));
@@ -67,9 +51,9 @@ const ProductDetailInformationPanel = ({ information, options }) => {
         <Box mt={3} key={i}>
           <Typography variant="subtitle2">
             {option.name}
-            <span style={{ float: "right" }}>
+            {/* <span style={{ float: "right" }}>
               <Button sx={{ fontWeight: 500 }} size="small" disabled={!selectedVariation} onClick={clearVariation}>Clear</Button>
-            </span>
+            </span> */}
           </Typography>
           <FormGroup>
             <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: 1.5 }}>
@@ -82,7 +66,7 @@ const ProductDetailInformationPanel = ({ information, options }) => {
                         label={variation}
                         clickable
                         color={selectedVariation[i] === variation ? "primary" : "default"}
-                        onClick={() => handleVariationChange(variation, i)}
+                        onClick={() => onVariationChange(variation, i)}
                       />
                     }
                   />
@@ -183,7 +167,9 @@ const ProductDetailInformationPanel = ({ information, options }) => {
 
 ProductDetailInformationPanel.propTypes = {
   information: PropTypes.string,
-  options: PropTypes.object,
+  options: PropTypes.array,
+  onVariationChange: PropTypes.func,
+  selectedVariation: PropTypes.array,
 };
 
 export default ProductDetailInformationPanel;
