@@ -73,6 +73,7 @@ const ProductDetail = () => {
     const clearedAddons = [...selectedAddons]
     clearedAddons[index] = ""
     setSelectedAddons(clearedAddons)
+    setSelectedAddonList([])
   };
 
   const handleChange = (event, newValue) => {
