@@ -121,6 +121,21 @@ const ProductDetail = () => {
     quantity,
   ]);
 
+  useEffect(() => {
+    const updatePrice = async () => {
+      if (productDetails && productDetails.variants) {
+        const matchingVariant = await productDetails.variants.find((variant) => variant.variantID === selectedVariantID)
+        setPrice(matchingVariant.price * quantity)
+      }
+    }
+    updatePrice()
+  }, [
+    selectedVariantID,
+    productDetails?.variants,
+    productDetails,
+    quantity,
+  ])
+
 
   useEffect(() => {
     console.log(selectedVariantID)
