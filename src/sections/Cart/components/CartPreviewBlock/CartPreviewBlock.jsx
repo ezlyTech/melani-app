@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material"
 import { PropTypes } from "prop-types"
+// import { useState } from "react";
 
 const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
   // const [voucherDiscount, setVoucherDiscount] = useState(0);
@@ -73,10 +74,10 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
       </Box>
       <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
-          <Typography variant="subtitle2" color="#637381">Subtotal:</Typography>
+          <Typography variant="subtitle2" color="#000">Subtotal:</Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="subtitle2" textAlign="right" color="#637381">₱{subtotal.toFixed(2)}</Typography>
+          <Typography variant="subtitle2" textAlign="right" color="#000">₱{subtotal.toFixed(2)}</Typography>
         </Grid>
       </Grid>
       <Grid
@@ -100,7 +101,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
               color: "#FFF",
               width: "100%"
             }}>
-            Proceed to Payment
+            <Typography variant="subtitle1" >Place Order</Typography>
           </Button>
         </Grid>
       </Grid>
