@@ -70,7 +70,7 @@ const CartPreviewBlock = ({ sampleCartItems, quantities }) => {
           sx={{ mt: 1, mb: 2 }}
           renderInput={(params) => <TextField {...params} label="Voucher" />}
         /> */}
-        <TextField label="Table Number" variant="outlined" sx={{ width: "100%", mt: 1, mb: 1 }} />
+        <TextField label="Table Number" type="number" variant="outlined" sx={{ width: "100%", mt: 1, mb: 1 }} />
       </Box>
       <Grid container spacing={2} mb={2}>
         <Grid item xs={8}>
