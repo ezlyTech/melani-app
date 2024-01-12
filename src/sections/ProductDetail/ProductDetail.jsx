@@ -62,6 +62,7 @@ const ProductDetail = () => {
               ...prevList,
               {
                 id: productDetails.addons[i].modifier_options[j].id,
+                name: productDetails.addons[i].modifier_options[j].name,
                 price: productDetails.addons[i].modifier_options[j].price,
               }
             ])

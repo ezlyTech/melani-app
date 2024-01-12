@@ -19,17 +19,17 @@ import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 
 const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, selectedAddons, selectedVariation }) => {
+  const [cartData, setCartData] = useState()
+  // const [selectedSize, setSelectedSizes] = useState({});
 
-  const [selectedSize, setSelectedSizes] = useState({});
+  // const handleSize = (event, productId) => {
+  //   const newSize = event.target.value;
 
-  const handleSize = (event, productId) => {
-    const newSize = event.target.value;
-
-    setSelectedSizes((prevSelectedSizes) => ({
-      ...prevSelectedSizes,
-      [productId]: newSize,
-    }));
-  };
+  //   setSelectedSizes((prevSelectedSizes) => ({
+  //     ...prevSelectedSizes,
+  //     [productId]: newSize,
+  //   }));
+  // };
   const handleIncrement = (productId) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -38,7 +38,7 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
   };
 
   const handleDecrement = (productId) => {
-    if (quantities[productId] > 0) {
+    if (quantities[productId] > 1) {
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
         [productId]: prevQuantities[productId] - 1,
@@ -47,8 +47,12 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
   };
 
   useEffect(() => {
-    console.log("cart Items: ", cartItems)
-  }, [cartItems])
+    setCartData(JSON.parse(sessionStorage.getItem("lineItems")))
+  }, [])
+
+  useEffect(() => {
+    console.log("cart Items: ", cartData)
+  }, [cartData])
 
   return (
     <Container>
@@ -121,9 +125,9 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                           <Select
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            value={selectedSize[product.id] || "default"}
+                            value={cartData[i].selectedVariation[j]}
                             label="Size"
-                            onChange={(event) => handleSize(event, product.id)}
+                          // onChange={(event) => handleSize(event, product.id)}
                           >
                             {option.variations.map((variation, k) =>
                               <MenuItem value={variation} key={k}>
@@ -139,36 +143,23 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                   </FormControl>
 
                   {/* {selectedAddons && ( */}
-                  <Chip
-                    label="Expresso Shot"
-                    variant="outlined"
-                    onDelete={() => clearAddons()}
-                    sx={{
-                      width: "fit-content",
-                      height: 20,
-                      fontSize: 12,
-                      "& .MuiChip-deleteIcon": {
-                        fontSize: 15,
-                      }
-                    }}
-                  />
-                  {/* )} */}
 
-                  {/* {selectedVariation && ( */}
-                  <Chip
-                    label="Milk"
-                    variant="outlined"
-                    onDelete={{ clearAddons }}
-                    sx={{
-                      width: "fit-content",
-                      height: 20,
-                      fontSize: 12,
-                      "& .MuiChip-deleteIcon": {
-                        fontSize: 15,
-                      }
-                    }}
-                  />
-                  {/* )}  */}
+                  {cartData[i].selectedAddons.map((addon, j) =>
+                    <Chip
+                      label={addon.name}
+                      variant="outlined"
+                      onDelete={() => clearAddons()}
+                      sx={{
+                        width: "fit-content",
+                        height: 20,
+                        fontSize: 12,
+                        "& .MuiChip-deleteIcon": {
+                          fontSize: 15,
+                        }
+                      }}
+                    />
+                  )}
+
                   <Typography
                     variant="caption"
                     color="primary.main"
@@ -214,7 +205,7 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                       textAlign: "center",
                       fontSize: ".70rem"
                     }}>
-                    {quantities[product.id] || 0}
+                    {quantities[product.id] || 1}
                   </Typography>
                   <Button
                     onClick={() => handleIncrement(product.id)}
