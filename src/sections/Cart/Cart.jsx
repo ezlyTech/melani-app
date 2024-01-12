@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios"
 import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
@@ -9,6 +10,7 @@ export default function Cart() {
     3: 1,
     4: 1,
   });
+  const [productData, setProductData] = useState([])
 
   const sampleCartItems = [
     {
@@ -41,10 +43,32 @@ export default function Cart() {
     },
   ];
 
+  useEffect(() => {
+    const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
+    let selectedItemIDs
+
+    if (selectedItems) {
+      selectedItemIDs = selectedItems.map((item) => item.id)
+    }
+
+    const fetchData = async () => {
+      try {
+        const products = await axios.get(`http://localhost:3031/api/items/list/${JSON.stringify(selectedItemIDs)}`)
+        setProductData(products.data)
+        console.log(products.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    if (selectedItems) fetchData()
+
+  }, [])
+
   return (
     <>
       <CartItemBlock
-        sampleCartItems={sampleCartItems}
+        cartItems={productData}
         quantities={quantities}
         setQuantities={setQuantities}
       />

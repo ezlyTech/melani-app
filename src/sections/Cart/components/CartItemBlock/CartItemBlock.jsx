@@ -16,9 +16,9 @@ import {
 } from "@mui/material"
 import Iconify from "src/components/iconify";
 import { PropTypes } from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, clearAddons, selectedAddons, selectedVariation }) => {
+const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, selectedAddons, selectedVariation }) => {
 
   const [selectedSize, setSelectedSizes] = useState({});
 
@@ -46,6 +46,10 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, clearAddons
     }
   };
 
+  useEffect(() => {
+    console.log("cart Items: ", cartItems)
+  }, [cartItems])
+
   return (
     <Container>
       <Typography
@@ -56,9 +60,9 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, clearAddons
         Cart
       </Typography>
       <Stack spacing={1} sx={{ paddingBottom: 22 }}>
-        {sampleCartItems.map((product) => (
+        {cartItems.map((product, i) => (
           <>
-            <Grid container spacing={1} pb={1} key={product.id} width="100%">
+            <Grid container spacing={1} pb={1} key={i} width="100%">
               <Grid item xs={9} sx={{ display: "flex" }}>
                 <CardMedia
                   component="img"
@@ -105,23 +109,33 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, clearAddons
                       }
                     }}
                   >
-                    <InputLabel
-                      id="demo-select-small-label"
-                      sx={{ fontSize: 12 }}>
-                      Size
-                    </InputLabel>
-                    <Select
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      value={selectedSize[product.id] || "default"}
-                      label="Size"
-                      onChange={(event) => handleSize(event, product.id)}
-                    >
-                      <MenuItem value="default">
-                        16oz
-                      </MenuItem>
-                      <MenuItem value="24oz">24oz</MenuItem>
-                    </Select>
+                    {
+                      product.option.map((option, j) =>
+                        <>
+                          <InputLabel
+                            key={j}
+                            id="demo-select-small-label"
+                            sx={{ fontSize: 12 }}>
+                            {option.name}
+                          </InputLabel>
+                          <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            value={selectedSize[product.id] || "default"}
+                            label="Size"
+                            onChange={(event) => handleSize(event, product.id)}
+                          >
+                            {option.variations.map((variation, k) =>
+                              <MenuItem value={variation} key={k}>
+                                {variation}
+                              </MenuItem>
+                            )}
+                          </Select>
+                        </>
+
+                      )
+                    }
+
                   </FormControl>
 
                   {/* {selectedAddons && ( */}
@@ -226,7 +240,7 @@ const CartItemBlock = ({ sampleCartItems, quantities, setQuantities, clearAddons
   )
 }
 CartItemBlock.propTypes = {
-  sampleCartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.array.isRequired,
   quantities: PropTypes.object.isRequired,
   setQuantities: PropTypes.func.isRequired,
   clearAddons: PropTypes.func.isRequired,
