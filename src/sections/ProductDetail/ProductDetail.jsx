@@ -97,6 +97,21 @@ const ProductDetail = () => {
     }
   };
 
+  const handleSubmit = () => {
+    const lineItems = [
+      {
+        id: productID,
+        selectedVariation,
+        selectedAddons: selectedAddonList,
+        quantity,
+      }
+    ]
+
+    sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+
+    console.log(JSON.parse(sessionStorage.getItem("lineItems")))
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -332,7 +347,7 @@ const ProductDetail = () => {
           </Button>
         </Box>
         <Box>
-          <Button variant="contained" sx={{ ml: 2 }}>
+          <Button variant="contained" sx={{ ml: 2 }} onClick={handleSubmit}>
             <Iconify icon="eva:shopping-cart-outline" mr={1} />
             Add to Cart
           </Button>
