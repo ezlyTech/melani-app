@@ -15,7 +15,8 @@ import {
   TabList,
   TabPanel,
 } from "@mui/lab";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "src/UserContext";
 import Iconify from "src/components/iconify";
 import { useParams } from "react-router-dom";
 import axios from "axios"
@@ -26,6 +27,7 @@ import {
 } from "./components";
 
 const ProductDetail = () => {
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
   const [value, setValue] = useState("1");
   const [quantity, setQuantity] = useState(1);
   const [productDetails, setProductDetails] = useState()
@@ -109,6 +111,7 @@ const ProductDetail = () => {
     ]
 
     sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+    setIsCartUpdated(!isCartUpdated)
   }
 
   useEffect(() => {
