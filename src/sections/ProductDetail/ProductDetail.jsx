@@ -97,7 +97,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const lineItems = [
       {
         id: productID,
@@ -108,14 +108,12 @@ const ProductDetail = () => {
     ]
 
     sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
-
-    console.log(JSON.parse(sessionStorage.getItem("lineItems")))
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/single/${productID}`)
+        const productData = await axios.get(`http://localhost:3031/api/items/${productID}`)
         setProductDetails(productData.data)
         setIsLoading(false)
         console.log(productData.data)
