@@ -3,12 +3,13 @@ import {
   FormGroup,
   FormControlLabel,
   FormControl,
-  RadioGroup,
-  Radio,
+  // RadioGroup,
+  // Radio,
   Chip,
   Box,
   Divider,
-  Button
+  Button,
+  Checkbox
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -87,18 +88,25 @@ const ProductDetailInformationPanel = ({
                   width: "100%"
                 }
               }}>
-              <RadioGroup
+              {/* <RadioGroup
                 aria-labelledby={`addon-radio-group-${i}`}
                 name={`addon-radio-group-${i}`}
                 value={selectedAddons[i]}
                 onChange={(event) => onAddonsChange(event, i)}
+              > */}
+
+              <FormGroup
+                name={`addon-form-group-${i}`}
+                value={selectedAddons[i]}
               >
                 {
                   addon.modifier_options.map((variation, j) =>
                     <FormControlLabel
                       key={j}
                       value={variation.id}
-                      control={<Radio size="small" />}
+                      control={<Checkbox size="small" />}
+                      onChange={(event) => onAddonsChange(event, i)}
+                      // onChange={(e) => console.log(e.target.checked)}
                       label={(
                         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                           <Typography fontSize='14px'>
@@ -112,7 +120,7 @@ const ProductDetailInformationPanel = ({
                   )
                 }
 
-              </RadioGroup>
+              </FormGroup>
             </FormControl>
           </Box>
         )

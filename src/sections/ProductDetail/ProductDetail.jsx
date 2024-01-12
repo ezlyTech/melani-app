@@ -54,16 +54,23 @@ const ProductDetail = () => {
     const modifiedAddons = [...selectedAddons];
     modifiedAddons[index] = event.target.value !== undefined ? event.target.value : "";
 
-    Object.keys(productDetails.addons).forEach((i) => {
-      Object.keys(productDetails.addons[i].modifier_options).forEach((j) => {
-        if (productDetails.addons[i].modifier_options[j].id === event.target.value) {
-          setSelectedAddonList([{
-            id: productDetails.addons[i].modifier_options[j].id,
-            price: productDetails.addons[i].modifier_options[j].price,
-          }])
-        }
+    if (event.target.checked) {
+      Object.keys(productDetails.addons).forEach((i) => {
+        Object.keys(productDetails.addons[i].modifier_options).forEach((j) => {
+          if (productDetails.addons[i].modifier_options[j].id === event.target.value) {
+            setSelectedAddonList((prevList) => [
+              ...prevList,
+              {
+                id: productDetails.addons[i].modifier_options[j].id,
+                price: productDetails.addons[i].modifier_options[j].price,
+              }
+            ])
+          }
+        });
       });
-    });
+    } else {
+      setSelectedAddonList(selectedAddonList.filter((addon) => addon.id !== event.target.value))
+    }
 
 
     setSelectedAddons(modifiedAddons);
@@ -179,9 +186,9 @@ const ProductDetail = () => {
   ])
 
   useEffect(() => {
-    console.log("addons", selectedAddons)
+    console.log("addons", selectedAddonList)
     console.log("options", selectedVariation)
-  }, [selectedAddons, selectedVariation])
+  }, [selectedAddonList, selectedVariation])
 
   const SampleReviews = [
     {
