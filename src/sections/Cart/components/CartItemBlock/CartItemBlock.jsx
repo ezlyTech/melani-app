@@ -114,7 +114,7 @@ const CartItemBlock = ({
                         <Select
                           labelId="demo-select-small-label"
                           id="demo-select-small"
-                          value={selectedOptions[i][j]}
+                          value={cartData[i].selectedVariation[j]}
                           label="Size"
                           onChange={(event) => optionChange(event, i, j)}
                         >

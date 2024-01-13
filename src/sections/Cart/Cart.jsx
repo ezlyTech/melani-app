@@ -47,9 +47,15 @@ export default function Cart() {
   ];
 
   const optionChange = (event, i, j) => {
+    // OLD DATA STRUCTURE
     const modifiedSelectedOptions = [...selectedOptions]
     modifiedSelectedOptions[i][j] = event.target.value
     setSelectedOptions(modifiedSelectedOptions)
+
+    // NEW DATA STRUCTURE
+    const modifiedCartData = [...cartData]
+    modifiedCartData[i].selectedVariation[j] = event.target.value
+    setCartData(modifiedCartData)
   };
 
   useEffect(() => {
