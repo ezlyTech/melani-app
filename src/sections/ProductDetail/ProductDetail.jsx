@@ -37,6 +37,7 @@ const ProductDetail = () => {
   const [selectedAddons, setSelectedAddons] = useState([""]);
   const [selectedAddonList, setSelectedAddonList] = useState([])
   const [price, setPrice] = useState()
+  const [buttonDisabled, setButtonDisabled] = useState(false)
   const { productID } = useParams()
 
   const handleVariationChange = (variation, i) => {
@@ -110,7 +111,15 @@ const ProductDetail = () => {
       }
     ]
 
-    sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+    const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"))
+
+    if (currentCartItems) {
+      currentCartItems.push(lineItems[0])
+      sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
+    } else {
+      sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+    }
+
     setIsCartUpdated(!isCartUpdated)
   }
 
@@ -206,6 +215,21 @@ const ProductDetail = () => {
     console.log("addons", selectedAddonList)
     console.log("options", selectedVariation)
   }, [selectedAddonList, selectedVariation])
+
+  useEffect(() => {
+    const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"));
+    let matchedItem
+
+    if (currentCartItems) {
+      matchedItem = currentCartItems.find((item) => item.id === productID);
+      setButtonDisabled(!!matchedItem)
+
+    } else {
+      setButtonDisabled(false)
+    }
+
+
+  }, [productID, isCartUpdated])
 
   const SampleReviews = [
     {
@@ -349,7 +373,12 @@ const ProductDetail = () => {
           </Button>
         </Box>
         <Box>
-          <Button variant="contained" sx={{ ml: 2 }} onClick={handleSubmit}>
+          <Button
+            variant="contained"
+            sx={{ ml: 2 }}
+            onClick={handleSubmit}
+            disabled={buttonDisabled}
+          >
             <Iconify icon="eva:shopping-cart-outline" mr={1} />
             Add to Cart
           </Button>
