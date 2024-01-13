@@ -13,8 +13,8 @@ export default function Cart() {
   });
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
-  const [selectedOptions, setSelectedOptions] = useState([])
-  const [selectedAddons, setSelectedAddons] = useState([])
+  // const [selectedOptions, setSelectedOptions] = useState([])
+  // const [selectedAddons, setSelectedAddons] = useState([])
   const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
 
   const sampleCartItems = [
@@ -50,9 +50,9 @@ export default function Cart() {
 
   const optionChange = (event, i, j) => {
     // OLD DATA STRUCTURE
-    const modifiedSelectedOptions = [...selectedOptions]
-    modifiedSelectedOptions[i][j] = event.target.value
-    setSelectedOptions(modifiedSelectedOptions)
+    // const modifiedSelectedOptions = [...selectedOptions]
+    // modifiedSelectedOptions[i][j] = event.target.value
+    // setSelectedOptions(modifiedSelectedOptions)
 
     // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
@@ -64,8 +64,8 @@ export default function Cart() {
 
   const clearAddons = (id, i, j) => {
     // OLD DATA STRUCTURE
-    const modifiedSelectedAddons = [...selectedAddons]
-    setSelectedAddons(modifiedSelectedAddons[i][j].filter((addon) => addon.id !== id))
+    // const modifiedSelectedAddons = [...selectedAddons]
+    // setSelectedAddons(modifiedSelectedAddons[i][j].filter((addon) => addon.id !== id))
 
     // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
@@ -76,21 +76,25 @@ export default function Cart() {
   }
 
   const handleItemDelete = (index) => {
+    // OLD DATA STRUCTURE
+    // const modifiedSelectedOptions = [...selectedOptions]
+    // modifiedSelectedOptions.splice(index, 1)
+
+    // const modifiedSelectedAddons = [...selectedAddons]
+    // modifiedSelectedAddons.splice(index, 1)
+
+    // setSelectedOptions(modifiedSelectedOptions)
+    // setSelectedAddons(modifiedSelectedAddons)
+
+
+    // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
     modifiedCartData.splice(index, 1)
-
-    const modifiedSelectedOptions = [...selectedOptions]
-    modifiedSelectedOptions.splice(index, 1)
-
-    const modifiedSelectedAddons = [...selectedAddons]
-    modifiedSelectedAddons.splice(index, 1)
 
     const modifiedProductData = [...productData]
     modifiedProductData.splice(index, 1)
 
     setCartData(modifiedCartData)
-    setSelectedOptions(modifiedSelectedOptions)
-    setSelectedAddons(modifiedSelectedAddons)
     setProductData(modifiedProductData)
     setIsCartUpdated(!isCartUpdated)
 
@@ -103,18 +107,18 @@ export default function Cart() {
 
     if (cartItemData) {
       setCartData(cartItemData)
-      setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
-      setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
+      // setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
+      // setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
     }
 
   }, [])
 
   useEffect(() => {
     console.log("cart Items: ", cartData)
-    console.log("selected Options: ", selectedOptions)
-    console.log("selected Addons: ", selectedAddons)
+    // console.log("selected Options: ", selectedOptions)
+    // console.log("selected Addons: ", selectedAddons)
     console.log("Product Data: ", productData)
-  }, [cartData, selectedOptions, selectedAddons, productData])
+  }, [cartData, productData])
 
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
@@ -144,7 +148,7 @@ export default function Cart() {
         cartItems={productData}
         quantities={quantities}
         setQuantities={setQuantities}
-        selectedOptions={selectedOptions}
+        // selectedOptions={selectedOptions}
         cartData={cartData}
         optionChange={optionChange}
         clearAddons={clearAddons}
