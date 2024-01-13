@@ -12,10 +12,13 @@ import {
   AccordionDetails,
 } from "@mui/material"
 
+import { useRouter } from "src/routes/hooks";
 import { useState } from "react";
 
 const Review = () => {
   const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
+
+  const router = useRouter();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? [...expanded, panel] : expanded.filter((p) => p !== panel));
@@ -29,6 +32,11 @@ const Review = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push("/home");
   };
 
   return (
@@ -194,9 +202,13 @@ const Review = () => {
           mt: 1,
           width: "100%",
           borderRadius: "31px",
-        }}>
-        Cancel
+        }}
+        onClick={handleSubmit}
+      >
+        Remind me later
       </Button>
+
+
 
       <Modal
         open={open}
