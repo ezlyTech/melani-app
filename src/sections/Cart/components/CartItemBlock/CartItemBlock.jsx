@@ -18,8 +18,10 @@ import Iconify from "src/components/iconify";
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 
-const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, selectedAddons, selectedVariation }) => {
+const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, selectedVariation }) => {
   const [cartData, setCartData] = useState()
+  const [selectedOptions, setSelectedOptions] = useState([])
+  const [selectedAddons, setSelectedAddons] = useState([])
   // const [selectedSize, setSelectedSizes] = useState({});
 
   // const handleSize = (event, productId) => {
@@ -47,12 +49,18 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
   };
 
   useEffect(() => {
-    setCartData(JSON.parse(sessionStorage.getItem("lineItems")))
+    const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
+
+    setCartData(cartItemData)
+    setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
+    setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
   }, [])
 
   useEffect(() => {
     console.log("cart Items: ", cartData)
-  }, [cartData])
+    console.log("selected Options: ", selectedOptions)
+    console.log("selected Addons: ", selectedAddons)
+  }, [cartItems, cartData, selectedOptions, selectedAddons])
 
   return (
     <Container>
@@ -235,7 +243,7 @@ CartItemBlock.propTypes = {
   quantities: PropTypes.object.isRequired,
   setQuantities: PropTypes.func.isRequired,
   clearAddons: PropTypes.func.isRequired,
-  selectedAddons: PropTypes.object.isRequired,
+  // selectedAddons: PropTypes.object.isRequired,
   selectedVariation: PropTypes.object.isRequired,
 };
 
