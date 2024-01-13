@@ -24,14 +24,19 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
   const [selectedAddons, setSelectedAddons] = useState([])
   // const [selectedSize, setSelectedSizes] = useState({});
 
-  // const handleSize = (event, productId) => {
-  //   const newSize = event.target.value;
+  const optionChange = (event, i, j) => {
+    // const newSize = event.target.value;
 
-  //   setSelectedSizes((prevSelectedSizes) => ({
-  //     ...prevSelectedSizes,
-  //     [productId]: newSize,
-  //   }));
-  // };
+    // setSelectedSizes((prevSelectedSizes) => ({
+    //   ...prevSelectedSizes,
+    //   [productId]: newSize,
+    // }));
+
+    const modifiedSelectedOptions = [...selectedOptions]
+    modifiedSelectedOptions[i][j] = event.target.value
+    setSelectedOptions(modifiedSelectedOptions)
+  };
+
   const handleIncrement = (productId) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -121,31 +126,31 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                       }
                     }}
                   >
-                    {
-                      product.option.map((option, j) =>
-                        <>
-                          <InputLabel
-                            key={j}
-                            id="demo-select-small-label"
-                            sx={{ fontSize: 12 }}>
-                            {option.name}
-                          </InputLabel>
-                          <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            value={cartData[i].selectedVariation[j]}
-                            label="Size"
-                          // onChange={(event) => handleSize(event, product.id)}
-                          >
-                            {option.variations.map((variation, k) =>
-                              <MenuItem value={variation} key={k}>
-                                {variation}
-                              </MenuItem>
-                            )}
-                          </Select>
-                        </>
+                    {/* Item Variations */}
+                    {product.option.map((option, j) =>
+                      <>
+                        <InputLabel
+                          key={j}
+                          id="demo-select-small-label"
+                          sx={{ fontSize: 12 }}>
+                          {option.name}
+                        </InputLabel>
+                        <Select
+                          labelId="demo-select-small-label"
+                          id="demo-select-small"
+                          value={selectedOptions[i][j]}
+                          label="Size"
+                          onChange={(event) => optionChange(event, i, j)}
+                        >
+                          {option.variations.map((variation, k) =>
+                            <MenuItem value={variation} key={k}>
+                              {variation}
+                            </MenuItem>
+                          )}
+                        </Select>
+                      </>
 
-                      )
+                    )
                     }
 
                   </FormControl>
