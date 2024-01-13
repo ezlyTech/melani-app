@@ -138,7 +138,7 @@ const CartItemBlock = ({
                       key={j}
                       label={addon.name}
                       variant="outlined"
-                      onDelete={() => clearAddons()}
+                      onDelete={() => clearAddons(addon.id, i, j)}
                       sx={{
                         width: "fit-content",
                         height: 20,

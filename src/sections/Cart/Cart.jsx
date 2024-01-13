@@ -58,6 +58,17 @@ export default function Cart() {
     setCartData(modifiedCartData)
   };
 
+  const clearAddons = (id, i, j) => {
+    // OLD DATA STRUCTURE
+    const modifiedSelectedAddons = [...selectedAddons]
+    setSelectedAddons(modifiedSelectedAddons[i][j].filter((addon) => addon.id !== id))
+
+    // NEW DATA STRUCTURE
+    const modifiedCartData = [...cartData]
+    modifiedCartData[i].selectedAddons = modifiedCartData[i].selectedAddons.filter((addon) => addon.id !== id)
+    setCartData(modifiedCartData)
+  }
+
   useEffect(() => {
     const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
 
@@ -103,6 +114,7 @@ export default function Cart() {
         selectedOptions={selectedOptions}
         cartData={cartData}
         optionChange={optionChange}
+        clearAddons={clearAddons}
       />
       <CartPreviewBlock
         sampleCartItems={sampleCartItems}
