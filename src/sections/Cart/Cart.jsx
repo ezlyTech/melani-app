@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios"
+import UserContext from "src/UserContext";
 import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
@@ -14,6 +15,7 @@ export default function Cart() {
   const [cartData, setCartData] = useState([])
   const [selectedOptions, setSelectedOptions] = useState([])
   const [selectedAddons, setSelectedAddons] = useState([])
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
 
   const sampleCartItems = [
     {
@@ -56,6 +58,8 @@ export default function Cart() {
     const modifiedCartData = [...cartData]
     modifiedCartData[i].selectedVariation[j] = event.target.value
     setCartData(modifiedCartData)
+
+    sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   };
 
   const clearAddons = (id, i, j) => {
@@ -67,21 +71,50 @@ export default function Cart() {
     const modifiedCartData = [...cartData]
     modifiedCartData[i].selectedAddons = modifiedCartData[i].selectedAddons.filter((addon) => addon.id !== id)
     setCartData(modifiedCartData)
+
+    sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   }
+
+  const handleItemDelete = (index) => {
+    const modifiedCartData = [...cartData]
+    modifiedCartData.splice(index, 1)
+
+    const modifiedSelectedOptions = [...selectedOptions]
+    modifiedSelectedOptions.splice(index, 1)
+
+    const modifiedSelectedAddons = [...selectedAddons]
+    modifiedSelectedAddons.splice(index, 1)
+
+    const modifiedProductData = [...productData]
+    modifiedProductData.splice(index, 1)
+
+    setCartData(modifiedCartData)
+    setSelectedOptions(modifiedSelectedOptions)
+    setSelectedAddons(modifiedSelectedAddons)
+    setProductData(modifiedProductData)
+    setIsCartUpdated(!isCartUpdated)
+
+    sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
+  };
+
 
   useEffect(() => {
     const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
 
-    if (cartItemData) setCartData(cartItemData)
-    setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
-    setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
+    if (cartItemData) {
+      setCartData(cartItemData)
+      setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
+      setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
+    }
+
   }, [])
 
   useEffect(() => {
     console.log("cart Items: ", cartData)
     console.log("selected Options: ", selectedOptions)
     console.log("selected Addons: ", selectedAddons)
-  }, [cartData, selectedOptions, selectedAddons])
+    console.log("Product Data: ", productData)
+  }, [cartData, selectedOptions, selectedAddons, productData])
 
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
@@ -115,6 +148,7 @@ export default function Cart() {
         cartData={cartData}
         optionChange={optionChange}
         clearAddons={clearAddons}
+        deleteItem={handleItemDelete}
       />
       <CartPreviewBlock
         sampleCartItems={sampleCartItems}
