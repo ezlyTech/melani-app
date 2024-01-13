@@ -11,6 +11,9 @@ export default function Cart() {
     4: 1,
   });
   const [productData, setProductData] = useState([])
+  const [cartData, setCartData] = useState([])
+  const [selectedOptions, setSelectedOptions] = useState([])
+  const [selectedAddons, setSelectedAddons] = useState([])
 
   const sampleCartItems = [
     {
@@ -43,6 +46,26 @@ export default function Cart() {
     },
   ];
 
+  const optionChange = (event, i, j) => {
+    const modifiedSelectedOptions = [...selectedOptions]
+    modifiedSelectedOptions[i][j] = event.target.value
+    setSelectedOptions(modifiedSelectedOptions)
+  };
+
+  useEffect(() => {
+    const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
+
+    if (cartItemData) setCartData(cartItemData)
+    setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
+    setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
+  }, [])
+
+  useEffect(() => {
+    console.log("cart Items: ", cartData)
+    console.log("selected Options: ", selectedOptions)
+    console.log("selected Addons: ", selectedAddons)
+  }, [cartData, selectedOptions, selectedAddons])
+
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
     let selectedItemIDs
@@ -71,6 +94,9 @@ export default function Cart() {
         cartItems={productData}
         quantities={quantities}
         setQuantities={setQuantities}
+        selectedOptions={selectedOptions}
+        cartData={cartData}
+        optionChange={optionChange}
       />
       <CartPreviewBlock
         sampleCartItems={sampleCartItems}

@@ -16,26 +16,17 @@ import {
 } from "@mui/material"
 import Iconify from "src/components/iconify";
 import { PropTypes } from "prop-types";
-import { useEffect, useState } from "react";
 
-const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, selectedVariation }) => {
-  const [cartData, setCartData] = useState()
-  const [selectedOptions, setSelectedOptions] = useState([])
-  const [selectedAddons, setSelectedAddons] = useState([])
+const CartItemBlock = ({
+  cartItems,
+  quantities,
+  setQuantities,
+  clearAddons,
+  selectedOptions,
+  cartData,
+  optionChange,
+}) => {
   // const [selectedSize, setSelectedSizes] = useState({});
-
-  const optionChange = (event, i, j) => {
-    // const newSize = event.target.value;
-
-    // setSelectedSizes((prevSelectedSizes) => ({
-    //   ...prevSelectedSizes,
-    //   [productId]: newSize,
-    // }));
-
-    const modifiedSelectedOptions = [...selectedOptions]
-    modifiedSelectedOptions[i][j] = event.target.value
-    setSelectedOptions(modifiedSelectedOptions)
-  };
 
   const handleIncrement = (productId) => {
     setQuantities((prevQuantities) => ({
@@ -53,20 +44,6 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
     }
   };
 
-  useEffect(() => {
-    const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
-
-    setCartData(cartItemData)
-    setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
-    setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
-  }, [])
-
-  useEffect(() => {
-    console.log("cart Items: ", cartData)
-    console.log("selected Options: ", selectedOptions)
-    console.log("selected Addons: ", selectedAddons)
-  }, [cartItems, cartData, selectedOptions, selectedAddons])
-
   return (
     <Container>
       <Typography
@@ -78,8 +55,8 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
       </Typography>
       <Stack spacing={1} sx={{ paddingBottom: 22 }}>
         {cartItems.map((product, i) => (
-          <>
-            <Grid container spacing={1} pb={1} key={i} width="100%">
+          <div key={i}>
+            <Grid container spacing={1} pb={1} width="100%">
               <Grid item xs={9} sx={{ display: "flex" }}>
                 <CardMedia
                   component="img"
@@ -128,9 +105,8 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                   >
                     {/* Item Variations */}
                     {product.option.map((option, j) =>
-                      <>
+                      <div key={j}>
                         <InputLabel
-                          key={j}
                           id="demo-select-small-label"
                           sx={{ fontSize: 12 }}>
                           {option.name}
@@ -148,7 +124,7 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
                             </MenuItem>
                           )}
                         </Select>
-                      </>
+                      </div>
 
                     )
                     }
@@ -159,6 +135,7 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
 
                   {cartData[i].selectedAddons.map((addon, j) =>
                     <Chip
+                      key={j}
                       label={addon.name}
                       variant="outlined"
                       onDelete={() => clearAddons()}
@@ -237,7 +214,7 @@ const CartItemBlock = ({ cartItems, quantities, setQuantities, clearAddons, sele
               </Grid>
             </Grid>
             <Divider />
-          </>
+          </div>
         ))}
       </Stack>
     </Container>
@@ -249,7 +226,9 @@ CartItemBlock.propTypes = {
   setQuantities: PropTypes.func.isRequired,
   clearAddons: PropTypes.func.isRequired,
   // selectedAddons: PropTypes.object.isRequired,
-  selectedVariation: PropTypes.object.isRequired,
+  selectedOptions: PropTypes.array.isRequired,
+  cartData: PropTypes.array.isRequired,
+  optionChange: PropTypes.func.isRequired,
 };
 
 export default CartItemBlock
