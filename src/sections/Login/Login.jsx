@@ -5,6 +5,7 @@ import Logo from "src/components/logo"
 import Iconify from "src/components/iconify";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "src/routes/hooks";
+import { useEffect } from "react";
 
 
 const Login = () => {
@@ -20,6 +21,10 @@ const Login = () => {
   const handleLoginGuest = () => {
     router.push("/login-guest");
   }
+
+  useEffect(() => {
+    sessionStorage.clear()
+  }, [])
 
   return (
     <Box

@@ -9,6 +9,7 @@ import { initDatabase } from "./database.js";
 //ROUTES
 import categoryRoute from "./routes/categoryRoute.js";
 import itemRoute from "./routes/itemRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 
 const app = express();
 dotenv.config();
@@ -35,3 +36,4 @@ app.get("/", (req, res) => {
 //ROUTES
 app.use('/api/categories', categoryRoute)
 app.use('/api/items', itemRoute)
+app.use('/api/order', orderRoute)
