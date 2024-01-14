@@ -101,6 +101,20 @@ export default function Cart() {
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   };
 
+  const handleIncrement = (index) => {
+    const modifiedCartData = [...cartData]
+    modifiedCartData[index].quantity += 1
+    setCartData(modifiedCartData)
+  };
+
+  const handleDecrement = (index) => {
+    const modifiedCartData = [...cartData]
+
+    if (modifiedCartData[index].quantity > 1) {
+      modifiedCartData[index].quantity -= 1
+      setCartData(modifiedCartData)
+    }
+  };
 
   useEffect(() => {
     const cartItemData = JSON.parse(sessionStorage.getItem("lineItems"))
@@ -153,6 +167,8 @@ export default function Cart() {
         optionChange={optionChange}
         clearAddons={clearAddons}
         deleteItem={handleItemDelete}
+        handleIncrement={handleIncrement}
+        handleDecrement={handleDecrement}
       />
       <CartPreviewBlock
         sampleCartItems={sampleCartItems}
