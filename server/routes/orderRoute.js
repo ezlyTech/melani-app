@@ -37,5 +37,23 @@ orderRoute.post("/", async (req, res) => {
   }
 })
 
+orderRoute.get('/receipt/:receiptNo', async (req, res) => {
+  try {
+    const receipt = await axios.get(`https://api.loyverse.com/v1.0/receipts/${req.params.receiptNo}`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+      }
+    })
+    if (receipt.data) {
+      res.send(receipt.data)
+    } else {
+      res.send({ message: "Get receipt request unsuccessful" })
+    }
+  } catch (err) {
+    console.log(err)
+    res.send({ message: "Server responded with an error" })
+  }
+})
+
 export default orderRoute
 
