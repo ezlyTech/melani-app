@@ -111,6 +111,7 @@ const ProductDetail = () => {
         quantity,
         unitPrice,
         totalPrice,
+        variantID: selectedVariantID,
       }
     ]
 

@@ -20,11 +20,17 @@ orderRoute.post("/", async (req, res) => {
 
     const requestBody = {
       store_id: storeID,
-      line_items: req.body.lineItems,
+      line_items: req.body,
       payments: [{ payment_type_id: paymentID }]
     }
 
-    res.send(paymentType.data.payment_types.find((payment) => payment.type === 'CASH').id)
+    const receipt = await axios.post('https://api.loyverse.com/v1.0/receipts', requestBody, {
+      headers: {
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+      }
+    });
+
+    res.send(receipt.data)
 
   } catch (err) {
     console.log(err)

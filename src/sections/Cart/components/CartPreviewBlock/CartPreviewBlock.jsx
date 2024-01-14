@@ -9,7 +9,7 @@ import {
 import { PropTypes } from "prop-types"
 // import { useState } from "react";
 
-const CartPreviewBlock = ({ cartData }) => (
+const CartPreviewBlock = ({ cartData, handlePlaceOrder }) => (
   // const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   // const subtotal = sampleCartItems.reduce(
@@ -99,7 +99,9 @@ const CartPreviewBlock = ({ cartData }) => (
             background: "#888C03",
             color: "#FFF",
             width: "100%"
-          }}>
+          }}
+          onClick={handlePlaceOrder}
+        >
           <Typography variant="subtitle1" >Place Order</Typography>
         </Button>
       </Grid>
@@ -109,6 +111,7 @@ const CartPreviewBlock = ({ cartData }) => (
 
 CartPreviewBlock.propTypes = {
   cartData: PropTypes.array.isRequired,
+  handlePlaceOrder: PropTypes.func.isRequired
 };
 
 export default CartPreviewBlock
