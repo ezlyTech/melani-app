@@ -3,7 +3,8 @@ import {
   Card,
   CardMedia,
   Container,
-  Typography
+  Typography,
+  LinearProgress
 } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -17,7 +18,7 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  usePreventReload()
+  usePreventReload();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,38 +27,34 @@ export default function Home() {
         setCategories(itemData.data);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        setIsLoading(false); // Handle error and set loading state to false
       }
     };
     fetchData();
   }, []);
 
   return (
-    !isLoading &&
     <>
-      <Container sx={{ bgcolor: "#FFEEE1" }}>
-        <Typography
-          mt={1} mb={1}
-          variant="h4"
-          color="#3D2209"
-        >
-          Welcome, {isAuthenticated ? user.given_name : name}!
-        </Typography>
-      </Container>
-      <Card sx={{ borderRadius: 0 }}>
-        <CardMedia
-          sx={{ height: 140 }}
-          image="/assets/images/banner.png"
-        />
-      </Card>
-      <HomeCategoriesBlock categories={categories} />
-      <Container>
-        {categories.map((category, index) =>
-          <HomeMenuBlock
-            category={category}
-            key={index} />
-        )}
-      </Container>
+      {isLoading && <LinearProgress variant="indeterminate" />}
+      {!isLoading && (
+        <>
+          <Container sx={{ bgcolor: "#FFEEE1" }}>
+            <Typography mt={1} mb={1} variant="h4" color="#3D2209">
+              Welcome, {isAuthenticated ? user.given_name : name}!
+            </Typography>
+          </Container>
+          <Card sx={{ borderRadius: 0 }}>
+            <CardMedia sx={{ height: 140 }} image="/assets/images/banner.png" />
+          </Card>
+          <HomeCategoriesBlock categories={categories} />
+          <Container>
+            {categories.map((category, index) => (
+              <HomeMenuBlock category={category} key={index} />
+            ))}
+          </Container>
+        </>
+      )}
     </>
   );
 }

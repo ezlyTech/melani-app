@@ -1,6 +1,7 @@
 import {
   Grid,
   Box,
+  CircularProgress
 } from "@mui/material";
 import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
@@ -21,6 +22,7 @@ const HomeMenuBlock = ({ title, category }) => {
         setIsLoading(false)
       } catch (err) {
         console.log(err)
+        setIsLoading(false)
       }
     }
     fetchData()
@@ -28,29 +30,44 @@ const HomeMenuBlock = ({ title, category }) => {
 
 
   return (
-    !isLoading &&
-    <Box sx={{ mb: 6 }}>
-      <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
+    <>
+      {isLoading && (
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <CircularProgress variant="indeterminate" />
+        </Box>
+      )}
+      
+      
+      {!isLoading &&(
+        <Box sx={{ mb: 6 }}>
+          <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
 
-      <Grid container spacing={2}>
-        {products.map((product, index) => (
-          <Grid item xs key={index}>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/product-detail/${product.product_id}`)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  navigate(`/product-detail/${product.product_id}`)
-                }
-              }}
-            >
-              <ProductCard product={product} />
-            </div>
+          <Grid container spacing={2}>
+            {products.map((product, index) => (
+              <Grid item xs key={index}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate(`/product-detail/${product.product_id}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      navigate(`/product-detail/${product.product_id}`)
+                    }
+                  }}
+                >
+                  <ProductCard product={product} />
+                </div>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Box>
+        </Box>
+      )}
+      
+    </>
   )
 }
 
