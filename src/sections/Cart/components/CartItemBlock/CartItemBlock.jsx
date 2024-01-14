@@ -19,10 +19,10 @@ import { PropTypes } from "prop-types";
 
 const CartItemBlock = ({
   cartItems,
-  quantities,
-  setQuantities,
+  // quantities,
+  // setQuantities,
   clearAddons,
-  selectedOptions,
+  // selectedOptions,
   cartData,
   optionChange,
   deleteItem,
@@ -142,7 +142,7 @@ const CartItemBlock = ({
                     color="primary.main"
                     sx={{ pt: 0.5, fontSize: 15, fontWeight: 600 }}
                   >
-                    ₱ {product.price}
+                    ₱ {cartData[i].totalPrice}
                   </Typography>
                 </Box>
               </Grid>
@@ -166,7 +166,7 @@ const CartItemBlock = ({
                     sx={{
                       minWidth: "auto",
                       mr: 0.5,
-                      color: quantities[product.id] === 0 ? "#B1B1B1" : "#333333"
+                      // color: quantities[product.id] === 0 ? "#B1B1B1" : "#333333"
                     }}
                   >
                     <Iconify icon="eva:minus-outline" width="14px" />
@@ -210,11 +210,11 @@ const CartItemBlock = ({
 )
 CartItemBlock.propTypes = {
   cartItems: PropTypes.array.isRequired,
-  quantities: PropTypes.object.isRequired,
-  setQuantities: PropTypes.func.isRequired,
+  // quantities: PropTypes.object.isRequired,
+  // setQuantities: PropTypes.func.isRequired,
   clearAddons: PropTypes.func.isRequired,
   // selectedAddons: PropTypes.object.isRequired,
-  selectedOptions: PropTypes.array.isRequired,
+  // selectedOptions: PropTypes.array.isRequired,
   cartData: PropTypes.array.isRequired,
   optionChange: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,

@@ -1,93 +1,35 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios"
 import UserContext from "src/UserContext";
+import isEqual from "lodash/isEqual"
 import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
 export default function Cart() {
-  const [quantities, setQuantities] = useState({
-    1: 1,
-    2: 1,
-    3: 1,
-    4: 1,
-  });
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
-  // const [selectedOptions, setSelectedOptions] = useState([])
-  // const [selectedAddons, setSelectedAddons] = useState([])
-  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
-
-  const sampleCartItems = [
-    {
-      id: 1,
-      name: "Chocolate Obscura",
-      image: "/assets/images/products/1.png",
-      price: "154.00",
-      quantity: quantities[1] || 0,
-    },
-    {
-      id: 2,
-      name: "Biscuit Munch",
-      image: "/assets/images/products/2.png",
-      price: "154.00",
-      quantity: quantities[2] || 0,
-    },
-    {
-      id: 3,
-      name: "Alfredo Penne",
-      image: "/assets/images/products/3.png",
-      price: "154.00",
-      quantity: quantities[3] || 0,
-    },
-    {
-      id: 4,
-      name: "Cinnamon Rolls",
-      image: "/assets/images/products/4.png",
-      price: "154.00",
-      quantity: quantities[4] || 0,
-    },
-  ];
+  const [updatedItemIndex, setUpdatedItemIndex] = useState()
 
   const optionChange = (event, i, j) => {
-    // OLD DATA STRUCTURE
-    // const modifiedSelectedOptions = [...selectedOptions]
-    // modifiedSelectedOptions[i][j] = event.target.value
-    // setSelectedOptions(modifiedSelectedOptions)
-
-    // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
     modifiedCartData[i].selectedVariation[j] = event.target.value
     setCartData(modifiedCartData)
+    setUpdatedItemIndex([i, j])
 
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   };
 
   const clearAddons = (id, i, j) => {
-    // OLD DATA STRUCTURE
-    // const modifiedSelectedAddons = [...selectedAddons]
-    // setSelectedAddons(modifiedSelectedAddons[i][j].filter((addon) => addon.id !== id))
-
-    // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
     modifiedCartData[i].selectedAddons = modifiedCartData[i].selectedAddons.filter((addon) => addon.id !== id)
     setCartData(modifiedCartData)
+    setUpdatedItemIndex([i, j])
 
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   }
 
   const handleItemDelete = (index) => {
-    // OLD DATA STRUCTURE
-    // const modifiedSelectedOptions = [...selectedOptions]
-    // modifiedSelectedOptions.splice(index, 1)
-
-    // const modifiedSelectedAddons = [...selectedAddons]
-    // modifiedSelectedAddons.splice(index, 1)
-
-    // setSelectedOptions(modifiedSelectedOptions)
-    // setSelectedAddons(modifiedSelectedAddons)
-
-
-    // NEW DATA STRUCTURE
     const modifiedCartData = [...cartData]
     modifiedCartData.splice(index, 1)
 
@@ -105,6 +47,7 @@ export default function Cart() {
     const modifiedCartData = [...cartData]
     modifiedCartData[index].quantity += 1
     setCartData(modifiedCartData)
+    setUpdatedItemIndex([index])
   };
 
   const handleDecrement = (index) => {
@@ -113,6 +56,7 @@ export default function Cart() {
     if (modifiedCartData[index].quantity > 1) {
       modifiedCartData[index].quantity -= 1
       setCartData(modifiedCartData)
+      setUpdatedItemIndex([index])
     }
   };
 
@@ -121,18 +65,52 @@ export default function Cart() {
 
     if (cartItemData) {
       setCartData(cartItemData)
-      // setSelectedOptions([cartItemData.map((item, i) => item.selectedVariation)])
-      // setSelectedAddons([cartItemData.map((item, i) => item.selectedAddons)])
     }
 
   }, [])
 
+  /* eslint-disable */
   useEffect(() => {
     console.log("cart Items: ", cartData)
-    // console.log("selected Options: ", selectedOptions)
-    // console.log("selected Addons: ", selectedAddons)
     console.log("Product Data: ", productData)
-  }, [cartData, productData])
+
+    let matchedVariant
+    let i
+
+    if (updatedItemIndex) {
+      i = updatedItemIndex[0]
+
+      matchedVariant = productData[i].variants.find((variant) => {
+        if (cartData[i].selectedVariation.length === 1) {
+          return variant.option1 === cartData[i].selectedVariation[0]
+        }
+        if (cartData[i].selectedVariation.length === 2) {
+          return (
+            variant.option1 === cartData[i].selectedVariation[0] &&
+            variant.option2 === cartData[i].selectedVariation[1]
+          )
+        }
+        if (cartData[i].selectedVariation.length === 3) {
+          return (
+            variant.option1 === cartData[i].selectedVariation[0] &&
+            variant.option2 === cartData[i].selectedVariation[1] &&
+            variant.option3 === cartData[i].selectedVariation[2]
+          )
+        }
+        return false
+      })
+    }
+    if (matchedVariant) {
+      const modifiedCartData = [...cartData]
+      modifiedCartData[i].unitPrice = matchedVariant.price
+      modifiedCartData[i].totalPrice = modifiedCartData[i].quantity * matchedVariant.price
+      console.log("matched variant: ", matchedVariant)
+      setCartData(modifiedCartData)
+
+    }
+
+  }, [productData, updatedItemIndex])
+  /* eslint-enable */
 
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
@@ -160,9 +138,6 @@ export default function Cart() {
     <>
       <CartItemBlock
         cartItems={productData}
-        quantities={quantities}
-        setQuantities={setQuantities}
-        // selectedOptions={selectedOptions}
         cartData={cartData}
         optionChange={optionChange}
         clearAddons={clearAddons}
@@ -170,10 +145,10 @@ export default function Cart() {
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
       />
-      <CartPreviewBlock
-        sampleCartItems={sampleCartItems}
-        quantities={quantities}
-      />
+      {/* <CartPreviewBlock
+      sampleCartItems={sampleCartItems}
+      quantities={quantities}
+      /> */}
     </>
   );
 }

@@ -36,7 +36,8 @@ const ProductDetail = () => {
   const [selectedVariantID, setSelectedVariantID] = useState("")
   const [selectedAddons, setSelectedAddons] = useState([""]);
   const [selectedAddonList, setSelectedAddonList] = useState([])
-  const [price, setPrice] = useState()
+  const [totalPrice, setTotalPrice] = useState()
+  const [unitPrice, setUnitPrice] = useState()
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const { productID } = useParams()
 
@@ -108,6 +109,8 @@ const ProductDetail = () => {
         selectedVariation,
         selectedAddons: selectedAddonList,
         quantity,
+        unitPrice,
+        totalPrice,
       }
     ]
 
@@ -170,8 +173,9 @@ const ProductDetail = () => {
       });
 
       if (matchingVariant) {
-        setSelectedVariantID(matchingVariant.variantID);
-        setPrice(matchingVariant.price * quantity)
+        setSelectedVariantID(matchingVariant.variantID)
+        setUnitPrice(matchingVariant.price)
+        setTotalPrice(matchingVariant.price * quantity)
       }
     }
   }, [
@@ -193,10 +197,10 @@ const ProductDetail = () => {
               addonTotal += addon.price;
             });
 
-            setPrice((matchingVariant.price + addonTotal) * quantity)
+            setTotalPrice((matchingVariant.price + addonTotal) * quantity)
           }
           else {
-            setPrice(matchingVariant.price * quantity);
+            setTotalPrice(matchingVariant.price * quantity);
           }
         }
       }
@@ -289,7 +293,7 @@ const ProductDetail = () => {
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography fontWeight={600}>₱ {price}</Typography>
+            <Typography fontWeight={600}>₱ {totalPrice}</Typography>
           </Grid>
         </Grid>
 
