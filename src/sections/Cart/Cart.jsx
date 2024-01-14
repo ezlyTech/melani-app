@@ -77,7 +77,7 @@ export default function Cart() {
     let matchedVariant
     let i
 
-    if (updatedItemIndex) {
+    if (updatedItemIndex && productData) {
       i = updatedItemIndex[0]
 
       matchedVariant = productData[i].variants.find((variant) => {
@@ -106,7 +106,6 @@ export default function Cart() {
       modifiedCartData[i].totalPrice = modifiedCartData[i].quantity * matchedVariant.price
       console.log("matched variant: ", matchedVariant)
       setCartData(modifiedCartData)
-
     }
 
   }, [productData, updatedItemIndex])
