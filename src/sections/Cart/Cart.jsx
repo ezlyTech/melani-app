@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios"
 import UserContext from "src/UserContext";
-import isEqual from "lodash/isEqual"
 import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
@@ -77,7 +76,7 @@ export default function Cart() {
     let matchedVariant
     let i
 
-    if (updatedItemIndex && productData) {
+    if (updatedItemIndex && productData.length > 0) {
       i = updatedItemIndex[0]
 
       matchedVariant = productData[i].variants.find((variant) => {
@@ -144,10 +143,9 @@ export default function Cart() {
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
       />
-      {/* <CartPreviewBlock
-      sampleCartItems={sampleCartItems}
-      quantities={quantities}
-      /> */}
+      <CartPreviewBlock
+        cartData={cartData}
+      />
     </>
   );
 }
