@@ -16,7 +16,7 @@ const HomeMenuBlock = ({ title, category }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/list/${category.category_id}`)
+        const productData = await axios.get(`http://localhost:3031/api/items/category/${category.category_id}`)
         setProducts(productData.data)
         setIsLoading(false)
       } catch (err) {

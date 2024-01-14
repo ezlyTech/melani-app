@@ -6,10 +6,10 @@ import ThemeProvider from "src/theme";
 import UserContext from "./UserContext";
 
 export default function App() {
-  const [name, setName] = useState("");
+  const [isCartUpdated, setIsCartUpdated] = useState(false);
   useScrollToTop();
 
-  const userContextValue = useMemo(() => ({ name, setName }), [name, setName]);
+  const userContextValue = useMemo(() => ({ isCartUpdated, setIsCartUpdated }), [isCartUpdated, setIsCartUpdated]);
 
   return (
     <UserContext.Provider value={userContextValue}>

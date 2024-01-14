@@ -7,12 +7,12 @@ import {
 } from "@mui/material/";
 import Logo from "src/components/logo";
 import { useRouter } from "src/routes/hooks";
-import React, { useState, useContext } from "react";
-import UserContext from "../../UserContext";
+import React, { useState } from "react";
+// import UserContext from "../../UserContext";
 
 const LoginGuest = () => {
   const router = useRouter();
-  const { setName } = useContext(UserContext);
+  // const { setName } = useContext(UserContext);
 
   const [name, setNameLocal] = useState("");
   // const [tableNumber, setTableNumber] = useState("");
@@ -35,7 +35,8 @@ const LoginGuest = () => {
 
     if (!nameError) {
       // console.log(name, `Table: ${tableNumber}`);
-      setName(name.trim());
+      // setName(name.trim());
+      sessionStorage.setItem("username", name)
       router.push("/home");
     }
   };
