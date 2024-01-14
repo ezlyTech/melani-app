@@ -16,10 +16,12 @@ orderRoute.post("/", async (req, res) => {
       }
     })
     const storeID = store.data.stores[0].id
+    const paymentID = paymentType.data.payment_types.find((payment) => payment.type === 'CASH').id
 
     const requestBody = {
       store_id: storeID,
       line_items: req.body.lineItems,
+      payments: [{ payment_type_id: paymentID }]
     }
 
     res.send(paymentType.data.payment_types.find((payment) => payment.type === 'CASH').id)
