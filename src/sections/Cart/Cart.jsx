@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios"
 import UserContext from "src/UserContext";
+import { useNavigate } from "react-router-dom";
 import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
@@ -9,6 +10,8 @@ export default function Cart() {
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
   const [updatedItemIndex, setUpdatedItemIndex] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
   const optionChange = (event, i, j) => {
     const modifiedCartData = [...cartData]
@@ -69,7 +72,13 @@ export default function Cart() {
       ))
 
       const order = await axios.post("http://localhost:3031/api/order", lineItems)
-      console.log(order.data)
+      if (order.data.receipt_number) {
+        sessionStorage.setItem("lineItems", JSON.stringify([]))
+        setCartData([])
+        setProductData([])
+        setIsCartUpdated(!isCartUpdated)
+        navigate(`/receipt/${order.data.receipt_number}`)
+      }
 
     } catch (err) {
       console.log(err)
@@ -139,7 +148,10 @@ export default function Cart() {
     const fetchData = async () => {
       try {
         const products = await axios.get(`http://localhost:3031/api/items/list/${JSON.stringify(selectedItemIDs)}`)
-        setProductData(products.data)
+        if (products.data) {
+          setProductData(products.data)
+          setIsLoading(false)
+        }
         console.log(products.data)
       } catch (err) {
         console.log(err)
@@ -151,6 +163,7 @@ export default function Cart() {
   }, [])
 
   return (
+    !isLoading &&
     <>
       <CartItemBlock
         cartItems={productData}

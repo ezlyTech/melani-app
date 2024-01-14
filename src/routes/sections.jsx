@@ -32,7 +32,7 @@ export default function Router() {
       element: <LoginGuestPage />,
     },
     {
-      path: "receipt",
+      path: "receipt/:receiptNo",
       element: <ReceiptPage />,
     },
     {
