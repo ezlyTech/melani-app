@@ -30,7 +30,7 @@ const CartItemBlock = ({
   handleIncrement,
   handleDecrement
 }) => (
-  !cartItems ? (
+  cartData.length === 0 ? (
     <Container>
       <Typography
         sx={{
@@ -51,7 +51,6 @@ const CartItemBlock = ({
         Cart
       </Typography>
 
-      {cartItems &&
       <Stack spacing={1} sx={{ paddingBottom: 22 }}>
         {cartItems.map((product, i) => (
           <div key={i}>
@@ -217,8 +216,7 @@ const CartItemBlock = ({
           </div>
         ))}
       </Stack>
-      }
-
+      
     </Container>
   )
   
