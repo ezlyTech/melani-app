@@ -127,10 +127,7 @@ itemRoute.get('/:productID', async (req, res) => {
     }
 
     // LOGIC TO FIND PRODUCT REVIEWS DATA FROM DATABASE
-
     const reviewsData = await reviewsModel.find({ itemID: itemData.data.id })
-    console.log("data", reviewsData)
-
 
     res.send({
       name: itemData.data.item_name,
@@ -141,6 +138,7 @@ itemRoute.get('/:productID', async (req, res) => {
       option: options,
       addons: modifiers,
       variants: variantData,
+      reviews: reviewsData,
       uploads: [
         {
           url: "/assets/images/products/1.png",
