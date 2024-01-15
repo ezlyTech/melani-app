@@ -49,6 +49,16 @@ const Review = () => {
     setReviewData(modifiedReviewData)
   }
 
+  const handleRatingChange = (event, index) => {
+    const modifiedReviewData = [...reviewData]
+    modifiedReviewData[index].rating = event.target.value
+    setReviewData(modifiedReviewData)
+  }
+
+  useEffect(() => {
+    console.log(reviewData)
+  }, [reviewData])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,6 +70,7 @@ const Review = () => {
           itemID: item.id,
           itemName: item.name,
           customerName: sessionStorage.getItem("username"),
+          rating: null,
           review: null,
         }))
 
@@ -105,7 +116,11 @@ const Review = () => {
                   }} />
                 <Box>
                   <Typography sx={{ fontWeight: "bold" }}>{item.name}</Typography>
-                  <Rating sx={{ mt: "0.5em" }} /></Box>
+                  <Rating
+                    sx={{ mt: "0.5em" }}
+                    onChange={(e) => handleRatingChange(e, i)}
+                  />
+                </Box>
               </Box>
 
             </AccordionSummary>
