@@ -13,7 +13,10 @@ import {
   Typography,
   IconButton,
   FormControlLabel,
+  TextField,
+  Grid,
 } from "@mui/material";
+import { useState } from "react";
 
 const ProductFilter = ({
   openFilter,
@@ -24,9 +27,21 @@ const ProductFilter = ({
   ratingOptions,
   priceOptions,
 }) => {
-  const handlePriceChange = (event) => {
-    setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
+  const [minPriceFilter, setMinPriceFilter] = useState(0)
+
+  const handleMinPriceFilterChange = (event) => {
+    setMinPriceFilter(event.target.value);
   };
+
+  const [maxPriceFilter, setMaxPriceFilter] = useState(2000)
+
+  const handleMaxPriceFilterChange = (event) => {
+    setMaxPriceFilter(event.target.value);
+  };
+
+  // const handlePriceChange = (event) => {
+  //   setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
+  // };
 
   const handleRatingChange = (event) => {
     setFilters((prevFilters) => ({ ...prevFilters, rating: event.target.value }));
@@ -42,7 +57,40 @@ const ProductFilter = ({
   const renderPrice = (
     <Stack spacing={1}>
       <Typography variant="subtitle2">Price</Typography>
-      <RadioGroup value={filters.price} onChange={handlePriceChange}>
+      <Grid container spacing={2}>
+        <Grid item xs={5}>
+          <TextField
+            id="outlined-number"
+            label="Min"
+            type="number"
+            value={minPriceFilter}
+            onChange={handleMinPriceFilterChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              "& .MuiInputBase-root": {height: 40}
+            }}
+          />
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            id="outlined-number"
+            label="Max"
+            type="number"
+            value={maxPriceFilter}
+            onChange={handleMaxPriceFilterChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              "& .MuiInputBase-root": {height: 40}
+            }}
+          />
+        </Grid>
+      </Grid>
+
+      {/* <RadioGroup value={filters.price} onChange={handlePriceChange}>
         {priceOptions.map((item) => (
           <FormControlLabel
             key={item.value}
@@ -51,7 +99,7 @@ const ProductFilter = ({
             label={item.label}
           />
         ))}
-      </RadioGroup>
+      </RadioGroup> */}
     </Stack>
   );
 
