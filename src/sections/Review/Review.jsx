@@ -30,8 +30,19 @@ const Review = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen = async () => {
+    try {
+      const postReview = await axios.post("http://localhost:3031/api/reviews", reviewData)
+
+      if (postReview.data) {
+        setOpen(true);
+        console.log(postReview.data)
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+
   };
 
   const handleClose = () => {
@@ -72,6 +83,7 @@ const Review = () => {
           customerName: sessionStorage.getItem("username"),
           rating: null,
           review: null,
+          image: null,
         }))
 
         setReviewData(reviewDataFormat)

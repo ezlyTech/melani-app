@@ -36,5 +36,10 @@ reviewsRoute.get('/:receiptNo', async (req, res) => {
   }
 })
 
+reviewsRoute.post('/', (req, res) => {
+  res.send(req.body)
+  console.log("successfuly received post request to review")
+})
+
 
 export default reviewsRoute
