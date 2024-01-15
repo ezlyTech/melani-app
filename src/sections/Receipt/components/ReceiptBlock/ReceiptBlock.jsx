@@ -13,8 +13,8 @@ import { PropTypes } from "prop-types";
 const ReceiptBlock = ({ receiptData }) => {
   const store = "Melani's Bakehouse";
   const address = "30 Bayacal Street, Sabutan, Silang, Cavite, Philippines";
-  const customerName = "Soobin"
-  const tableNum = 2
+  // const customerName = "Soobin"
+  // const tableNum = 2
   // const items = [
   //   { name: "Double Choco Cake", price: 120.00 },
   //   { name: "Biscuit Munch", price: 146.00 },
@@ -89,10 +89,7 @@ const ReceiptBlock = ({ receiptData }) => {
           Order Number
         </Typography>
         <Typography variant="caption" fontWeight={500}>{formatDateString(receiptData.created_at)}</Typography> <br />
-        <Typography variant="caption" fontWeight={500}>Table Number: {tableNum}</Typography> <br />
-        {customerName && (
-          <Typography variant="caption" fontWeight={500}>Customer Name: {customerName}</Typography>
-        )}
+        <Typography variant="caption" fontWeight={500}>{receiptData.note}</Typography> <br />
       </Box>
 
 
@@ -113,8 +110,11 @@ const ReceiptBlock = ({ receiptData }) => {
             {/* Orig Price */}
             <Grid item xs={8}>
               <strong>
-                <p>{item.item_name}:</p>
+                <p style={{ marginBottom: "0" }}>{`${item.item_name}`}:</p>
               </strong>
+              <Typography variant="caption" fontWeight={500}>
+                {`${item.quantity} x ₱${item.cost.toFixed(2)}`}
+              </Typography>
             </Grid>
             <Grid item xs={4} >
               <strong>

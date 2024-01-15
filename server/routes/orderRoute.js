@@ -1,8 +1,9 @@
-import express from "express"
+import express, { request } from "express"
 import axios from "axios"
 
 const orderRoute = express.Router()
 
+// REQUEST TO CREATE ORDER
 orderRoute.post("/", async (req, res) => {
   try {
     const store = await axios.get('https://api.loyverse.com/v1.0/stores/', {
@@ -20,7 +21,8 @@ orderRoute.post("/", async (req, res) => {
 
     const requestBody = {
       store_id: storeID,
-      line_items: req.body,
+      line_items: req.body.lineItems,
+      note: req.body.note,
       payments: [{ payment_type_id: paymentID }]
     }
 
@@ -29,7 +31,7 @@ orderRoute.post("/", async (req, res) => {
         'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     });
-
+    console.log(receipt.data)
     res.send(receipt.data)
 
   } catch (err) {
@@ -37,6 +39,7 @@ orderRoute.post("/", async (req, res) => {
   }
 })
 
+// REQUEST TO GET RECEIPT DATA
 orderRoute.get('/receipt/:receiptNo', async (req, res) => {
   try {
     const receipt = await axios.get(`https://api.loyverse.com/v1.0/receipts/${req.params.receiptNo}`, {

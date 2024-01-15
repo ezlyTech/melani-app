@@ -9,7 +9,7 @@ import {
 import { PropTypes } from "prop-types"
 // import { useState } from "react";
 
-const CartPreviewBlock = ({ cartData, handlePlaceOrder }) => (
+const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
   // const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   // const subtotal = sampleCartItems.reduce(
@@ -61,24 +61,30 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder }) => (
         {cartData.length} items
       </Typography>
       {/* <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={voucher}
-          getOptionLabel={(option) => option.label}
-          onChange={handleVoucherSelect}
-          sx={{ mt: 1, mb: 2 }}
-          renderInput={(params) => <TextField {...params} label="Voucher" />}
-        /> */}
-      <TextField label="Table Number" type="number" variant="outlined" sx={{ width: "100%", mt: 1, mb: 1 }} />
+        disablePortal
+        id="combo-box-demo"
+        options={voucher}
+        getOptionLabel={(option) => option.label}
+        onChange={handleVoucherSelect}
+        sx={{ mt: 1, mb: 2 }}
+        renderInput={(params) => <TextField {...params} label="Voucher" />}
+      /> */}
+      <TextField
+        label="Table Number"
+        type="number"
+        variant="outlined"
+        sx={{ width: "100%", mt: 1, mb: 1 }}
+        onChange={(e) => setTableNumber(e.target.value)}
+      />
     </Box>
-    <Grid container spacing={2} mb={2}>
+    {/* <Grid container spacing={2} mb={2}>
       <Grid item xs={8}>
         <Typography variant="subtitle2" color="#000">Subtotal:</Typography>
       </Grid>
       <Grid item xs={4}>
         <Typography variant="subtitle2" textAlign="right" color="#000">₱{100}</Typography>
       </Grid>
-    </Grid>
+    </Grid> */}
     <Grid
       container
       spacing={2}
@@ -111,7 +117,8 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder }) => (
 
 CartPreviewBlock.propTypes = {
   cartData: PropTypes.array.isRequired,
-  handlePlaceOrder: PropTypes.func.isRequired
+  handlePlaceOrder: PropTypes.func.isRequired,
+  setTableNumber: PropTypes.func.isRequired,
 };
 
 export default CartPreviewBlock
