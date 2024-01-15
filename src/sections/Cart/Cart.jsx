@@ -10,6 +10,7 @@ export default function Cart() {
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
   const [updatedItemIndex, setUpdatedItemIndex] = useState()
+  const [tableNumber, setTableNumber] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -63,15 +64,21 @@ export default function Cart() {
   };
 
   const handlePlaceOrder = async () => {
-    try {
-      const lineItems = cartData.map((item) => (
-        {
-          variant_id: item.variantID,
-          quantity: item.quantity,
-        }
-      ))
+    const name = sessionStorage.getItem("username")
+    const lineItems = cartData.map((item) => (
+      {
+        variant_id: item.variantID,
+        quantity: item.quantity,
+      }
+    ))
 
-      const order = await axios.post("http://localhost:3031/api/order", lineItems)
+    const data = {
+      lineItems,
+      note: `name: ${name}, table no: ${tableNumber}`,
+    }
+
+    try {
+      const order = await axios.post("http://localhost:3031/api/order", data)
       if (order.data.receipt_number) {
         sessionStorage.setItem("lineItems", JSON.stringify([]))
         setCartData([])
@@ -177,6 +184,7 @@ export default function Cart() {
       <CartPreviewBlock
         cartData={cartData}
         handlePlaceOrder={handlePlaceOrder}
+        setTableNumber={setTableNumber}
       />
     </>
   );
