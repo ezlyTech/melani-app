@@ -41,7 +41,7 @@ const ReceiptBlock = ({ receiptData }) => {
   const redirectToReview = () => {
 
     if (router.push) {
-      router.push("/review");
+      router.push(`/review/${receiptData.receipt_number}`);
     } else {
       router.push("/404")
     }
