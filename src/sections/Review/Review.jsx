@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 
 const Review = () => {
   const [itemData, setItemData] = useState()
+  const [reviewData, setReviewData] = useState()
   const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
   const { receiptNo } = useParams()
   const router = useRouter();
@@ -48,6 +49,16 @@ const Review = () => {
         const items = await axios.get(`http://localhost:3031/api/reviews/${receiptNo}`)
         console.log(items.data)
         setItemData(items.data)
+
+        const reviewDataFormat = items.data.map((item) => ({
+          itemID: item.id,
+          itemName: item.name,
+          customerName: sessionStorage.getItem("username"),
+          review: null,
+        }))
+
+        console.log(reviewDataFormat)
+
         setIsLoading(false)
       } catch (err) {
         console.log(err)
