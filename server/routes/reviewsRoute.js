@@ -1,5 +1,6 @@
 import express from 'express'
 import axios from 'axios'
+import reviewsModel from '../models/reviews.js'
 
 const reviewsRoute = express.Router()
 
@@ -36,9 +37,9 @@ reviewsRoute.get('/:receiptNo', async (req, res) => {
   }
 })
 
-reviewsRoute.post('/', (req, res) => {
-  res.send(req.body)
-  console.log("successfuly received post request to review")
+reviewsRoute.post('/', async (req, res) => {
+  const postReview = await reviewsModel.insertMany(req.body)
+  res.send(postReview ? "Reviews Posted" : "Reviews unable to post")
 })
 
 
