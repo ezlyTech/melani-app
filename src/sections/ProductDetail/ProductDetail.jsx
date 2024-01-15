@@ -236,29 +236,6 @@ const ProductDetail = () => {
 
   }, [productID, isCartUpdated])
 
-  const SampleReviews = [
-    {
-      name: "Alex Kim",
-      rating: 4,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Justin Timberlake",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Ji Chang Wook",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Steph",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-  ]
-
   return (
     !isLoading &&
     <>
@@ -321,7 +298,7 @@ const ProductDetail = () => {
               />
             </TabPanel>
             <TabPanel value="2">
-              <ProductDetailReviewsPanel reviews={SampleReviews} />
+              <ProductDetailReviewsPanel reviews={productDetails.reviews} />
             </TabPanel>
             <TabPanel value="3">
               <ProductDetailUploadsPanel uploads={productDetails.uploads} />
