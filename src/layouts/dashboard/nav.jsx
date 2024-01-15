@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -12,7 +12,7 @@ import { RouterLink } from "src/routes/components";
 import { useResponsive } from "src/hooks/use-responsive";
 import Logo from "src/components/logo";
 import Scrollbar from "src/components/scrollbar";
-import UserContext from "src/UserContext";
+// import UserContext from "src/UserContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
@@ -20,7 +20,7 @@ import navConfig from "./config-navigation";
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const upLg = useResponsive("up", "lg");
-  const { name } = useContext(UserContext)
+  // const { name } = useContext(UserContext)
   const { isAuthenticated, user } = useAuth0()
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">
-          {isAuthenticated ? user.given_name : name}
+          {isAuthenticated ? user.given_name : sessionStorage.getItem("username")}
         </Typography>
       </Box>
     </Box>

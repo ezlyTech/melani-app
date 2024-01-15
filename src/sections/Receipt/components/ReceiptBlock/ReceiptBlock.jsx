@@ -7,35 +7,33 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useRouter } from "src/routes/hooks";
+import { PropTypes } from "prop-types";
 
 
-
-const ReceiptBlock = () => {
+const ReceiptBlock = ({ receiptData }) => {
   const store = "Melani's Bakehouse";
   const address = "30 Bayacal Street, Sabutan, Silang, Cavite, Philippines";
-  const orderNum = 69;
-  const customerName = "Soobin"
-  const tableNum = 3;
+  // const customerName = "Soobin"
+  // const tableNum = 2
+  // const items = [
+  //   { name: "Double Choco Cake", price: 120.00 },
+  //   { name: "Biscuit Munch", price: 146.00 },
+  // ];
 
-  const items = [
-    { name: "Double Choco Cake", price: 120.00 },
-    { name: "Biscuit Munch", price: 146.00 },
-  ];
+  // const userDiscountRates = {
+  //   "Double Choco Cake": 0.1, // 10%
+  //   "Biscuit Munch": 0.1, // 10%
+  // };
 
-  const userDiscountRates = {
-    "Double Choco Cake": 0.1, // 10%
-    "Biscuit Munch": 0.1, // 10%
-  };
+  // const calculateItemTotal = (item) => {
+  //   const discountRate = userDiscountRates[item.name] || 0;
+  //   const itemDiscount = item.price * discountRate;
+  //   const itemTotal = item.price - itemDiscount;
+  //   return { original: item.price, discounted: itemTotal };
+  // };
 
-  const calculateItemTotal = (item) => {
-    const discountRate = userDiscountRates[item.name] || 0;
-    const itemDiscount = item.price * discountRate;
-    const itemTotal = item.price - itemDiscount;
-    return { original: item.price, discounted: itemTotal };
-  };
-
-  const subtotal = items.reduce((acc, item) => acc + calculateItemTotal(item).original, 0);
-  const total = items.reduce((acc, item) => acc + calculateItemTotal(item).discounted, 0);
+  // const subtotal = items.reduce((acc, item) => acc + calculateItemTotal(item).original, 0);
+  // const total = items.reduce((acc, item) => acc + calculateItemTotal(item).discounted, 0);
 
 
 
@@ -48,6 +46,18 @@ const ReceiptBlock = () => {
       router.push("/404")
     }
   };
+
+  const formatDateString = (dateString) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      month: "numeric",
+      day: "numeric",
+      year: "numeric",
+    };
+
+    return new Date(dateString).toLocaleString("en-US", options);
+  }
 
   return (
     <Container>
@@ -75,14 +85,11 @@ const ReceiptBlock = () => {
             "& h1": { mb: 0, mt: 2 }
           }}
         >
-          <h1>{orderNum}</h1>
+          <h1>{receiptData.receipt_number}</h1>
           Order Number
         </Typography>
-        <Typography variant="caption" fontWeight={500}>Time & Date: 5:53 03/04/19</Typography> <br />
-        <Typography variant="caption" fontWeight={500}>Table Number: {tableNum}</Typography> <br />
-        {customerName && (
-          <Typography variant="caption" fontWeight={500}>Customer Name: {customerName}</Typography>
-        )}
+        <Typography variant="caption" fontWeight={500}>{formatDateString(receiptData.created_at)}</Typography> <br />
+        <Typography variant="caption" fontWeight={500}>{receiptData.note}</Typography> <br />
       </Box>
 
 
@@ -93,7 +100,7 @@ const ReceiptBlock = () => {
         borderTop: 1,
         widht: "100%",
       }}>
-        {items.map((item, index) => (
+        {receiptData.line_items.map((item, index) => (
           <Grid container
             direction="row"
             justifyContent="space-between"
@@ -103,18 +110,21 @@ const ReceiptBlock = () => {
             {/* Orig Price */}
             <Grid item xs={8}>
               <strong>
-                <p>{item.name}:</p>
+                <p style={{ marginBottom: "0" }}>{`${item.item_name}`}:</p>
               </strong>
+              <Typography variant="caption" fontWeight={500}>
+                {`${item.quantity} x ₱${item.cost.toFixed(2)}`}
+              </Typography>
             </Grid>
             <Grid item xs={4} >
               <strong>
-                <p style={{ textAlign: "end" }}>₱{item.price.toFixed(2)}</p>
+                <p style={{ textAlign: "end" }}>₱{item.cost_total.toFixed(2)}</p>
               </strong>
 
             </Grid>
 
             {/* DISCOUNT */}
-            <Grid item xs={8}>
+            {/* <Grid item xs={8}>
               <p
                 style={{
                   marginTop: -5,
@@ -134,14 +144,14 @@ const ReceiptBlock = () => {
               }}>
                 -₱{(item.price * userDiscountRates[item.name]).toFixed(2)}
               </p>
-            </Grid>
+            </Grid> */}
           </Grid>
         ))}
       </Box>
 
 
       <Box>
-        <Typography
+        {/* <Typography
           variant="subtitle2"
           sx={{
             display: "flex",
@@ -170,7 +180,7 @@ const ReceiptBlock = () => {
               <span>-₱{(item.price * userDiscountRates[item.name]).toFixed(2)}</span>
             </strong>
           ))}
-        </Typography>
+        </Typography> */}
 
         <Box
           sx={{
@@ -184,7 +194,7 @@ const ReceiptBlock = () => {
               mt: 1.5
             }}
           >
-            <strong>Amount Due:</strong> ₱{total.toFixed(2)}
+            <strong>Amount Due:</strong> ₱{receiptData.total_money.toFixed(2)}
           </Typography>
 
         </Box>
@@ -207,6 +217,10 @@ const ReceiptBlock = () => {
       </Button>
     </Container>
   );
+};
+
+ReceiptBlock.propTypes = {
+  receiptData: PropTypes.array.isRequired
 };
 
 
