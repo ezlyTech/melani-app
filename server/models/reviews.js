@@ -13,4 +13,4 @@ const reviewsSchema = new Schema({
 
 const reviewsModel = mongoose.model('reviews', reviewsSchema)
 
-export default orderModel
+export default reviewsModel
