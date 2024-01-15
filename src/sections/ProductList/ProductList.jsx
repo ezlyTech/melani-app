@@ -25,15 +25,15 @@ const RATING_LABELS = {
 const PRICE_OPTIONS = [
   {
     value: "below",
-    label: "Below ₱300"
+    label: "0 - 500"
   },
   {
     value: "between",
-    label: "Between ₱300 - ₱500"
+    label: "500 - 1000"
   },
   {
     value: "above",
-    label: "Above ₱500"
+    label: "1000 - 2000"
   },
 ];
 
@@ -82,13 +82,13 @@ const ProductList = () => {
     let filteredProducts = [...products];
 
     if (filters.price === "below") {
-      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 300);
+      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 500);
     } else if (filters.price === "between") {
       filteredProducts = filteredProducts.filter(
-        (product) => parseFloat(product.price) >= 300 && parseFloat(product.price) <= 500
+        (product) => parseFloat(product.price) >= 500 && parseFloat(product.price) <= 1000
       );
     } else if (filters.price === "above") {
-      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) > 500);
+      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) > 1000);
     }
 
     if (filters.rating) {

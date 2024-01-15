@@ -15,6 +15,8 @@ import {
   FormControlLabel,
   TextField,
   Grid,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -39,9 +41,9 @@ const ProductFilter = ({
     setMaxPriceFilter(event.target.value);
   };
 
-  // const handlePriceChange = (event) => {
-  //   setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
-  // };
+  const handlePriceChange = (event) => {
+    setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
+  };
 
   const handleRatingChange = (event) => {
     setFilters((prevFilters) => ({ ...prevFilters, rating: event.target.value }));
@@ -89,17 +91,24 @@ const ProductFilter = ({
           />
         </Grid>
       </Grid>
-
-      {/* <RadioGroup value={filters.price} onChange={handlePriceChange}>
+      <ToggleButtonGroup
+        exclusive
+        value={filters.price}
+        onChange={handlePriceChange}
+        sx={{width: "100%", display:"flex"}}
+      >
         {priceOptions.map((item) => (
-          <FormControlLabel
-            key={item.value}
-            value={item.value}
-            control={<Radio />}
-            label={item.label}
-          />
+          <ToggleButton 
+            key={item.value} 
+            value={item.value} 
+            aria-label="left aligned"
+            sx={{height: 45, fontSize:11, fontWeight: "normal", flex: 1}}
+          >
+            {item.label}
+          </ToggleButton>
         ))}
-      </RadioGroup> */}
+      </ToggleButtonGroup>
+
     </Stack>
   );
 
