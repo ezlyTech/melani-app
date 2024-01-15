@@ -11,14 +11,16 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material"
-
+import { useParams } from "react-router-dom";
 import { useRouter } from "src/routes/hooks";
-import { useState } from "react";
+import axios from "axios"
+import { useEffect, useState } from "react";
 
 const Review = () => {
   const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
-
+  const { receiptNo } = useParams()
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? [...expanded, panel] : expanded.filter((p) => p !== panel));
@@ -39,6 +41,19 @@ const Review = () => {
     router.push("/home");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const items = await axios.get(`http://localhost:3031/api/reviews/${receiptNo}`)
+        console.log(items.data)
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [receiptNo])
+
   return (
     <Container>
       <Container sx={{ background: "#888c05", p: 2, borderRadius: "1em" }}>
@@ -47,145 +62,147 @@ const Review = () => {
           <b> Share your thoughts and help us sprinkle more joy into each order! 🍰</b>
         </Typography>
       </Container>
+      {!isLoading && <>
+        <Accordion
+          expanded={expanded.includes("panel1")}
+          onChange={handleChange("panel1")}
+          sx={{
+            borderRadius: "15px",
+            marginBottom: "8px"
+          }}>
+          <AccordionSummary
+            //  expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Box sx={{ display: "flex", gap: "1em" }}>
+              <img src="/assets/images/products/1.png"
+                alt=""
+                style={{
+                  height: "75px",
+                  width: "106px",
+                  objectFit: "cover",
+                  borderRadius: "15px"
+                }} />
+              <Box>
+                <Typography sx={{ fontWeight: "bold" }}>Double Choco</Typography>
+                <Rating sx={{ mt: "0.5em" }} /></Box>
+            </Box>
 
-      <Accordion
-        expanded={expanded.includes("panel1")}
-        onChange={handleChange("panel1")}
-        sx={{
-          borderRadius: "15px",
-          marginBottom: "8px"
-        }}>
-        <AccordionSummary
-          //  expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Box sx={{ display: "flex", gap: "1em" }}>
-            <img src="/assets/images/products/1.png"
-              alt=""
-              style={{
-                height: "75px",
-                width: "106px",
-                objectFit: "cover",
-                borderRadius: "15px"
-              }} />
-            <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Double Choco</Typography>
-              <Typography>1x Slice</Typography>
-              <Rating /></Box>
-          </Box>
+          </AccordionSummary>
 
-        </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              <TextField
+                id="outlined-basic"
+                label="Write a review"
+                variant="outlined"
+                sx={{ width: "100%" }}
+              />
+            </Typography>
 
-        <AccordionDetails>
-          <Typography>
-            <TextField
-              id="outlined-basic"
-              label="Write a review"
-              variant="outlined"
-              sx={{ width: "100%" }}
-            />
-          </Typography>
+            <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+              Upload Photo
+              <Input type="file" style={{ display: "none" }} />
+            </Button>
 
-          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
-            Upload Photo
-            <Input type="file" style={{ display: "none" }} />
-          </Button>
-
-        </AccordionDetails>
-      </Accordion>
-
-
-      <Accordion
-        expanded={expanded.includes("panel2")}
-        onChange={handleChange("panel2")}
-        sx={{
-          borderRadius: "15px",
-          marginBottom: "8px"
-        }}>
-        <AccordionSummary
-          //  expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <Box sx={{ display: "flex", gap: "1em" }}>
-            <img src="/assets/images/products/2.png" alt=""
-              style={{
-                height: "75px",
-                width: "106px",
-                objectFit: "cover",
-                borderRadius: "15px"
-              }} />
-            <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Biscuit Munch</Typography>
-              <Typography>1x Slice</Typography>
-              <Rating /></Box>
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            <TextField
-              id="outlined-basic"
-              label="Write a review"
-              variant="outlined"
-              sx={{ width: "100%" }}
-            />
-          </Typography>
-
-          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
-            Upload Photo
-            <Input type="file" style={{ display: "none" }} />
-          </Button>
-
-        </AccordionDetails>
-      </Accordion>
+          </AccordionDetails>
+        </Accordion>
 
 
-      <Accordion
-        expanded={expanded.includes("panel3")}
-        onChange={handleChange("panel3")}
-        sx={{
-          borderRadius: "15px",
-          marginBottom: "8px"
-        }}>
-        <AccordionSummary
-          //  expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Box sx={{ display: "flex", gap: "1em" }}>
-            <img src="/assets/images/products/3.png"
-              alt=""
-              style={{
-                height: "75px",
-                width: "106px",
-                objectFit: "cover",
-                borderRadius: "15px"
-              }} />
-            <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Red Velvet</Typography>
-              <Typography>1x Slice</Typography>
-              <Rating /></Box>
-          </Box>
+        <Accordion
+          expanded={expanded.includes("panel2")}
+          onChange={handleChange("panel2")}
+          sx={{
+            borderRadius: "15px",
+            marginBottom: "8px"
+          }}>
+          <AccordionSummary
+            //  expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2bh-content"
+            id="panel2bh-header"
+          >
+            <Box sx={{ display: "flex", gap: "1em" }}>
+              <img src="/assets/images/products/2.png" alt=""
+                style={{
+                  height: "75px",
+                  width: "106px",
+                  objectFit: "cover",
+                  borderRadius: "15px"
+                }} />
+              <Box>
+                <Typography sx={{ fontWeight: "bold" }}>Biscuit Munch</Typography>
+                <Typography>1x Slice</Typography>
+                <Rating /></Box>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              <TextField
+                id="outlined-basic"
+                label="Write a review"
+                variant="outlined"
+                sx={{ width: "100%" }}
+              />
+            </Typography>
 
-        </AccordionSummary>
+            <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+              Upload Photo
+              <Input type="file" style={{ display: "none" }} />
+            </Button>
 
-        <AccordionDetails>
-          <Typography>
-            <TextField
-              id="outlined-basic"
-              label="Write a review"
-              variant="outlined"
-              sx={{ width: "100%" }} />
-          </Typography>
+          </AccordionDetails>
+        </Accordion>
 
-          <Button component="label" sx={{ color: "#000000", top: "4px" }}>
-            Upload Photo
-            <Input type="file" style={{ display: "none" }} />
-          </Button>
 
-        </AccordionDetails>
-      </Accordion>
+        <Accordion
+          expanded={expanded.includes("panel3")}
+          onChange={handleChange("panel3")}
+          sx={{
+            borderRadius: "15px",
+            marginBottom: "8px"
+          }}>
+          <AccordionSummary
+            //  expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Box sx={{ display: "flex", gap: "1em" }}>
+              <img src="/assets/images/products/3.png"
+                alt=""
+                style={{
+                  height: "75px",
+                  width: "106px",
+                  objectFit: "cover",
+                  borderRadius: "15px"
+                }} />
+              <Box>
+                <Typography sx={{ fontWeight: "bold" }}>Red Velvet</Typography>
+                <Typography>1x Slice</Typography>
+                <Rating /></Box>
+            </Box>
+
+          </AccordionSummary>
+
+          <AccordionDetails>
+            <Typography>
+              <TextField
+                id="outlined-basic"
+                label="Write a review"
+                variant="outlined"
+                sx={{ width: "100%" }} />
+            </Typography>
+
+            <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+              Upload Photo
+              <Input type="file" style={{ display: "none" }} />
+            </Button>
+
+          </AccordionDetails>
+        </Accordion>
+
+
+      </>}
 
 
 
