@@ -1,6 +1,7 @@
 import express from 'express'
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
+import reviewsModel from '../models/reviews.js'
 
 const itemRoute = express.Router()
 
@@ -124,6 +125,12 @@ itemRoute.get('/:productID', async (req, res) => {
         modifiers.push(modifierData.data)
       }
     }
+
+    // LOGIC TO FIND PRODUCT REVIEWS DATA FROM DATABASE
+
+    const reviewsData = await reviewsModel.find({ itemID: itemData.data.id })
+    console.log("data", reviewsData)
+
 
     res.send({
       name: itemData.data.item_name,
