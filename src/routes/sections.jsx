@@ -47,7 +47,7 @@ export default function Router() {
         { path: "home", element: <HomePage /> },
         { path: "product-list/:categoryName/:categoryID", element: <ProductListPage /> },
         { path: "product-detail/:productID", element: <ProductDetailPage /> },
-        { path: "review", element: <ReviewPage /> },
+        { path: "review/:receiptNo", element: <ReviewPage /> },
         { path: "cart", element: <CartPage /> },
         { path: "favorites", element: <FavoritesPage /> }
 

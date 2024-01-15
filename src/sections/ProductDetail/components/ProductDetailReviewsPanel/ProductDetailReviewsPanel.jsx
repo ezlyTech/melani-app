@@ -2,6 +2,7 @@ import { Avatar, Box, Divider, Grid, Rating, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import EmptyState from "src/components/EmptyState";
 
+
 const stringToColor = (string) => {
   let hash = 0;
   let i;
@@ -38,7 +39,7 @@ const stringAvatar = (name) => {
 const ProductDetailReviewsPanel = ({ reviews }) => (
 
   !reviews ? (
-    <EmptyState value="reviews"/>
+    <EmptyState value="reviews />"
   ) : (
     reviews.map((item) => (
       <Box>
@@ -46,19 +47,19 @@ const ProductDetailReviewsPanel = ({ reviews }) => (
           <Grid item xs={1.75}>
             <Avatar
               sx={{ width: 20, height: 20 }}
-              {...stringAvatar(item.name)}
+              {...stringAvatar(item.customerName)}
             />
           </Grid>
           <Grid item xs mt={.75}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="subtitle2"> {item.name} </Typography>
+              <Typography variant="subtitle2"> {item.customerName} </Typography>
               <Rating
                 name="read-only"
                 value={item.rating}
                 readOnly
                 size="small" />
             </Box>
-            <Typography variant="caption">{item.comment}</Typography>
+            <Typography variant="caption">{item.review}</Typography>
           </Grid>
         </Grid>
         <Divider sx={{ mt: 1, mb: 1 }} />
