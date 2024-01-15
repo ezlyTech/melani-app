@@ -145,15 +145,18 @@ const ProductFilter = ({
 
   return (
     <>
-      <Button
-        disableRipple
-        color="inherit"
-        endIcon={<Iconify icon="ic:round-filter-list" />}
-        onClick={onOpenFilter}
-        sx={{ p: 0 }}
-      >
-        Filters&nbsp;
-      </Button>
+      <div style={{display: "flex", justifyContent: "flex-end"}}>
+        <Button
+          disableRipple
+          color="inherit"
+          endIcon={<Iconify icon="ic:round-filter-list" />}
+          onClick={onOpenFilter}
+          sx={{ p: 0 }}
+        >
+          Filters&nbsp;
+        </Button>
+      </div>
+      
 
       <Drawer
         anchor="right"

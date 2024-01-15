@@ -103,15 +103,7 @@ const ProductList = () => {
 
   return (
     <Container>
-      <ProductFilter
-        openFilter={openFilter}
-        onOpenFilter={handleOpenFilter}
-        onCloseFilter={handleCloseFilter}
-        filters={filters}
-        setFilters={setFilters}
-        ratingOptions={RATING_OPTIONS}
-        priceOptions={PRICE_OPTIONS}
-      />
+      
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
@@ -139,7 +131,24 @@ const ProductList = () => {
         )}
       </div>
 
-      <TitleTypography value={categoryName} />
+      <Grid container spacing={2} sx={{display: "flex", alignItems: "center"}}>
+        <Grid item xs={6}>
+          <TitleTypography value={categoryName} />
+        </Grid>
+        <Grid item xs={6} >
+          <ProductFilter
+            openFilter={openFilter}
+            onOpenFilter={handleOpenFilter}
+            onCloseFilter={handleCloseFilter}
+            filters={filters}
+            setFilters={setFilters}
+            ratingOptions={RATING_OPTIONS}
+            priceOptions={PRICE_OPTIONS}
+          />
+        </Grid>
+      </Grid>
+      
+      
 
       <Grid container spacing={2}>
         {filteredProducts.map((product, index) => (
