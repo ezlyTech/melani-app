@@ -43,6 +43,12 @@ const Review = () => {
     router.push("/home");
   };
 
+  const handleTextfieldChange = (event, index) => {
+    const modifiedReviewData = [...reviewData]
+    modifiedReviewData[index].review = event.target.value
+    setReviewData(modifiedReviewData)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,8 +63,7 @@ const Review = () => {
           review: null,
         }))
 
-        console.log(reviewDataFormat)
-
+        setReviewData(reviewDataFormat)
         setIsLoading(false)
       } catch (err) {
         console.log(err)
@@ -112,6 +117,7 @@ const Review = () => {
                   label="Write a review"
                   variant="outlined"
                   sx={{ width: "100%" }}
+                  onChange={(e) => handleTextfieldChange(e, i)}
                 />
               </Typography>
 
