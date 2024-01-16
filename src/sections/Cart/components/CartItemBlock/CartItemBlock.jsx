@@ -47,6 +47,7 @@ const CartItemBlock = ({
         sx={{
           color: "#3D2209",
           fontWeight: 600,
+          mb: 2,
         }}>
         Cart
       </Typography>
@@ -216,10 +217,10 @@ const CartItemBlock = ({
           </div>
         ))}
       </Stack>
-      
+
     </Container>
   )
-  
+
 )
 CartItemBlock.propTypes = {
   cartItems: PropTypes.array.isRequired,
