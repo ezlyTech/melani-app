@@ -22,14 +22,15 @@ export default function Home() {
   useVerifySession()
 
   useEffect(() => {
+    setName(sessionStorage.getItem("username"))
+
     const fetchData = async () => {
       try {
         const itemData = await axios.get("http://localhost:3031/api/categories");
         setCategories(itemData.data);
         setIsLoading(false);
       } catch (err) {
-        console.error(err);
-        setIsLoading(false); // Handle error and set loading state to false
+        console.log(err);
       }
     };
     fetchData();
