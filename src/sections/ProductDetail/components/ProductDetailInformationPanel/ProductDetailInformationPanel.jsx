@@ -55,7 +55,7 @@ const ProductDetailInformationPanel = ({
                     }
                   />
                 )
-              }-
+              }
             </Box>
           </FormGroup>
         </Box>
@@ -80,7 +80,7 @@ const ProductDetailInformationPanel = ({
 
               </span>
             </Typography>
-            <Typography variant="caption">Select one</Typography> <br />
+            <Typography variant="caption">Select your addons</Typography> <br />
             <FormControl
               sx={{
                 width: "100%",
@@ -152,7 +152,7 @@ const ProductDetailInformationPanel = ({
           onBlur={() => setIsFocused(false)}
         />
       </Box>
-    </div>
+    </div >
   );
 };
 
