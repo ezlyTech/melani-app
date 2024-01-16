@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 const ProductDetailUploadsPanel = ({ uploads }) => (
   <div>
     <Grid container spacing={2}>
-      {uploads.map((item) => (
+      {uploads.map((item, i) => (
         <Grid item xs>
           <Card
-            key={item.id}
+            key={i}
             sx={{
               minWidth: 135,
               maxWidth: 180,
@@ -17,7 +17,7 @@ const ProductDetailUploadsPanel = ({ uploads }) => (
           >
             <CardMedia
               sx={{ height: 220 }}
-              image={item.url}
+              image={item}
             />
           </Card>
         </Grid>
