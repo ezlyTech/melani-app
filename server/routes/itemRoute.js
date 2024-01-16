@@ -129,6 +129,17 @@ itemRoute.get('/:productID', async (req, res) => {
     // LOGIC TO FIND PRODUCT REVIEWS DATA FROM DATABASE
     const reviewsData = await reviewsModel.find({ itemID: itemData.data.id })
 
+    // LOGIC TO GROUP IMAGE UPLOADS
+    let imagesUploads = []
+
+    for (let i in reviewsData) {
+      for (let j in reviewsData[i].image) {
+        imagesUploads.push(reviewsData[i].image[j])
+      }
+    }
+
+    console.log(imagesUploads)
+
     res.send({
       name: itemData.data.item_name,
       price: minimumPrice,
@@ -139,26 +150,7 @@ itemRoute.get('/:productID', async (req, res) => {
       addons: modifiers,
       variants: variantData,
       reviews: reviewsData,
-      uploads: [
-        {
-          url: "/assets/images/products/1.png",
-        },
-        {
-          url: "/assets/images/products/2.png",
-        },
-        {
-          url: "/assets/images/products/3.png",
-        },
-        {
-          url: "/assets/images/products/4.png",
-        },
-        {
-          url: "/assets/images/products/5.png",
-        },
-        {
-          url: "/assets/images/products/6.png",
-        },
-      ],
+      uploads: imagesUploads,
     })
   } catch (err) {
     console.log(err)

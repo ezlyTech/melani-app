@@ -1,7 +1,7 @@
 import {
   Box,
   Modal,
-  Input,
+  // Input,
   Rating,
   Button,
   Container,
@@ -11,6 +11,8 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material"
+import CloudinaryUploadWidget from "src/components/CloudinaryUploadWidget";
+// import { Cloudinary } from "@cloudinary/url-gen";
 import { useParams } from "react-router-dom";
 import { useRouter } from "src/routes/hooks";
 import axios from "axios"
@@ -18,11 +20,22 @@ import { useEffect, useState } from "react";
 
 const Review = () => {
   const [itemData, setItemData] = useState()
-  const [reviewData, setReviewData] = useState()
+  const [reviewData, setReviewData] = useState([])
   const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
   const { receiptNo } = useParams()
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true)
+
+  // Start of Cloudinary Config
+  // const [publicId, setPublicId] = useState("");
+  const [cloudName] = useState("dpkfvs9d0");
+  const [uploadPreset] = useState("fno6u5qg");
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset
+  })
+  // End of Cloudinary Config 
+
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? [...expanded, panel] : expanded.filter((p) => p !== panel));
@@ -46,7 +59,7 @@ const Review = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    router.push("/home");
   };
 
   const handleSubmit = (e) => {
@@ -83,7 +96,7 @@ const Review = () => {
           customerName: sessionStorage.getItem("username"),
           rating: null,
           review: null,
-          image: null,
+          image: [],
         }))
 
         setReviewData(reviewDataFormat)
@@ -103,6 +116,7 @@ const Review = () => {
           <b> Share your thoughts and help us sprinkle more joy into each order! 🍰</b>
         </Typography>
       </Container>
+
       {!isLoading && <>
         {itemData.map((item, i) => (
           <Accordion
@@ -148,10 +162,18 @@ const Review = () => {
                 />
               </Typography>
 
-              <Button component="label" sx={{ color: "#000000", top: "4px" }}>
+              {/* <Button component="label" sx={{ color: "#000000", top: "4px" }}>
                 Upload Photo
                 <Input type="file" style={{ display: "none" }} />
-              </Button>
+              </Button> */}
+
+              {/* Upload utton */}
+              <CloudinaryUploadWidget
+                uwConfig={uwConfig}
+                setReviewData={setReviewData}
+                reviewData={reviewData}
+                index={i}
+              />
 
             </AccordionDetails>
           </Accordion>

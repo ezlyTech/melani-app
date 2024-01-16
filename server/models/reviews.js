@@ -8,7 +8,10 @@ const reviewsSchema = new Schema({
   customerName: String,
   rating: Number,
   review: String,
-  image: String,
+  image: {
+    type: Array,
+    of: String,
+  },
 })
 
 const reviewsModel = mongoose.model('reviews', reviewsSchema)
