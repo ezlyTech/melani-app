@@ -45,8 +45,8 @@ const HomeMenuBlock = ({ title, category }) => {
       {!isLoading &&(
         <Box sx={{ mb: 6 }}>
           <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
-
-          <Grid container spacing={2}>
+  
+          <Grid container spacing={2} sx={{width: { md: "fit-content"}}}>
             {products.map((product, index) => (
               <Grid item xs key={index}>
                 <div

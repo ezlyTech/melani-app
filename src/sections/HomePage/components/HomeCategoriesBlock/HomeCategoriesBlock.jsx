@@ -14,7 +14,7 @@ const HomeCategoriesBlock = ({ categories }) => {
 
   return (
     <Container sx={{ bgcolor: "#FFFAF6" }}>
-      <TitleTypography value="Categories"  />
+      <TitleTypography value="Categories" />
       <Grid container spacing={1} sx={{ display: "flex", justifyContent: {xs:"space-between", md: "start"}, width: {md: "fit-content"}, pb: 4 }}>
         {categories.map((category, index) => (
           <Grid item xs key={index}>
