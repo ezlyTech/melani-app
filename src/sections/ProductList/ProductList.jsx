@@ -52,7 +52,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3031/api/items/list/${categoryID}`);
+        const response = await axios.get(`http://localhost:3031/api/items/category/${categoryID}`);
         setProductData(response.data);
         setIsLoading(false);
         console.log(response);
@@ -103,7 +103,7 @@ const ProductList = () => {
 
   return (
     <Container>
-      
+
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
@@ -131,7 +131,7 @@ const ProductList = () => {
         )}
       </div>
 
-      <Grid container spacing={2} sx={{display: "flex", alignItems: "center"}}>
+      <Grid container spacing={2} sx={{ display: "flex", alignItems: "center" }}>
         <Grid item xs={6}>
           <TitleTypography value={categoryName} />
         </Grid>
@@ -147,8 +147,8 @@ const ProductList = () => {
           />
         </Grid>
       </Grid>
-      
-      
+
+
 
       <Grid container spacing={2}>
         {filteredProducts.map((product, index) => (
