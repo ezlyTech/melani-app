@@ -1,24 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
   Container,
-  Typography,
-  LinearProgress
+  Typography
 } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import usePreventReload from "src/routes/hooks/usePreventReload";
-import UserContext from "../../UserContext";
+import useVerifySession from "src/routes/hooks/useVerifySession";
+// import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth0()
-  const { name } = useContext(UserContext);
+  // const { name } = useContext(UserContext);
+  const [name, setName] = useState()
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  usePreventReload();
+  useVerifySession()
 
   useEffect(() => {
     const fetchData = async () => {
