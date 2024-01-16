@@ -39,7 +39,7 @@ const stringAvatar = (name) => {
 const ProductDetailReviewsPanel = ({ reviews }) => (
 
   !reviews ? (
-    <EmptyState value="reviews />"
+    <EmptyState value="reviews" />
   ) : (
     reviews.map((item) => (
       <Box>
