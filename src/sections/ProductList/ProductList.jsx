@@ -25,15 +25,15 @@ const RATING_LABELS = {
 const PRICE_OPTIONS = [
   {
     value: "below",
-    label: "Below ₱300"
+    label: "0 - 500"
   },
   {
     value: "between",
-    label: "Between ₱300 - ₱500"
+    label: "500 - 1000"
   },
   {
     value: "above",
-    label: "Above ₱500"
+    label: "1000 - 2000"
   },
 ];
 
@@ -82,13 +82,13 @@ const ProductList = () => {
     let filteredProducts = [...products];
 
     if (filters.price === "below") {
-      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 300);
+      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 500);
     } else if (filters.price === "between") {
       filteredProducts = filteredProducts.filter(
-        (product) => parseFloat(product.price) >= 300 && parseFloat(product.price) <= 500
+        (product) => parseFloat(product.price) >= 500 && parseFloat(product.price) <= 1000
       );
     } else if (filters.price === "above") {
-      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) > 500);
+      filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) > 1000);
     }
 
     if (filters.rating) {
@@ -103,15 +103,7 @@ const ProductList = () => {
 
   return (
     <Container>
-      <ProductFilter
-        openFilter={openFilter}
-        onOpenFilter={handleOpenFilter}
-        onCloseFilter={handleCloseFilter}
-        filters={filters}
-        setFilters={setFilters}
-        ratingOptions={RATING_OPTIONS}
-        priceOptions={PRICE_OPTIONS}
-      />
+      
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
@@ -139,7 +131,24 @@ const ProductList = () => {
         )}
       </div>
 
-      <TitleTypography value={categoryName} />
+      <Grid container spacing={2} sx={{display: "flex", alignItems: "center"}}>
+        <Grid item xs={6}>
+          <TitleTypography value={categoryName} />
+        </Grid>
+        <Grid item xs={6} >
+          <ProductFilter
+            openFilter={openFilter}
+            onOpenFilter={handleOpenFilter}
+            onCloseFilter={handleCloseFilter}
+            filters={filters}
+            setFilters={setFilters}
+            ratingOptions={RATING_OPTIONS}
+            priceOptions={PRICE_OPTIONS}
+          />
+        </Grid>
+      </Grid>
+      
+      
 
       <Grid container spacing={2}>
         {filteredProducts.map((product, index) => (

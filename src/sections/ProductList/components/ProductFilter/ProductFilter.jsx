@@ -13,7 +13,12 @@ import {
   Typography,
   IconButton,
   FormControlLabel,
+  TextField,
+  Grid,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
+import { useState } from "react";
 
 const ProductFilter = ({
   openFilter,
@@ -24,6 +29,18 @@ const ProductFilter = ({
   ratingOptions,
   priceOptions,
 }) => {
+  const [minPriceFilter, setMinPriceFilter] = useState(0)
+
+  const handleMinPriceFilterChange = (event) => {
+    setMinPriceFilter(event.target.value);
+  };
+
+  const [maxPriceFilter, setMaxPriceFilter] = useState(2000)
+
+  const handleMaxPriceFilterChange = (event) => {
+    setMaxPriceFilter(event.target.value);
+  };
+
   const handlePriceChange = (event) => {
     setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
   };
@@ -42,16 +59,56 @@ const ProductFilter = ({
   const renderPrice = (
     <Stack spacing={1}>
       <Typography variant="subtitle2">Price</Typography>
-      <RadioGroup value={filters.price} onChange={handlePriceChange}>
-        {priceOptions.map((item) => (
-          <FormControlLabel
-            key={item.value}
-            value={item.value}
-            control={<Radio />}
-            label={item.label}
+      <Grid container spacing={2}>
+        <Grid item xs={5}>
+          <TextField
+            id="outlined-number"
+            label="Min"
+            type="number"
+            value={minPriceFilter}
+            onChange={handleMinPriceFilterChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              "& .MuiInputBase-root": {height: 40}
+            }}
           />
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            id="outlined-number"
+            label="Max"
+            type="number"
+            value={maxPriceFilter}
+            onChange={handleMaxPriceFilterChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              "& .MuiInputBase-root": {height: 40}
+            }}
+          />
+        </Grid>
+      </Grid>
+      <ToggleButtonGroup
+        exclusive
+        value={filters.price}
+        onChange={handlePriceChange}
+        sx={{width: "100%", display:"flex"}}
+      >
+        {priceOptions.map((item) => (
+          <ToggleButton 
+            key={item.value} 
+            value={item.value} 
+            aria-label="left aligned"
+            sx={{height: 45, fontSize:11, fontWeight: "normal", flex: 1}}
+          >
+            {item.label}
+          </ToggleButton>
         ))}
-      </RadioGroup>
+      </ToggleButtonGroup>
+
     </Stack>
   );
 
@@ -88,15 +145,18 @@ const ProductFilter = ({
 
   return (
     <>
-      <Button
-        disableRipple
-        color="inherit"
-        endIcon={<Iconify icon="ic:round-filter-list" />}
-        onClick={onOpenFilter}
-        sx={{ p: 0 }}
-      >
-        Filters&nbsp;
-      </Button>
+      <div style={{display: "flex", justifyContent: "flex-end"}}>
+        <Button
+          disableRipple
+          color="inherit"
+          endIcon={<Iconify icon="ic:round-filter-list" />}
+          onClick={onOpenFilter}
+          sx={{ p: 0 }}
+        >
+          Filters&nbsp;
+        </Button>
+      </div>
+      
 
       <Drawer
         anchor="right"
