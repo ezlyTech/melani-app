@@ -38,7 +38,7 @@ const ProductDetail = () => {
   const [selectedAddonList, setSelectedAddonList] = useState([])
   const [totalPrice, setTotalPrice] = useState()
   const [unitPrice, setUnitPrice] = useState()
-  const [buttonDisabled, setButtonDisabled] = useState(false)
+  // const [buttonDisabled, setButtonDisabled] = useState(false)
   const { productID } = useParams()
 
   const handleVariationChange = (variation, i) => {
@@ -221,20 +221,20 @@ const ProductDetail = () => {
     console.log("options", selectedVariation)
   }, [selectedAddonList, selectedVariation])
 
-  useEffect(() => {
-    const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"));
-    let matchedItem
+  // useEffect(() => {
+  //   const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"));
+  //   let matchedItem
 
-    if (currentCartItems) {
-      matchedItem = currentCartItems.find((item) => item.id === productID);
-      setButtonDisabled(!!matchedItem)
+  //   if (currentCartItems) {
+  //     matchedItem = currentCartItems.find((item) => item.id === productID);
+  //     // setButtonDisabled(!!matchedItem)
 
-    } else {
-      setButtonDisabled(false)
-    }
+  //   } else {
+  //     // setButtonDisabled(false)
+  //   }
 
 
-  }, [productID, isCartUpdated])
+  // }, [productID, isCartUpdated])
 
   return (
     !isLoading &&
@@ -359,7 +359,7 @@ const ProductDetail = () => {
             variant="contained"
             sx={{ ml: 2 }}
             onClick={handleSubmit}
-            disabled={buttonDisabled}
+          // disabled={buttonDisabled}
           >
             <Iconify icon="eva:shopping-cart-outline" mr={1} />
             Add to Cart
