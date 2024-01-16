@@ -11,6 +11,8 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material"
+import CloudinaryUploadWidget from "src/components/CloudinaryUploadWidget";
+import { Cloudinary } from "@cloudinary/url-gen";
 import { useParams } from "react-router-dom";
 import { useRouter } from "src/routes/hooks";
 import axios from "axios"
@@ -24,6 +26,19 @@ const Review = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true)
 
+  // Start of Cloudinary Config
+  const [publicId, setPublicId] = useState("");
+  // Replace with your own cloud name
+  const [cloudName] = useState("dpkfvs9d0");
+  // Replace with your own upload preset
+  const [uploadPreset] = useState("fno6u5qg");
+
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset
+  })
+
+  // End of Cloudinary Config 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? [...expanded, panel] : expanded.filter((p) => p !== panel));
   };
@@ -103,6 +118,7 @@ const Review = () => {
           <b> Share your thoughts and help us sprinkle more joy into each order! 🍰</b>
         </Typography>
       </Container>
+      <CloudinaryUploadWidget uwConfig={uwConfig} setPublicId={setPublicId} />
       {!isLoading && <>
         {itemData.map((item, i) => (
           <Accordion
