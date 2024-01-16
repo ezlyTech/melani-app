@@ -16,7 +16,8 @@ import {
   TabList,
   TabPanel,
 } from "@mui/lab";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "src/UserContext";
 import Iconify from "src/components/iconify";
 import { useParams } from "react-router-dom";
 import axios from "axios"
@@ -27,6 +28,7 @@ import {
 } from "./components";
 
 const ProductDetail = () => {
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
   const [value, setValue] = useState("1");
   const [quantity, setQuantity] = useState(1);
   const [productDetails, setProductDetails] = useState()
@@ -35,7 +37,9 @@ const ProductDetail = () => {
   const [selectedVariantID, setSelectedVariantID] = useState("")
   const [selectedAddons, setSelectedAddons] = useState([""]);
   const [selectedAddonList, setSelectedAddonList] = useState([])
-  const [price, setPrice] = useState()
+  const [totalPrice, setTotalPrice] = useState()
+  const [unitPrice, setUnitPrice] = useState()
+  // const [buttonDisabled, setButtonDisabled] = useState(false)
   const { productID } = useParams()
 
   const handleVariationChange = (variation, i) => {
@@ -55,16 +59,24 @@ const ProductDetail = () => {
     const modifiedAddons = [...selectedAddons];
     modifiedAddons[index] = event.target.value !== undefined ? event.target.value : "";
 
-    Object.keys(productDetails.addons).forEach((i) => {
-      Object.keys(productDetails.addons[i].modifier_options).forEach((j) => {
-        if (productDetails.addons[i].modifier_options[j].id === event.target.value) {
-          setSelectedAddonList([{
-            id: productDetails.addons[i].modifier_options[j].id,
-            price: productDetails.addons[i].modifier_options[j].price,
-          }])
-        }
+    if (event.target.checked) {
+      Object.keys(productDetails.addons).forEach((i) => {
+        Object.keys(productDetails.addons[i].modifier_options).forEach((j) => {
+          if (productDetails.addons[i].modifier_options[j].id === event.target.value) {
+            setSelectedAddonList((prevList) => [
+              ...prevList,
+              {
+                id: productDetails.addons[i].modifier_options[j].id,
+                name: productDetails.addons[i].modifier_options[j].name,
+                price: productDetails.addons[i].modifier_options[j].price,
+              }
+            ])
+          }
+        });
       });
-    });
+    } else {
+      setSelectedAddonList(selectedAddonList.filter((addon) => addon.id !== event.target.value))
+    }
 
 
     setSelectedAddons(modifiedAddons);
@@ -91,10 +103,35 @@ const ProductDetail = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    const lineItems = [
+      {
+        id: productID,
+        selectedVariation,
+        selectedAddons: selectedAddonList,
+        quantity,
+        unitPrice,
+        totalPrice,
+        variantID: selectedVariantID,
+      }
+    ]
+
+    const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"))
+
+    if (currentCartItems) {
+      currentCartItems.push(lineItems[0])
+      sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
+    } else {
+      sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+    }
+
+    setIsCartUpdated(!isCartUpdated)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/single/${productID}`)
+        const productData = await axios.get(`http://localhost:3031/api/items/${productID}`)
         setProductDetails(productData.data)
         setIsLoading(false)
         console.log(productData.data)
@@ -138,8 +175,9 @@ const ProductDetail = () => {
       });
 
       if (matchingVariant) {
-        setSelectedVariantID(matchingVariant.variantID);
-        setPrice(matchingVariant.price * quantity)
+        setSelectedVariantID(matchingVariant.variantID)
+        setUnitPrice(matchingVariant.price)
+        setTotalPrice(matchingVariant.price * quantity)
       }
     }
   }, [
@@ -161,10 +199,10 @@ const ProductDetail = () => {
               addonTotal += addon.price;
             });
 
-            setPrice((matchingVariant.price + addonTotal) * quantity)
+            setTotalPrice((matchingVariant.price + addonTotal) * quantity)
           }
           else {
-            setPrice(matchingVariant.price * quantity);
+            setTotalPrice(matchingVariant.price * quantity);
           }
         }
       }
@@ -180,32 +218,24 @@ const ProductDetail = () => {
   ])
 
   useEffect(() => {
-    console.log("addons", selectedAddons)
+    console.log("addons", selectedAddonList)
     console.log("options", selectedVariation)
-  }, [selectedAddons, selectedVariation])
+  }, [selectedAddonList, selectedVariation])
 
-  const SampleReviews = [
-    {
-      name: "Alex Kim",
-      rating: 4,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Justin Timberlake",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Ji Chang Wook",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-    {
-      name: "Steph",
-      rating: 5,
-      comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum fugit necessitatibus nostrum.",
-    },
-  ]
+  // useEffect(() => {
+  //   const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"));
+  //   let matchedItem
+
+  //   if (currentCartItems) {
+  //     matchedItem = currentCartItems.find((item) => item.id === productID);
+  //     // setButtonDisabled(!!matchedItem)
+
+  //   } else {
+  //     // setButtonDisabled(false)
+  //   }
+
+
+  // }, [productID, isCartUpdated])
 
   return (
     <>
@@ -219,8 +249,8 @@ const ProductDetail = () => {
           <CircularProgress variant="indeterminate" />
         </Box>
       )}
-
-      {!isLoading &&(
+      
+      {!isLoading && (
         <>
           <Card sx={{ borderRadius: 0 }}>
             <CardMedia
@@ -254,7 +284,7 @@ const ProductDetail = () => {
                 </Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography fontWeight={600}>₱ {price}</Typography>
+                <Typography fontWeight={600}>₱ {totalPrice}</Typography>
               </Grid>
             </Grid>
 
@@ -281,7 +311,7 @@ const ProductDetail = () => {
                   />
                 </TabPanel>
                 <TabPanel value="2">
-                  <ProductDetailReviewsPanel reviews={SampleReviews} />
+                  <ProductDetailReviewsPanel reviews={productDetails.reviews} />
                 </TabPanel>
                 <TabPanel value="3">
                   <ProductDetailUploadsPanel uploads={productDetails.uploads} />
@@ -338,16 +368,21 @@ const ProductDetail = () => {
               </Button>
             </Box>
             <Box>
-              <Button variant="contained" sx={{ ml: 2 }}>
+              <Button
+                variant="contained"
+                sx={{ ml: 2 }}
+                onClick={handleSubmit}
+                // disabled={buttonDisabled}
+              >
                 <Iconify icon="eva:shopping-cart-outline" mr={1} />
             Add to Cart
               </Button>
             </Box>
           </Paper >
         </>
+
       )}
     </>
-    
     
   )
 }
