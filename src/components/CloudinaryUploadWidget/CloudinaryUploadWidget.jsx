@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const CloudinaryScriptContext = createContext();
 
-const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
+const CloudinaryUploadWidget = ({ uwConfig, setReviewData, index, reviewData }) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,10 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
         (error, result) => {
           if (!error && result && result.event === "success") {
             console.log("Done! Here is the image info: ", result.info);
-            setPublicId(result.info.public_id);
+
+            const modifiedReviewData = [...reviewData]
+            modifiedReviewData[index].image.push(result.info.secure_url)
+            setReviewData(modifiedReviewData);
           }
         }
       );
@@ -57,8 +60,16 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
         id="upload_widget"
         className="cloudinary-button"
         onClick={initializeCloudinaryWidget}
+        style={{
+          backgroundColor: "inherit",
+          color: "black",
+          border: "none",
+          fontWeight: "600",
+          marginTop: "4px",
+          fontSize: "0.9em"
+        }}
       >
-        Upload
+        Upload Photo
       </button>
     </CloudinaryScriptContext.Provider>
   );
@@ -66,7 +77,9 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
 
 CloudinaryUploadWidget.propTypes = {
   uwConfig: PropTypes.object,
-  setPublicId: PropTypes.func,
+  setReviewData: PropTypes.func,
+  index: PropTypes.number,
+  reviewData: PropTypes.array,
 }
 
 export default CloudinaryUploadWidget
