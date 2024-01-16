@@ -21,7 +21,7 @@ export const primary = {
   lighter: "#D0ECFE",
   light: "#73BAFB",
   main: "#888C03",
-  dark: "#0C44AE",
+  dark: "#888C03",
   darker: "#042174",
   contrastText: "#FFFFFF",
 };
