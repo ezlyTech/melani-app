@@ -42,18 +42,27 @@ export default function Home() {
       {!isLoading && (
         <>
           <Container sx={{ bgcolor: "#FFEEE1" }}>
-            <Typography mt={1} mb={1} variant="h4" color="#3D2209">
-              Welcome, {isAuthenticated ? user.given_name : name}!
+            <Typography
+              mt={1} mb={1}
+              variant="h4"
+              color="#3D2209"
+            >
+            Welcome, {isAuthenticated ? user.given_name : name}!
             </Typography>
           </Container>
           <Card sx={{ borderRadius: 0 }}>
-            <CardMedia sx={{ height: 140 }} image="/assets/images/banner.png" />
+            <CardMedia
+              sx={{ height: 140 }}
+              image="/assets/images/banner.png"
+            />
           </Card>
           <HomeCategoriesBlock categories={categories} />
           <Container>
-            {categories.map((category, index) => (
-              <HomeMenuBlock category={category} key={index} />
-            ))}
+            {categories.map((category, index) =>
+              <HomeMenuBlock
+                category={category}
+                key={index} />
+            )}
           </Container>
         </>
       )}
