@@ -59,7 +59,7 @@ const Review = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    router.push("/home");
   };
 
   const handleSubmit = (e) => {
