@@ -38,7 +38,7 @@ const stringAvatar = (name) => {
 
 const ProductDetailReviewsPanel = ({ reviews }) => (
 
-  !reviews ? (
+  reviews.length === 0 ? (
     <EmptyState value="reviews" />
   ) : (
     reviews.map((item) => (

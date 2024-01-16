@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import EmptyState from "src/components/EmptyState";
 
 const ProductDetailUploadsPanel = ({ uploads }) => (
-  !uploads ? (
+  uploads.length === 0 ? (
     <EmptyState value="uploads" />
   ) : (
     <div>
