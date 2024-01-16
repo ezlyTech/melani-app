@@ -16,6 +16,7 @@ import {
 } from "@mui/material"
 import Iconify from "src/components/iconify";
 import { PropTypes } from "prop-types";
+import EmptyState from "src/components/EmptyState";
 
 const CartItemBlock = ({
   cartItems,
@@ -29,16 +30,27 @@ const CartItemBlock = ({
   handleIncrement,
   handleDecrement
 }) => (
-  <Container>
-    <Typography
-      sx={{
-        color: "#3D2209",
-        fontWeight: 600,
-      }}>
-      Cart
-    </Typography>
+  cartData.length === 0 ? (
+    <Container>
+      <Typography
+        sx={{
+          color: "#3D2209",
+          fontWeight: 600,
+        }}>
+        Cart
+      </Typography>
+      <EmptyState value="items" />
+    </Container>
+  ) : (
+    <Container>
+      <Typography
+        sx={{
+          color: "#3D2209",
+          fontWeight: 600,
+        }}>
+        Cart
+      </Typography>
 
-    {cartItems &&
       <Stack spacing={1} sx={{ paddingBottom: 22 }}>
         {cartItems.map((product, i) => (
           <div key={i}>
@@ -204,9 +216,10 @@ const CartItemBlock = ({
           </div>
         ))}
       </Stack>
-    }
-
-  </Container>
+      
+    </Container>
+  )
+  
 )
 CartItemBlock.propTypes = {
   cartItems: PropTypes.array.isRequired,

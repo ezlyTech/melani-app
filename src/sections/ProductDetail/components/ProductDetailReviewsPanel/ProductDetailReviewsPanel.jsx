@@ -1,5 +1,7 @@
 import { Avatar, Box, Divider, Grid, Rating, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+import EmptyState from "src/components/EmptyState";
+
 
 const stringToColor = (string) => {
   let hash = 0;
@@ -35,30 +37,35 @@ const stringAvatar = (name) => {
 };
 
 const ProductDetailReviewsPanel = ({ reviews }) => (
-  reviews.map((item) => (
-    <Box>
-      <Grid container spacing={0.5} sx={{ alignItems: "start", }}>
-        <Grid item xs={1.75}>
-          <Avatar
-            sx={{ width: 20, height: 20 }}
-            {...stringAvatar(item.customerName)}
-          />
+
+  !reviews ? (
+    <EmptyState value="reviews />"
+  ) : (
+    reviews.map((item) => (
+      <Box>
+        <Grid container spacing={0.5} sx={{ alignItems: "start", }}>
+          <Grid item xs={1.75}>
+            <Avatar
+              sx={{ width: 20, height: 20 }}
+              {...stringAvatar(item.customerName)}
+            />
+          </Grid>
+          <Grid item xs mt={.75}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="subtitle2"> {item.customerName} </Typography>
+              <Rating
+                name="read-only"
+                value={item.rating}
+                readOnly
+                size="small" />
+            </Box>
+            <Typography variant="caption">{item.review}</Typography>
+          </Grid>
         </Grid>
-        <Grid item xs mt={.75}>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="subtitle2"> {item.customerName} </Typography>
-            <Rating
-              name="read-only"
-              value={item.rating}
-              readOnly
-              size="small" />
-          </Box>
-          <Typography variant="caption">{item.review}</Typography>
-        </Grid>
-      </Grid>
-      <Divider sx={{ mt: 1, mb: 1 }} />
-    </Box >
-  ))
+        <Divider sx={{ mt: 1, mb: 1 }} />
+      </Box >
+    ))
+  )
 )
 
 ProductDetailReviewsPanel.propTypes = {

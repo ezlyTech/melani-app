@@ -5,6 +5,7 @@ import {
   Typography
 } from "@mui/material";
 import { ProductCard } from "src/components";
+import EmptyState from "src/components/EmptyState";
 
 const Favorites = () => {
   const sampleProducts = [
@@ -35,21 +36,34 @@ const Favorites = () => {
   ];
 
   return (
-    <Container>
-      <Typography
-        variant="h5"
-        align="left" gutterBottom
-        sx={{ marginBottom: "15px" }}>
-        Favorites
-      </Typography>
-      <Grid container spacing={2}>
-        {sampleProducts.map((product, index) => (
-          <Grid item xs key={index}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    !sampleProducts ? (
+      <Container>
+        <Typography
+          variant="h5"
+          align="left" gutterBottom
+          sx={{ marginBottom: "15px" }}>
+          Favorites
+        </Typography>
+        <EmptyState value="favorites" />
+      </Container>
+    ) : (
+      <Container>
+        <Typography
+          variant="h5"
+          align="left" gutterBottom
+          sx={{ marginBottom: "15px" }}>
+          Favorites
+        </Typography>
+        <Grid container spacing={2}>
+          {sampleProducts.map((product, index) => (
+            <Grid item xs key={index}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    )
+    
   );
 };
 
