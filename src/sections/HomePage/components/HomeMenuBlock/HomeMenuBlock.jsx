@@ -1,6 +1,7 @@
 import {
   Grid,
   Box,
+  CircularProgress
 } from "@mui/material";
 import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
@@ -26,30 +27,40 @@ const HomeMenuBlock = ({ title, category }) => {
     fetchData()
   }, [category])
 
-
   return (
-    !isLoading &&
     <Box sx={{ mb: 6 }}>
       <TitleTypography value={category.name} hasBtn onClick={() => navigate(`/product-list/${category.name}/${category.category_id}`)} />
 
-      <Grid container spacing={2} sx={{width: { md: "fit-content"}}}>
-        {products.map((product, index) => (
-          <Grid item xs key={index}>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/product-detail/${product.product_id}`)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  navigate(`/product-detail/${product.product_id}`)
-                }
-              }}
-            >
-              <ProductCard product={product} />
-            </div>
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && (
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <CircularProgress variant="indeterminate" />
+        </Box>
+      )}
+
+      {!isLoading && (
+        <Grid container spacing={2} sx={{width: { md: "fit-content"}}}>
+          {products.map((product, index) => (
+            <Grid item xs key={index}>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => navigate(`/product-detail/${product.product_id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    navigate(`/product-detail/${product.product_id}`)
+                  }
+                }}
+              >
+                <ProductCard product={product} />
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   )
 }

@@ -2,6 +2,8 @@ import {
   Chip,
   Container,
   Grid,
+  Box,
+  CircularProgress
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { ProductCard, TitleTypography } from "src/components";
@@ -102,73 +104,85 @@ const ProductList = () => {
   const filteredProducts = applyFilters(productData);
 
   return (
-    <Container>
-
-
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-
-      <div
-        style={{
+    <>
+      {isLoading && (
+        <Box sx={{
           display: "flex",
-          gap: "8px",
-          flexWrap: "wrap",
-          marginBottom: "16px",
-          marginTop: ".5em",
-        }}
-      >
-        {filters.price && (
-          <Chip
-            label={`Price: ${PRICE_OPTIONS.find((opt) => opt.value === filters.price)?.label}`}
-            onDelete={() => handleRemoveFilter("price")}
-          />
-        )}
-        {filters.rating && (
-          <Chip
-            label={`Rating: ${RATING_LABELS[filters.rating]}`}
-            onDelete={() => handleRemoveFilter("rating")}
-          />
-        )}
-      </div>
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh"
+        }}>
+          <CircularProgress variant="indeterminate" />
+        </Box>
+      )}
+      {!isLoading && (
+        <Container>
+          
+          {error && <p>Error: {error}</p>}
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              flexWrap: "wrap",
+              marginBottom: "16px",
+              marginTop: ".5em",
+            }}
+          >
+            {filters.price && (
+              <Chip
+                label={`Price: ${PRICE_OPTIONS.find((opt) => opt.value === filters.price)?.label}`}
+                onDelete={() => handleRemoveFilter("price")}
+              />
+            )}
+            {filters.rating && (
+              <Chip
+                label={`Rating: ${RATING_LABELS[filters.rating]}`}
+                onDelete={() => handleRemoveFilter("rating")}
+              />
+            )}
+          </div>
 
-      <Grid container spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-        <Grid item xs={6}>
-          <TitleTypography value={categoryName} />
-        </Grid>
-        <Grid item xs={6} >
-          <ProductFilter
-            openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
-            filters={filters}
-            setFilters={setFilters}
-            ratingOptions={RATING_OPTIONS}
-            priceOptions={PRICE_OPTIONS}
-          />
-        </Grid>
-      </Grid>
-
-
-
-      <Grid container spacing={2}>
-        {filteredProducts.map((product, index) => (
-          <Grid item xs key={index}>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/product-detail/${product.product_id}`)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  console.log("test")
-                }
-              }}
-            >
-              <ProductCard product={product} />
-            </div>
+          <Grid container spacing={2} sx={{ display: "flex", alignItems: "center" }}>
+            <Grid item xs={6}>
+              <TitleTypography value={categoryName} />
+            </Grid>
+            <Grid item xs={6} >
+              <ProductFilter
+                openFilter={openFilter}
+                onOpenFilter={handleOpenFilter}
+                onCloseFilter={handleCloseFilter}
+                filters={filters}
+                setFilters={setFilters}
+                ratingOptions={RATING_OPTIONS}
+                priceOptions={PRICE_OPTIONS}
+              />
+            </Grid>
           </Grid>
-        ))}
-      </Grid>
-    </Container >
+
+
+
+          <Grid container spacing={2}>
+            {filteredProducts.map((product, index) => (
+              <Grid item xs key={index}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate(`/product-detail/${product.product_id}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      console.log("test")
+                    }
+                  }}
+                >
+                  <ProductCard product={product} />
+                </div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container >
+      )}
+   
+    </>
   );
 };
 
