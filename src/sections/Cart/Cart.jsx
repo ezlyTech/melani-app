@@ -1,4 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
+import {
+  Box,
+  CircularProgress
+} from "@mui/material";
 import axios from "axios"
 import UserContext from "src/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -170,22 +174,37 @@ export default function Cart() {
   }, [])
 
   return (
-    !isLoading &&
     <>
-      <CartItemBlock
-        cartItems={productData}
-        cartData={cartData}
-        optionChange={optionChange}
-        clearAddons={clearAddons}
-        deleteItem={handleItemDelete}
-        handleIncrement={handleIncrement}
-        handleDecrement={handleDecrement}
-      />
-      <CartPreviewBlock
-        cartData={cartData}
-        handlePlaceOrder={handlePlaceOrder}
-        setTableNumber={setTableNumber}
-      />
+      {isLoading && (
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh"
+        }}>
+          <CircularProgress variant="indeterminate" />
+        </Box>
+      )}
+      {!isLoading &&(
+        <>
+          <CartItemBlock
+            cartItems={productData}
+            cartData={cartData}
+            optionChange={optionChange}
+            clearAddons={clearAddons}
+            deleteItem={handleItemDelete}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+          />
+          <CartPreviewBlock
+            cartData={cartData}
+            handlePlaceOrder={handlePlaceOrder}
+            setTableNumber={setTableNumber}
+          />
+        </>
+
+      )}
+    
     </>
   );
 }
