@@ -4,16 +4,17 @@ const { Schema } = mongoose;
 
 const usersSchema = new Schema({
   name: String,
+  email: String,
   cart: {
     type: Array,
     of: Object,
-  }
+  },
   favorites: {
     type: Array,
     of: Object,
-  }
+  },
 })
 
-const reviewsModel = mongoose.model('users', usersSchema)
+const usersModel = mongoose.model('users', usersSchema)
 
-export default reviewsModel
+export default usersModel
