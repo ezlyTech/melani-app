@@ -35,11 +35,11 @@ const navConfig = [
     path: "/favorites",
     icon: icon("ic_bookmark"),
   },
-  {
-    title: "rate us",
-    path: "/review",
-    icon: icon("ic_review"),
-  },
+  // {
+  //   title: "rate us",
+  //   path: "/review",
+  //   icon: icon("ic_review"),
+  // },
   {
     title: "logout",
     path: "/",
