@@ -208,7 +208,7 @@ const CartItemBlock = ({
                     <Iconify icon="eva:plus-outline" width="14px" sx={{ "&.MuiButton": { pl: "500px" } }} />
                   </Button>
                 </Box>
-                <IconButton sx={{ width: "fit-content" }} onClick={() => deleteItem(i)}>
+                <IconButton sx={{ width: "fit-content" }} onClick={() => deleteItem(i, cartData[i].id)}>
                   <Iconify icon="ic:outline-delete" color="#760101" />
                 </IconButton>
               </Grid>

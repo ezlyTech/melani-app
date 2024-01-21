@@ -28,7 +28,7 @@ import {
 } from "./components";
 
 const ProductDetail = () => {
-  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
+  const { isCartUpdated, setIsCartUpdated, isAuthenticated } = useContext(UserContext)
   const [value, setValue] = useState("1");
   const [quantity, setQuantity] = useState(1);
   const [productDetails, setProductDetails] = useState()
@@ -104,6 +104,7 @@ const ProductDetail = () => {
   };
 
   const handleSubmit = async () => {
+    const userData = JSON.parse(sessionStorage.getItem("userData"))
     const lineItems = [
       {
         id: productID,
@@ -115,6 +116,10 @@ const ProductDetail = () => {
         variantID: selectedVariantID,
       }
     ]
+
+    if (isAuthenticated) {
+      await axios.post("http://localhost:3031/api/users/cart/add", { lineItems, email: userData.email })
+    }
 
     const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"))
 
@@ -274,7 +279,7 @@ const ProductDetail = () => {
                     color: "#525252"
                   }}
                 >
-              Reviews {productDetails.rating} (89)
+                  Reviews {productDetails.rating} (89)
                   <Rating
                     name="read-only"
                     value={productDetails.rating}
@@ -372,10 +377,10 @@ const ProductDetail = () => {
                 variant="contained"
                 sx={{ ml: 2 }}
                 onClick={handleSubmit}
-                // disabled={buttonDisabled}
+              // disabled={buttonDisabled}
               >
                 <Iconify icon="eva:shopping-cart-outline" mr={1} />
-            Add to Cart
+                Add to Cart
               </Button>
             </Box>
           </Paper >
