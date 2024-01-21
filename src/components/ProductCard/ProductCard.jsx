@@ -20,22 +20,23 @@ const ProductCard = ({ product, handleFavoriteClick }) => {
   return (
     <Card
       sx={{
-        p: 1,
+        // p: 1,
         pb: ".5em !important",
-        height: 110, // para ma set height ng card
+        height: "100%", // para ma set height ng card
+        minWidth: 135,
+        maxWidth: 180,
+        width: "100%",
         display: "flex",
         flexDirection: "column",
       }}
 
     >
-
       <CardMedia
         sx={{ height: 143 }}
         image={product.image}
         title={product.name}
         onClick={() => navigate(`/product-detail/${product.product_id}`)}
       />
-
 
       <CardContent
         sx={{
