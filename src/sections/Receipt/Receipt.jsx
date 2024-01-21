@@ -52,12 +52,19 @@ const Receipt = () => {
         <Logo sx={{ display: "flex", margin: "0 auto" }} />
       </Box>
 
-      <Typography align="center"
+      <Typography
+        align="center"
+        variant="body2"
         sx={{
-          color: "#3D2209",
-          fontWeight: "bold"
-        }}>
-        Please go to the counter and show this receipt
+          color: "#FFF",
+          fontWeight: "bold",
+          background: "#888c05",
+          p: 2,
+          borderRadius: "1em",
+          width: "100%"
+        }}
+      >
+        Thank you for placing your order ⭐ <br />Please go to the counter and show this receipt
       </Typography>
 
       <ReceiptBlock

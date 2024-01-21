@@ -89,7 +89,7 @@ const ReceiptBlock = ({ receiptData }) => {
           Order Number
         </Typography>
         <Typography variant="caption" fontWeight={500}>{formatDateString(receiptData.created_at)}</Typography> <br />
-        <Typography variant="caption" fontWeight={500}>{receiptData.note}</Typography> <br />
+        <Typography variant="caption" fontWeight={500} sx={{ textTransform: "capitalize" }}>{receiptData.note}</Typography> <br />
       </Box>
 
 
