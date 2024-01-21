@@ -45,6 +45,8 @@ const Favorites = () => {
       }
 
       fetchData()
+    } else {
+      setIsLoading(false)
     }
   }, [isAuthenticated, isUpdated])
 
