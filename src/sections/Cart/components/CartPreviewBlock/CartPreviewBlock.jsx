@@ -9,7 +9,12 @@ import {
 import { PropTypes } from "prop-types"
 // import { useState } from "react";
 
-const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
+const CartPreviewBlock = ({
+  cartData,
+  handlePlaceOrder,
+  setTableNumber,
+  totalPrice,
+}) => (
   // const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   // const subtotal = sampleCartItems.reduce(
@@ -93,7 +98,7 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
       <Grid item xs={4}>
         <Box>
           <Typography variant="caption">Total</Typography>
-          <Typography variant="h5">₱{100}</Typography>
+          <Typography variant="h5">₱{totalPrice}</Typography>
         </Box>
       </Grid>
       <Grid item xs={8}>
@@ -119,6 +124,7 @@ CartPreviewBlock.propTypes = {
   cartData: PropTypes.array.isRequired,
   handlePlaceOrder: PropTypes.func.isRequired,
   setTableNumber: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
 };
 
 export default CartPreviewBlock

@@ -16,6 +16,7 @@ export default function Cart() {
   const [updatedItemIndex, setUpdatedItemIndex] = useState()
   const [tableNumber, setTableNumber] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [totalPrice, setTotalPrice] = useState(0)
   const navigate = useNavigate()
 
   const optionChange = (event, i, j) => {
@@ -105,6 +106,16 @@ export default function Cart() {
 
   }, [])
 
+  // UPDATE TOTAL PRICE
+  useEffect(() => {
+    let total = 0
+    cartData.forEach((item, i) => {
+      total += item.totalPrice
+    })
+    setTotalPrice(total)
+  }, [totalPrice, cartData])
+
+  // SEARCH VARIANT ID
   /* eslint-disable */
   useEffect(() => {
     console.log("cart Items: ", cartData)
@@ -148,6 +159,7 @@ export default function Cart() {
   }, [productData, updatedItemIndex])
   /* eslint-enable */
 
+  // GET PRODUCT DATA
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
     let selectedItemIDs
@@ -185,7 +197,7 @@ export default function Cart() {
           <CircularProgress variant="indeterminate" />
         </Box>
       )}
-      {!isLoading &&(
+      {!isLoading && (
         <>
           <CartItemBlock
             cartItems={productData}
@@ -200,11 +212,12 @@ export default function Cart() {
             cartData={cartData}
             handlePlaceOrder={handlePlaceOrder}
             setTableNumber={setTableNumber}
+            totalPrice={totalPrice}
           />
         </>
 
       )}
-    
+
     </>
   );
 }
