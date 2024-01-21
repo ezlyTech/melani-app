@@ -70,6 +70,7 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
         renderInput={(params) => <TextField {...params} label="Voucher" />}
       /> */}
       <TextField
+        required
         label="Table Number"
         type="number"
         variant="outlined"
@@ -104,15 +105,16 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
             border: "1px solid #888C03",
             background: "#888C03",
             color: "#FFF",
-            width: "100%"
+            width: "100%",
           }}
           onClick={handlePlaceOrder}
+          disabled={cartData.length === 0}
         >
           <Typography variant="subtitle1" >Place Order</Typography>
         </Button>
       </Grid>
     </Grid>
-  </Container>
+  </Container >
 )
 
 CartPreviewBlock.propTypes = {

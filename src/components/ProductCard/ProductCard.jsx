@@ -64,7 +64,7 @@ const ProductCard = ({ product }) => (
         }}
       >
         <Typography variant="body2" color="text.secondary">
-          ₱ {product.price}
+          ₱ {product.price}.00
         </Typography>
         <IconButton>
           <Iconify icon="eva:bookmark-outline" />

@@ -274,7 +274,7 @@ const ProductDetail = () => {
                     color: "#525252"
                   }}
                 >
-              Reviews {productDetails.rating} (89)
+                  Reviews {productDetails.rating} (89)
                   <Rating
                     name="read-only"
                     value={productDetails.rating}
@@ -283,8 +283,8 @@ const ProductDetail = () => {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
-                <Typography fontWeight={600}>₱ {totalPrice}</Typography>
+              <Grid item xs={4}>
+                <Typography sx={{ float: "right" }} fontWeight={600}>₱ {totalPrice}.00</Typography>
               </Grid>
             </Grid>
 
@@ -372,10 +372,10 @@ const ProductDetail = () => {
                 variant="contained"
                 sx={{ ml: 2 }}
                 onClick={handleSubmit}
-                // disabled={buttonDisabled}
+              // disabled={buttonDisabled}
               >
                 <Iconify icon="eva:shopping-cart-outline" mr={1} />
-            Add to Cart
+                Add to Cart
               </Button>
             </Box>
           </Paper >
