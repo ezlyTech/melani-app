@@ -14,4 +14,17 @@ userRoute.get('/:email', async (req, res) => {
 
 })
 
+userRoute.post('/', async (req, res) => {
+  const user = new usersModel({
+    name: req.body.name,
+    email: req.body.email,
+    cart: [],
+    favorites: [],
+  })
+
+  await user.save()
+  console.log("Successfully created user")
+  res.send("Successfully created user")
+})
+
 export default userRoute
