@@ -10,12 +10,13 @@ import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
 export default function Cart() {
-  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
+  const { isCartUpdated, setIsCartUpdated, isAuthenticated } = useContext(UserContext)
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
   const [updatedItemIndex, setUpdatedItemIndex] = useState()
   const [tableNumber, setTableNumber] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [totalPrice, setTotalPrice] = useState(0)
   const navigate = useNavigate()
 
   const optionChange = (event, i, j) => {
@@ -36,7 +37,9 @@ export default function Cart() {
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   }
 
-  const handleItemDelete = (index) => {
+  const handleItemDelete = async (index, id) => {
+    const userData = JSON.parse(sessionStorage.getItem("userData"))
+
     const modifiedCartData = [...cartData]
     modifiedCartData.splice(index, 1)
 
@@ -45,7 +48,16 @@ export default function Cart() {
 
     setCartData(modifiedCartData)
     setProductData(modifiedProductData)
-    setIsCartUpdated(!isCartUpdated)
+
+    if (isAuthenticated) {
+      await axios.post("http://localhost:3031/api/users/cart/remove", {
+        email: userData.email,
+        productID: cartData[index].id
+      })
+      setIsCartUpdated(!isCartUpdated)
+    } else {
+      setIsCartUpdated(!isCartUpdated)
+    }
 
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   };
@@ -105,6 +117,16 @@ export default function Cart() {
 
   }, [])
 
+  // UPDATE TOTAL PRICE
+  useEffect(() => {
+    let total = 0
+    cartData.forEach((item, i) => {
+      total += item.totalPrice
+    })
+    setTotalPrice(total)
+  }, [totalPrice, cartData])
+
+  // SEARCH VARIANT ID
   /* eslint-disable */
   useEffect(() => {
     console.log("cart Items: ", cartData)
@@ -148,6 +170,7 @@ export default function Cart() {
   }, [productData, updatedItemIndex])
   /* eslint-enable */
 
+  // GET PRODUCT DATA
   useEffect(() => {
     const selectedItems = JSON.parse(sessionStorage.getItem("lineItems"))
     let selectedItemIDs
@@ -201,6 +224,7 @@ export default function Cart() {
               cartData={cartData}
               handlePlaceOrder={handlePlaceOrder}
               setTableNumber={setTableNumber}
+              totalPrice={totalPrice}
             />
           )}
         </>

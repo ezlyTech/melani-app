@@ -2,9 +2,11 @@ import express from 'express'
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
 import reviewsModel from '../models/reviews.js'
+import usersModel from '../models/users.js'
 
 const itemRoute = express.Router()
 
+// GET SINGLE ITEM DATA
 itemRoute.get('/:productID', async (req, res) => {
   try {
     const itemData = await axios.get(`https://api.loyverse.com/v1.0/items/${req.params.productID}`, {
@@ -157,7 +159,7 @@ itemRoute.get('/:productID', async (req, res) => {
   }
 })
 
-
+// GET LIST OF PRODUCTS BY ARRAY OF IDS
 itemRoute.get('/list/:productIdList', async (req, res) => {
   try {
     const productIdList = JSON.parse(req.params.productIdList);
@@ -294,26 +296,6 @@ itemRoute.get('/list/:productIdList', async (req, res) => {
           option: options,
           addons: modifiers,
           variants: variantData,
-          uploads: [
-            {
-              url: "/assets/images/products/1.png",
-            },
-            {
-              url: "/assets/images/products/2.png",
-            },
-            {
-              url: "/assets/images/products/3.png",
-            },
-            {
-              url: "/assets/images/products/4.png",
-            },
-            {
-              url: "/assets/images/products/5.png",
-            },
-            {
-              url: "/assets/images/products/6.png",
-            },
-          ],
         });
       } catch (err) {
         console.log(err);
@@ -331,7 +313,59 @@ itemRoute.get('/list/:productIdList', async (req, res) => {
   }
 });
 
+// GET LIST OF PRODUCTS ADDED TO FAVORITES
+itemRoute.get('/favorites/:email', async (req, res) => {
+  try {
+    const userData = await usersModel.find({ email: req.params.email })
+    const productIdList = userData[0].favorites
 
+    let productData = [];
+
+    // Map the array of promises returned by axios.get
+    const axiosRequests = productIdList.map(async (id) => {
+      try {
+        const itemData = await axios.get(`https://api.loyverse.com/v1.0/items/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+          }
+        });
+
+        // SEARCH MINIMUM PRICE
+        let options = []
+        let prices = []
+        let minimumPrice
+
+        for (let i in itemData.data.variants) {
+          prices.push(itemData.data.variants[i].stores[0].price)
+        }
+        prices.sort()
+        minimumPrice = prices[0]
+
+        productData.push({
+          product_id: itemData.data.id,
+          name: itemData.data.item_name,
+          price: minimumPrice,
+          image: itemData.data.image_url,
+          rating: 4,
+          isFavorite: userData[0].favorites.includes(itemData.data.id)
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // Wait for all promises to resolve before sending the response
+    await Promise.all(axiosRequests);
+
+    console.log(productData);
+    res.send(productData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// GET LIST OF ITEM DATA BY CATEGORY ID FOR GUEST USERS
 itemRoute.get('/category/:categoryID', async (req, res) => {
   try {
     const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
@@ -349,7 +383,41 @@ itemRoute.get('/category/:categoryID', async (req, res) => {
           image: itemData.data.items[i].image_url,
           price: itemData.data.items[i].variants[0].stores[0].price,
           rating: 4,
-          product_id: itemData.data.items[i].id
+          product_id: itemData.data.items[i].id,
+          isFavorite: false
+        })
+      }
+    }
+
+    console.log("successfully fetched items")
+    res.send(items)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+
+// GET LIST OF ITEM DATA BY CATEGORY ID FOR REGISTERED USERS
+itemRoute.get('/category/:categoryID/:email', async (req, res) => {
+  try {
+    const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
+      headers: {
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+      }
+    })
+    const user = await usersModel.find({ email: req.params.email })
+
+    let items = []
+
+    for (let i in itemData.data.items) {
+      if (itemData.data.items[i].category_id === req.params.categoryID) {
+        items.push({
+          name: itemData.data.items[i].item_name,
+          image: itemData.data.items[i].image_url,
+          price: itemData.data.items[i].variants[0].stores[0].price,
+          rating: 4,
+          product_id: itemData.data.items[i].id,
+          isFavorite: user[0].favorites.includes(itemData.data.items[i].id)
         })
       }
     }

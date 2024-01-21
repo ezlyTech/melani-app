@@ -5,19 +5,44 @@ import {
 } from "@mui/material";
 import { ProductCard, TitleTypography } from "src/components"
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "src/UserContext";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 
 const HomeMenuBlock = ({ title, category }) => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isUpdated, setIsUpdated] = useState(false)
+  const { isAuthenticated } = useContext(UserContext)
   const navigate = useNavigate()
+
+  const handleFavoriteClick = async (id, isFavorite) => {
+    if (isAuthenticated) {
+      const userData = JSON.parse(sessionStorage.getItem("userData"))
+      const data = {
+        id,
+        isFavorite,
+        email: userData.email,
+      }
+
+      await axios.post("http://localhost:3031/api/users/favorites", data)
+      setIsUpdated(!isUpdated)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
+      const userData = JSON.parse(sessionStorage.getItem("userData"))
       try {
-        const productData = await axios.get(`http://localhost:3031/api/items/category/${category.category_id}`)
+        const APIParams =
+          sessionStorage.getItem("isAuthenticated")
+            ? `${category.category_id}/${userData.email}`
+            : `${category.category_id}`
+
+        const productData = await axios.get(
+          `http://localhost:3031/api/items/category/${APIParams}`
+        )
         setProducts(productData.data)
         setIsLoading(false)
       } catch (err) {
@@ -25,7 +50,7 @@ const HomeMenuBlock = ({ title, category }) => {
       }
     }
     fetchData()
-  }, [category])
+  }, [category, isUpdated, isAuthenticated])
 
   return (
     <Box sx={{ mb: 6 }}>
@@ -45,23 +70,13 @@ const HomeMenuBlock = ({ title, category }) => {
         <Grid container spacing={2} sx={{ width: { md: "fit-content" } }}>
           {products.map((product, index) => (
             <Grid item xs key={index}>
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={() => navigate(`/product-detail/${product.product_id}`)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    navigate(`/product-detail/${product.product_id}`)
-                  }
-                }}
-              >
-                <ProductCard product={product} />
-              </div>
+              <ProductCard product={product} handleFavoriteClick={handleFavoriteClick} />
             </Grid>
           ))}
         </Grid>
-      )}
-    </Box>
+      )
+      }
+    </Box >
   )
 }
 
