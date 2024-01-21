@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Card,
   CardMedia,
@@ -7,17 +7,20 @@ import {
   LinearProgress
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import useVerifySession from "src/routes/hooks/useVerifySession";
-// import UserContext from "../../UserContext";
+import UserContext from "../../UserContext";
 import { HomeCategoriesBlock, HomeMenuBlock } from "./components";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth0()
-  // const { name } = useContext(UserContext);
+  const { setIsCartUpdated, isCartUpdated } = useContext(UserContext);
   const [name, setName] = useState()
   const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const navigate = useNavigate()
+  // const [reload, setReload] = useState(false)
 
   useVerifySession()
 
@@ -28,18 +31,79 @@ export default function Home() {
       try {
         const itemData = await axios.get("http://localhost:3031/api/categories");
         setCategories(itemData.data);
-        setIsLoading(false);
+        setIsDataLoading(false);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchData();
-  }, []);
+    if (!isAuthenticated) fetchData();
+  }, [isAuthenticated]);
+
+  /* eslint-disable */
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("Tests")
+      const fetchData = async () => {
+        try {
+          const itemData = await axios.get(`http://localhost:3031/api/users/${user.email}`);
+          if (itemData.data) {
+            console.log(itemData.data)
+            sessionStorage.setItem("isAuthenticated", "true")
+            sessionStorage.setItem("userData", JSON.stringify(user))
+            sessionStorage.setItem("username", user.given_name)
+            sessionStorage.setItem("lineItems", JSON.stringify(itemData.data[0].cart))
+            setIsCartUpdated(!isCartUpdated)
+            window.location.reload();
+          }
+        } catch (err) {
+          console.log(err);
+          if (err.response.status === 400) {
+            const data = {
+              name: user.given_name,
+              email: user.email,
+            }
+            await axios.post("http://localhost:3031/api/users", data);
+            // setReload(!reload)
+            sessionStorage.setItem("isAuthenticated", "true")
+            sessionStorage.setItem("userData", JSON.stringify(user))
+            sessionStorage.setItem("username", user.given_name)
+            window.location.reload();
+          }
+
+        }
+      }
+      fetchData()
+    } else {
+      navigate("/home")
+    }
+  }, [isAuthenticated, user, user?.email, user?.given_name])
+  /* eslint-disable */
+
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const itemData = await axios.get(`http://localhost:3031/api/users/${user.email}`);
+  //         if (itemData.data) {
+  //           console.log(itemData.data)
+  //           sessionStorage.setItem("username", user.given_name)
+  //           sessionStorage.setItem("lineItems", JSON.stringify(itemData.data[0].cart))
+  //           setIsCartUpdated(!isCartUpdated)
+  //         }
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     }
+  //     fetchData()
+  //   }
+  // }, []) //reload
+
 
   return (
     <>
-      {isLoading && <LinearProgress variant="indeterminate" />}
-      {!isLoading && (
+      {isDataLoading && <LinearProgress variant="indeterminate" />}
+      {!isDataLoading && (
         <>
           <Container sx={{ bgcolor: "#FFEEE1" }}>
             <Typography
@@ -47,7 +111,7 @@ export default function Home() {
               variant="h4"
               color="#3D2209"
             >
-          Welcome, {isAuthenticated ? user.given_name : name}!
+              Welcome, {isAuthenticated ? user.given_name : name}!
             </Typography>
           </Container>
           <Card sx={{ borderRadius: 0 }}>
