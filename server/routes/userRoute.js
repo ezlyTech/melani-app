@@ -46,15 +46,31 @@ userRoute.post('/favorites', async (req, res) => {
   res.send({ message: "Successsfully added item to favorites" })
 })
 
-// MAKE CHANGES TO CART
-userRoute.post(('/cart', async (req, res) => {
+// ADD ITEMS TO CART
+userRoute.post('/cart/add', async (req, res) => {
   const user = await usersModel.find({ email: req.body.email })
 
-  user[0].cart = req.body.cart
-  user[0].save()
+  const modifiedCart = user[0].cart
+  modifiedCart.push(req.body.lineItems[0])
+  console.log(modifiedCart)
 
-  console.log("Successsfully made changes to cart")
-  res.send({ message: "Successfully modified cart" })
-}))
+  user[0].cart = modifiedCart
+  await user[0].save()
+
+  console.log("Successfully updated cart")
+  res.send({ message: "Successfully updated cart" })
+})
+
+// REMOVE AN ITEM FROM THE CART
+userRoute.post('/cart/remove', async (req, res) => {
+  const user = await usersModel.find({ email: req.body.email })
+  const modifiedCart = user[0].cart.filter((item) => item.id !== req.body.productID)
+  user[0].cart = modifiedCart
+
+  await user[0].save()
+
+  console.log("Successfully updated cart")
+  res.send({ message: "Successfully updated cart" })
+})
 
 export default userRoute
