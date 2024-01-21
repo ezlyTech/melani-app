@@ -42,7 +42,19 @@ userRoute.post('/favorites', async (req, res) => {
     user[0].favorites = favorites
   }
   await user[0].save()
+  console.log("Successsfully made changes to favorites")
   res.send({ message: "Successsfully added item to favorites" })
 })
+
+// MAKE CHANGES TO CART
+userRoute.post(('/cart', async (req, res) => {
+  const user = await usersModel.find({ email: req.body.email })
+
+  user[0].cart = req.body.cart
+  user[0].save()
+
+  console.log("Successsfully made changes to cart")
+  res.send({ message: "Successfully modified cart" })
+}))
 
 export default userRoute
