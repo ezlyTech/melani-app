@@ -74,7 +74,7 @@ const ProductCard = ({ product, handleFavoriteClick }) => {
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            ₱ {product.price}
+            ₱ {product.price}.00
           </Typography>
           <IconButton onClick={() => handleFavoriteClick(product.product_id, product.isFavorite)}>
             <Iconify icon="eva:bookmark-outline" color={product.isFavorite ? "red" : "black"} />

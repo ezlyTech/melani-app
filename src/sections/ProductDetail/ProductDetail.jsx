@@ -288,8 +288,8 @@ const ProductDetail = () => {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
-                <Typography fontWeight={600}>₱ {totalPrice}</Typography>
+              <Grid item xs={4}>
+                <Typography sx={{ float: "right" }} fontWeight={600}>₱ {totalPrice}.00</Typography>
               </Grid>
             </Grid>
 

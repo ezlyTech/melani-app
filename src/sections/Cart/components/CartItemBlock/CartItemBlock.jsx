@@ -155,7 +155,7 @@ const CartItemBlock = ({
                     color="primary.main"
                     sx={{ pt: 0.5, fontSize: 15, fontWeight: 600 }}
                   >
-                    ₱ {cartData[i].totalPrice}
+                    ₱ {cartData[i].totalPrice}.00
                   </Typography>
                 </Box>
               </Grid>

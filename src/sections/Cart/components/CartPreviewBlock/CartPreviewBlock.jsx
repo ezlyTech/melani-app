@@ -75,6 +75,7 @@ const CartPreviewBlock = ({
         renderInput={(params) => <TextField {...params} label="Voucher" />}
       /> */}
       <TextField
+        required
         label="Table Number"
         type="number"
         variant="outlined"
