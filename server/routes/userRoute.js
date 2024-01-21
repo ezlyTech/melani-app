@@ -3,6 +3,7 @@ import usersModel from '../models/users.js'
 
 const userRoute = express.Router()
 
+// VERIFY IF USER EXISTS
 userRoute.get('/:email', async (req, res) => {
   const user = await usersModel.find({ email: req.params.email })
 
@@ -14,6 +15,7 @@ userRoute.get('/:email', async (req, res) => {
 
 })
 
+// CREATE NEW USER
 userRoute.post('/', async (req, res) => {
   const user = new usersModel({
     name: req.body.name,
@@ -27,11 +29,19 @@ userRoute.post('/', async (req, res) => {
   res.send("Successfully created user")
 })
 
+// ADD ITEM TO FAVORITES
 userRoute.post('/favorites', async (req, res) => {
   const user = await usersModel.find({ email: req.body.email })
-  user[0].favorites = req.body.favorites
-  user.save()
 
+  let favorites = []
+
+  if (!req.body.isFavorite) {
+    user[0].favorites.push(req.body.id)
+  } else {
+    favorites = user[0].favorites.filter((id) => id !== req.body.id)
+    user[0].favorites = favorites
+  }
+  await user[0].save()
   res.send({ message: "Successsfully added item to favorites" })
 })
 
