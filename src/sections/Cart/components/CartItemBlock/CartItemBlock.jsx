@@ -39,7 +39,12 @@ const CartItemBlock = ({
         }}>
         Cart
       </Typography>
-      <EmptyState value="items" />
+      <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", mt: 4 }}>
+        <EmptyState value="items" />
+        <Button variant="outlined" sx={{ mt: 3 }} href="/home">
+          Continue Browsing
+        </Button>
+      </Box>
     </Container>
   ) : (
     <Container>
@@ -86,24 +91,24 @@ const CartItemBlock = ({
                     {product.name}
                   </Typography>
 
-                  <FormControl
-                    size="small"
-                    sx={{
-                      mt: 1,
-                      width: "fit-content",
-                      minWidth: 80,
-                      zIndex: 0,
-                      "& .MuiSelect-select": {
-                        fontSize: 12,
-                        p: "0.5rem"
-                      },
-                      "& .MuiInputBase-root": {
-                        height: 25
-                      }
-                    }}
-                  >
-                    {/* Item Variations */}
-                    {product.option.map((option, j) =>
+                  {product.option.map((option, j) =>
+                    <FormControl
+                      size="small"
+                      sx={{
+                        mt: 1,
+                        width: "fit-content",
+                        minWidth: 80,
+                        zIndex: 0,
+                        "& .MuiSelect-select": {
+                          fontSize: 12,
+                          p: "0.5rem"
+                        },
+                        "& .MuiInputBase-root": {
+                          height: 25
+                        }
+                      }}
+                    >
+                      {/* Item Variations */}
                       <div key={j}>
                         <InputLabel
                           id="demo-select-small-label"
@@ -125,10 +130,9 @@ const CartItemBlock = ({
                         </Select>
                       </div>
 
-                    )
-                    }
+                    </FormControl>
+                  )}
 
-                  </FormControl>
 
                   {/* {selectedAddons && ( */}
 

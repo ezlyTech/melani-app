@@ -219,12 +219,14 @@ export default function Cart() {
             handleIncrement={handleIncrement}
             handleDecrement={handleDecrement}
           />
-          <CartPreviewBlock
-            cartData={cartData}
-            handlePlaceOrder={handlePlaceOrder}
-            setTableNumber={setTableNumber}
-            totalPrice={totalPrice}
-          />
+          {cartData.length !== 0 && (
+            <CartPreviewBlock
+              cartData={cartData}
+              handlePlaceOrder={handlePlaceOrder}
+              setTableNumber={setTableNumber}
+              totalPrice={totalPrice}
+            />
+          )}
         </>
 
       )}
