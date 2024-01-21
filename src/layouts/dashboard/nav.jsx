@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -13,15 +13,16 @@ import { useResponsive } from "src/hooks/use-responsive";
 import Logo from "src/components/logo";
 import Scrollbar from "src/components/scrollbar";
 // import UserContext from "src/UserContext";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const upLg = useResponsive("up", "lg");
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   // const { name } = useContext(UserContext)
-  const { isAuthenticated, user } = useAuth0()
+  const [picture, setPicture] = useState("")
 
   useEffect(() => {
     if (openNav) {
@@ -29,6 +30,14 @@ export default function Nav({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isAuthenticated")) {
+      const userData = JSON.parse(sessionStorage.getItem("userData"))
+      setIsAuthenticated(true)
+      setPicture(userData.picture)
+    }
+  }, [])
 
   const renderAccount = (
     <Box
@@ -44,13 +53,13 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Avatar
-        src={isAuthenticated ? user.picture : "/assets/images/avatars/avatar_1.jpg"}
+        src={isAuthenticated ? picture : "/assets/images/avatars/avatar_1.jpg"}
         alt="photoURL"
       />
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">
-          {isAuthenticated ? user.given_name : sessionStorage.getItem("username")}
+          {sessionStorage.getItem("username")}
         </Typography>
       </Box>
     </Box>
