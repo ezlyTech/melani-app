@@ -2,9 +2,11 @@ import express from 'express'
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
 import reviewsModel from '../models/reviews.js'
+import usersModel from '../models/users.js'
 
 const itemRoute = express.Router()
 
+// GET SINGLE ITEM DATA
 itemRoute.get('/:productID', async (req, res) => {
   try {
     const itemData = await axios.get(`https://api.loyverse.com/v1.0/items/${req.params.productID}`, {
@@ -157,7 +159,7 @@ itemRoute.get('/:productID', async (req, res) => {
   }
 })
 
-
+// GET LIST OF PRODUCTS BY ARRAY OF IDS
 itemRoute.get('/list/:productIdList', async (req, res) => {
   try {
     const productIdList = JSON.parse(req.params.productIdList);
@@ -331,14 +333,15 @@ itemRoute.get('/list/:productIdList', async (req, res) => {
   }
 });
 
-
-itemRoute.get('/category/:categoryID', async (req, res) => {
+// GET LIST OF ITEM DATA BY CATEGORY ID FOR AUTHENTICATED USERS
+itemRoute.get('/category/:categoryID/:email', async (req, res) => {
   try {
     const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
       headers: {
         'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
       }
     })
+    const user = await usersModel.find({ email: req.params.email })
 
     let items = []
 
@@ -349,7 +352,8 @@ itemRoute.get('/category/:categoryID', async (req, res) => {
           image: itemData.data.items[i].image_url,
           price: itemData.data.items[i].variants[0].stores[0].price,
           rating: 4,
-          product_id: itemData.data.items[i].id
+          product_id: itemData.data.items[i].id,
+          isFavorite: user[0].favorites.includes(itemData.data.items[i].id)
         })
       }
     }
