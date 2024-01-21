@@ -28,7 +28,7 @@ import {
 } from "./components";
 
 const ProductDetail = () => {
-  const { isCartUpdated, setIsCartUpdated, isAuthenticated } = useContext(UserContext)
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
   const [value, setValue] = useState("1");
   const [quantity, setQuantity] = useState(1);
   const [productDetails, setProductDetails] = useState()
@@ -117,7 +117,7 @@ const ProductDetail = () => {
       }
     ]
 
-    if (isAuthenticated) {
+    if (sessionStorage.getItem("isAuthenticated")) {
       await axios.post("http://localhost:3031/api/users/cart/add", { lineItems, email: userData.email })
     }
 

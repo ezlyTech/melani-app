@@ -32,7 +32,7 @@ const Favorites = () => {
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (JSON.parse(sessionStorage.getItem("isAuthenticated"))) {
       const fetchData = async () => {
         const userData = JSON.parse(sessionStorage.getItem("userData"))
         try {

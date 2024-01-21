@@ -7,7 +7,6 @@ import {
   LinearProgress
 } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import useVerifySession from "src/routes/hooks/useVerifySession";
 import UserContext from "../../UserContext";
@@ -19,8 +18,6 @@ export default function Home() {
   const [name, setName] = useState()
   const [categories, setCategories] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const navigate = useNavigate()
-  // const [reload, setReload] = useState(false)
 
   useVerifySession()
 
@@ -73,12 +70,9 @@ export default function Home() {
         }
       }
       fetchData()
-    } else {
-      navigate("/home")
     }
   }, [isAuthenticated, user, user?.email, user?.given_name])
   /* eslint-disable */
-
 
   // useEffect(() => {
   //   if (isAuthenticated) {

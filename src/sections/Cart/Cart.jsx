@@ -10,7 +10,7 @@ import CartItemBlock from "./components/CartItemBlock";
 import CartPreviewBlock from "./components/CartPreviewBlock";
 
 export default function Cart() {
-  const { isCartUpdated, setIsCartUpdated, isAuthenticated } = useContext(UserContext)
+  const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
   const [productData, setProductData] = useState([])
   const [cartData, setCartData] = useState([])
   const [updatedItemIndex, setUpdatedItemIndex] = useState()
@@ -49,7 +49,7 @@ export default function Cart() {
     setCartData(modifiedCartData)
     setProductData(modifiedProductData)
 
-    if (isAuthenticated) {
+    if (sessionStorage.getItem("isAuthenticated")) {
       await axios.post("http://localhost:3031/api/users/cart/remove", {
         email: userData.email,
         productID: cartData[index].id
@@ -92,6 +92,8 @@ export default function Cart() {
       lineItems,
       note: `name: ${name}, table no: ${tableNumber}`,
     }
+
+    console.log(data)
 
     try {
       const order = await axios.post("http://localhost:3031/api/order", data)
