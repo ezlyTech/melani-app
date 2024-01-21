@@ -39,8 +39,13 @@ const CartItemBlock = ({
         }}>
         Cart
       </Typography>
-      <EmptyState value="items" />
-    </Container>
+      <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", mt: 4 }}>
+        <EmptyState value="items" />
+        <Button variant="outlined" sx={{ mt: 3 }} href="/home">
+          Continue Browsing
+        </Button>
+      </Box>
+    </Container >
   ) : (
     <Container>
       <Typography
@@ -86,49 +91,46 @@ const CartItemBlock = ({
                     {product.name}
                   </Typography>
 
-                  <FormControl
-                    size="small"
-                    sx={{
-                      mt: 1,
-                      width: "fit-content",
-                      minWidth: 80,
-                      zIndex: 0,
-                      "& .MuiSelect-select": {
-                        fontSize: 12,
-                        p: "0.5rem"
-                      },
-                      "& .MuiInputBase-root": {
-                        height: 25
-                      }
-                    }}
-                  >
-                    {/* Item Variations */}
-                    {product.option.map((option, j) =>
-                      <div key={j}>
-                        <InputLabel
-                          id="demo-select-small-label"
-                          sx={{ fontSize: 12 }}>
-                          {option.name}
-                        </InputLabel>
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={cartData[i]?.selectedVariation[j]}
-                          label="Size"
-                          onChange={(event) => optionChange(event, i, j)}
-                        >
-                          {option.variations.map((variation, k) =>
-                            <MenuItem value={variation} key={k}>
-                              {variation}
-                            </MenuItem>
-                          )}
-                        </Select>
-                      </div>
+                  {product.option.map((option, j) =>
+                    <FormControl
+                      key={j}
+                      size="small"
+                      sx={{
+                        mt: 1,
+                        width: "fit-content",
+                        minWidth: 80,
+                        zIndex: 0,
+                        "& .MuiSelect-select": {
+                          fontSize: 12,
+                          p: "0.5rem"
+                        },
+                        "& .MuiInputBase-root": {
+                          height: 25
+                        }
+                      }}
+                    >
+                      {/* Item Variations */}
+                      <InputLabel
+                        id="demo-select-small-label"
+                        sx={{ fontSize: 12, display: "block" }}>
+                        {option.name}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={cartData[i]?.selectedVariation[j]}
+                        label={option.name}
+                        onChange={(event) => optionChange(event, i, j)}
+                      >
+                        {option.variations.map((variation, k) =>
+                          <MenuItem value={variation} key={k}>
+                            {variation}
+                          </MenuItem>
+                        )}
+                      </Select>
+                    </FormControl>
+                  )}
 
-                    )
-                    }
-
-                  </FormControl>
 
                   {/* {selectedAddons && ( */}
 
@@ -218,7 +220,7 @@ const CartItemBlock = ({
         ))}
       </Stack>
 
-    </Container>
+    </Container >
   )
 
 )
