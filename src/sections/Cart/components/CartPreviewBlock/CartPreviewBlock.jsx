@@ -108,7 +108,6 @@ const CartPreviewBlock = ({ cartData, handlePlaceOrder, setTableNumber }) => (
             width: "100%",
           }}
           onClick={handlePlaceOrder}
-          disabled={cartData.length === 0}
         >
           <Typography variant="subtitle1" >Place Order</Typography>
         </Button>

@@ -185,7 +185,7 @@ export default function Cart() {
           <CircularProgress variant="indeterminate" />
         </Box>
       )}
-      {!isLoading &&(
+      {!isLoading && (
         <>
           <CartItemBlock
             cartItems={productData}
@@ -196,15 +196,16 @@ export default function Cart() {
             handleIncrement={handleIncrement}
             handleDecrement={handleDecrement}
           />
-          <CartPreviewBlock
-            cartData={cartData}
-            handlePlaceOrder={handlePlaceOrder}
-            setTableNumber={setTableNumber}
-          />
+          {cartData.length !== 0 && (
+            <CartPreviewBlock
+              cartData={cartData}
+              handlePlaceOrder={handlePlaceOrder}
+              setTableNumber={setTableNumber}
+            />
+          )}
         </>
 
       )}
-    
     </>
   );
 }
