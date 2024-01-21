@@ -296,26 +296,58 @@ itemRoute.get('/list/:productIdList', async (req, res) => {
           option: options,
           addons: modifiers,
           variants: variantData,
-          uploads: [
-            {
-              url: "/assets/images/products/1.png",
-            },
-            {
-              url: "/assets/images/products/2.png",
-            },
-            {
-              url: "/assets/images/products/3.png",
-            },
-            {
-              url: "/assets/images/products/4.png",
-            },
-            {
-              url: "/assets/images/products/5.png",
-            },
-            {
-              url: "/assets/images/products/6.png",
-            },
-          ],
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // Wait for all promises to resolve before sending the response
+    await Promise.all(axiosRequests);
+
+    console.log(productData);
+    res.send(productData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// GET LIST OF PRODUCTS ADDED TO FAVORITES
+itemRoute.get('/favorites/:email', async (req, res) => {
+  try {
+    const userData = await usersModel.find({ email: req.params.email })
+    const productIdList = userData[0].favorites
+
+    let productData = [];
+
+    // Map the array of promises returned by axios.get
+    const axiosRequests = productIdList.map(async (id) => {
+      try {
+        const itemData = await axios.get(`https://api.loyverse.com/v1.0/items/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+          }
+        });
+
+        // SEARCH MINIMUM PRICE
+        let options = []
+        let prices = []
+        let minimumPrice
+
+        for (let i in itemData.data.variants) {
+          prices.push(itemData.data.variants[i].stores[0].price)
+        }
+        prices.sort()
+        minimumPrice = prices[0]
+
+        productData.push({
+          product_id: itemData.data.id,
+          name: itemData.data.item_name,
+          price: minimumPrice,
+          image: itemData.data.image_url,
+          rating: 4,
+          isFavorite: userData[0].favorites.includes(itemData.data.id)
         });
       } catch (err) {
         console.log(err);
