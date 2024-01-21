@@ -14,13 +14,14 @@ import Logo from "src/components/logo";
 import Scrollbar from "src/components/scrollbar";
 // import UserContext from "src/UserContext";
 // import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const upLg = useResponsive("up", "lg");
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { isAuthenticated } = useAuth0()
   // const { name } = useContext(UserContext)
   const [picture, setPicture] = useState("")
 
@@ -34,7 +35,6 @@ export default function Nav({ openNav, onCloseNav }) {
   useEffect(() => {
     if (sessionStorage.getItem("isAuthenticated")) {
       const userData = JSON.parse(sessionStorage.getItem("userData"))
-      setIsAuthenticated(true)
       setPicture(userData.picture)
     }
   }, [])
@@ -60,16 +60,19 @@ export default function Nav({ openNav, onCloseNav }) {
   }
 
   const stringAvatar = (name) => {
-    const nameParts = name.split(" ");
-    const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[1][0]}` : name[0];
+    if (name) {
+      const nameParts = name.split(" ");
+      const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[1][0]}` : name[0];
 
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        scale: "0.75",
-      },
-      children: initials,
-    };
+      return {
+        sx: {
+          bgcolor: stringToColor(name),
+          scale: "0.75",
+        },
+        children: initials,
+      };
+    }
+    return null
   };
 
   const renderAccount = (
@@ -85,7 +88,7 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      {isAuthenticated ? (
+      {isAuthenticated || sessionStorage.getItem("isAuthenticated") ? (
         <Avatar
           src={picture}
           alt="photoURL"
