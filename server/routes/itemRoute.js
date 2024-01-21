@@ -333,7 +333,39 @@ itemRoute.get('/list/:productIdList', async (req, res) => {
   }
 });
 
-// GET LIST OF ITEM DATA BY CATEGORY ID FOR AUTHENTICATED USERS
+// GET LIST OF ITEM DATA BY CATEGORY ID FOR GUEST USERS
+itemRoute.get('/category/:categoryID', async (req, res) => {
+  try {
+    const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
+      headers: {
+        'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`
+      }
+    })
+
+    let items = []
+
+    for (let i in itemData.data.items) {
+      if (itemData.data.items[i].category_id === req.params.categoryID) {
+        items.push({
+          name: itemData.data.items[i].item_name,
+          image: itemData.data.items[i].image_url,
+          price: itemData.data.items[i].variants[0].stores[0].price,
+          rating: 4,
+          product_id: itemData.data.items[i].id,
+          isFavorite: false
+        })
+      }
+    }
+
+    console.log("successfully fetched items")
+    res.send(items)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+
+// GET LIST OF ITEM DATA BY CATEGORY ID FOR REGISTERED USERS
 itemRoute.get('/category/:categoryID/:email', async (req, res) => {
   try {
     const itemData = await axios.get("https://api.loyverse.com/v1.0/items", {
