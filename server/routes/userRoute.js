@@ -27,4 +27,12 @@ userRoute.post('/', async (req, res) => {
   res.send("Successfully created user")
 })
 
+userRoute.post('/favorites', async (req, res) => {
+  const user = await usersModel.find({ email: req.body.email })
+  user[0].favorites = req.body.favorites
+  user.save()
+
+  res.send({ message: "Successsfully added item to favorites" })
+})
+
 export default userRoute
