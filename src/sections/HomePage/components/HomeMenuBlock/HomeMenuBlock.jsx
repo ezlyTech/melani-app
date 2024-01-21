@@ -42,7 +42,7 @@ const HomeMenuBlock = ({ title, category }) => {
       )}
 
       {!isLoading && (
-        <Grid container spacing={2} sx={{width: { md: "fit-content"}}}>
+        <Grid container spacing={2} sx={{ width: { md: "fit-content" } }}>
           {products.map((product, index) => (
             <Grid item xs key={index}>
               <div

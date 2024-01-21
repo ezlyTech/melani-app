@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => (
       sx={{
         p: 1,
         pb: ".5em !important",
-        height: 120, // para ma set height ng card
+        height: 110, // para ma set height ng card
         display: "flex",
         flexDirection: "column",
       }}
