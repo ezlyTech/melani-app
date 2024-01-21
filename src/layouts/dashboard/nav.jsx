@@ -30,6 +30,39 @@ export default function Nav({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  const stringToColor = (string) => {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  const stringAvatar = (name) => {
+    const nameParts = name.split(" ");
+    const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[1][0]}` : name[0];
+
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        scale: "0.75",
+      },
+      children: initials,
+    };
+  };
+
   const renderAccount = (
     <Box
       sx={{
@@ -43,10 +76,17 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar
-        src={isAuthenticated ? user.picture : "/assets/images/avatars/avatar_1.jpg"}
-        alt="photoURL"
-      />
+      {isAuthenticated ? (
+        <Avatar
+          src={user.picture}
+          alt="photoURL"
+        />
+      ) : (
+        <Avatar
+          sx={{ width: 20, height: 20 }}
+          {...stringAvatar(sessionStorage.getItem("username"))}
+        />
+      )}
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">
