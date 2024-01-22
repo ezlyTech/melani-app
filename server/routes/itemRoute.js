@@ -140,13 +140,18 @@ itemRoute.get('/:productID', async (req, res) => {
       }
     }
 
-    console.log(imagesUploads)
+    // LOGIC TO GET AVERAGE PRODUCT RATING
+    let totalRating = 0
+    let averageRating = 0
+
+    reviewsData.forEach((review) => totalRating += review.rating)
+    averageRating = totalRating / reviewsData.length
 
     res.send({
       name: itemData.data.item_name,
       price: minimumPrice,
       image: itemData.data.image_url,
-      rating: 4,
+      rating: averageRating.toFixed(1),
       information: dom.window.document.body.innerHTML,
       option: options,
       addons: modifiers,
