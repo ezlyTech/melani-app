@@ -45,6 +45,8 @@ const ProductList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [productData, setProductData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
+  const [minPriceFilter, setMinPriceFilter] = useState(0)
+  const [maxPriceFilter, setMaxPriceFilter] = useState(2000)
   const [filters, setFilters] = useState({
     price: null,
     rating: null,
@@ -68,6 +70,14 @@ const ProductList = () => {
     fetchData();
   }, [categoryID]);
 
+  const handleMaxPriceFilterChange = (event) => {
+    setMaxPriceFilter(event.target.value);
+  };
+
+  const handleMinPriceFilterChange = (event) => {
+    setMinPriceFilter(event.target.value);
+  };
+
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -82,6 +92,13 @@ const ProductList = () => {
 
   const applyFilters = (products) => {
     let filteredProducts = [...products];
+
+    if (!Number.isNaN(minPriceFilter || !Number.isNaN(maxPriceFilter))){
+      filteredProducts = filteredProducts.filter((product) => 
+        parseFloat(product.price) >= minPriceFilter &&
+        parseFloat(product.price) <= maxPriceFilter
+      );
+    }
 
     if (filters.price === "below") {
       filteredProducts = filteredProducts.filter((product) => parseFloat(product.price) < 500);
@@ -155,6 +172,11 @@ const ProductList = () => {
                 setFilters={setFilters}
                 ratingOptions={RATING_OPTIONS}
                 priceOptions={PRICE_OPTIONS}
+                minPriceFilter={minPriceFilter}
+                maxPriceFilter={maxPriceFilter}
+                onMinPriceFilterChange={handleMinPriceFilterChange}
+                onMaxPriceFilterChange = {handleMaxPriceFilterChange}
+                
               />
             </Grid>
           </Grid>
