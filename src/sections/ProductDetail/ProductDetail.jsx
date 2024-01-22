@@ -284,7 +284,7 @@ const ProductDetail = () => {
                     color: "#525252"
                   }}
                 >
-                  Reviews {productDetails.rating} (89)
+                  Reviews {productDetails.rating} ({productDetails.reviews.length})
                   <Rating
                     name="read-only"
                     value={productDetails.rating}
