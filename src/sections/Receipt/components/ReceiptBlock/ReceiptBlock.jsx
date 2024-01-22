@@ -113,12 +113,12 @@ const ReceiptBlock = ({ receiptData }) => {
                 <p style={{ marginBottom: "0" }}>{`${item.item_name}`}:</p>
               </strong>
               <Typography variant="caption" fontWeight={500}>
-                {`${item.quantity} x ₱${item.cost.toFixed(2)}`}
+                {`${item.quantity} x ₱${item.price.toFixed(2)}`}
               </Typography>
             </Grid>
             <Grid item xs={4} >
               <strong>
-                <p style={{ textAlign: "end" }}>₱{item.cost_total.toFixed(2)}</p>
+                <p style={{ textAlign: "end" }}>₱{item.total_money.toFixed(2)}</p>
               </strong>
 
             </Grid>
