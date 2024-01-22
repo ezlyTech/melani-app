@@ -144,8 +144,10 @@ itemRoute.get('/:productID', async (req, res) => {
     let totalRating = 0
     let averageRating = 0
 
-    reviewsData.forEach((review) => totalRating += review.rating)
-    averageRating = totalRating / reviewsData.length
+    if (reviewsData.length > 0) {
+      reviewsData.forEach((review) => totalRating += review.rating)
+      averageRating = totalRating / reviewsData.length
+    }
 
     res.send({
       name: itemData.data.item_name,
