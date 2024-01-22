@@ -385,11 +385,21 @@ itemRoute.get('/category/:categoryID', async (req, res) => {
 
     for (let i in itemData.data.items) {
       if (itemData.data.items[i].category_id === req.params.categoryID) {
+        const reviews = await reviewsModel.find({ itemID: itemData.data.items[i].id })
+
+        let totalRating = 0
+        let averageRating = 0
+
+        if (reviews.length > 0) {
+          reviews.forEach((review) => totalRating += review.rating)
+          averageRating = totalRating / reviews.length
+        }
+
         items.push({
           name: itemData.data.items[i].item_name,
           image: itemData.data.items[i].image_url,
           price: itemData.data.items[i].variants[0].stores[0].price,
-          rating: 4,
+          rating: averageRating,
           product_id: itemData.data.items[i].id,
           isFavorite: false
         })
@@ -418,11 +428,22 @@ itemRoute.get('/category/:categoryID/:email', async (req, res) => {
 
     for (let i in itemData.data.items) {
       if (itemData.data.items[i].category_id === req.params.categoryID) {
+
+        const reviews = await reviewsModel.find({ itemID: itemData.data.items[i].id })
+
+        let totalRating = 0
+        let averageRating = 0
+
+        if (reviews.length > 0) {
+          reviews.forEach((review) => totalRating += review.rating)
+          averageRating = totalRating / reviews.length
+        }
+
         items.push({
           name: itemData.data.items[i].item_name,
           image: itemData.data.items[i].image_url,
           price: itemData.data.items[i].variants[0].stores[0].price,
-          rating: 4,
+          rating: averageRating,
           product_id: itemData.data.items[i].id,
           isFavorite: user[0].favorites.includes(itemData.data.items[i].id)
         })
