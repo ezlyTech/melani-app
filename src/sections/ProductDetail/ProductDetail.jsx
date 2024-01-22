@@ -138,6 +138,11 @@ const ProductDetail = () => {
       try {
         const productData = await axios.get(`http://localhost:3031/api/items/${productID}`)
         setProductDetails(productData.data)
+
+        if (productData.data.variants.length === 1) {
+          setSelectedVariantID(productData.data.variants[0].variantID)
+        }
+
         setIsLoading(false)
         console.log(productData.data)
       } catch (err) {
