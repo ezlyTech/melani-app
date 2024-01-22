@@ -18,7 +18,6 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
-import { useState } from "react";
 
 const ProductFilter = ({
   openFilter,
@@ -28,19 +27,11 @@ const ProductFilter = ({
   setFilters,
   ratingOptions,
   priceOptions,
+  minPriceFilter,
+  maxPriceFilter,
+  onMaxPriceFilterChange,
+  onMinPriceFilterChange,
 }) => {
-  const [minPriceFilter, setMinPriceFilter] = useState(0)
-
-  const handleMinPriceFilterChange = (event) => {
-    setMinPriceFilter(event.target.value);
-  };
-
-  const [maxPriceFilter, setMaxPriceFilter] = useState(2000)
-
-  const handleMaxPriceFilterChange = (event) => {
-    setMaxPriceFilter(event.target.value);
-  };
-
   const handlePriceChange = (event) => {
     setFilters((prevFilters) => ({ ...prevFilters, price: event.target.value }));
   };
@@ -54,6 +45,8 @@ const ProductFilter = ({
       price: null,
       rating: null,
     });
+    onMinPriceFilterChange({ target: { value: 0 } });
+    onMaxPriceFilterChange({ target: { value: 2000 } });
   };
 
   const renderPrice = (
@@ -66,7 +59,7 @@ const ProductFilter = ({
             label="Min"
             type="number"
             value={minPriceFilter}
-            onChange={handleMinPriceFilterChange}
+            onChange={onMinPriceFilterChange}
             InputLabelProps={{
               shrink: true,
             }}
@@ -81,7 +74,7 @@ const ProductFilter = ({
             label="Max"
             type="number"
             value={maxPriceFilter}
-            onChange={handleMaxPriceFilterChange}
+            onChange={onMaxPriceFilterChange}
             InputLabelProps={{
               shrink: true,
             }}
@@ -214,6 +207,10 @@ ProductFilter.propTypes = {
   setFilters: PropTypes.func,
   priceOptions: PropTypes.object,
   ratingOptions: PropTypes.object,
+  minPriceFilter: PropTypes.number,
+  maxPriceFilter: PropTypes.number,
+  onMinPriceFilterChange: PropTypes.func,
+  onMaxPriceFilterChange: PropTypes.func,
 }
 
 export default ProductFilter;
