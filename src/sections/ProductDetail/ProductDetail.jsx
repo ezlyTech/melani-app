@@ -275,7 +275,7 @@ const ProductDetail = () => {
   const backButtonStyle = {
     position: "absolute",
     top: 80,
-    left: 10,
+    left: 15,
     zIndex: 1,
     minWidth: 35,
     borderRadius: "50%",
@@ -290,7 +290,6 @@ const ProductDetail = () => {
 
   return (
     <>
-      <BackButton buttonStyle={backButtonStyle} iconStyle={backButtonIconStyle} />
       {isLoading && (
         <Box sx={{
           display: "flex",
@@ -304,6 +303,7 @@ const ProductDetail = () => {
 
       {!isLoading && (
         <>
+          <BackButton buttonStyle={backButtonStyle} iconStyle={backButtonIconStyle} />
           <Card sx={{ borderRadius: 0 }}>
             <CardMedia
               sx={{ height: 180 }}

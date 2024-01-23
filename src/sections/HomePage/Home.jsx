@@ -99,7 +99,7 @@ export default function Home() {
       {isDataLoading && <LinearProgress variant="indeterminate" />}
       {!isDataLoading && (
         <>
-          <Container sx={{ bgcolor: "#FFEEE1" }}>
+          <Container>
             <Typography
               mt={1} mb={1}
               variant="h4"
