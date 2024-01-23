@@ -2,6 +2,7 @@ import {
   Box,
   Container,
   Typography,
+  CircularProgress
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -34,42 +35,56 @@ const Receipt = () => {
 
 
   return (
-    !isLoading &&
-    <Container sx={{
-      display: "grid",
-      placeItems: "center",
-      position: "absolute",
-      top: "15vh",
-    }}>
-      <Box
-        sx={{
-          position: "fixed",
-          top: 0,
-          background: "#F9FAFB",
-          width: "100%"
-        }}
-      >
-        <Logo sx={{ display: "flex", margin: "0 auto" }} />
-      </Box>
-
-      <Typography
-        align="center"
-        variant="body2"
-        sx={{
-          color: "#FFF",
-          fontWeight: "bold",
-          background: "#888c05",
-          p: 2,
-          borderRadius: "1em",
-          width: "100%"
+    <>
+      {isLoading && (
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%"
         }}>
-        Thank you for placing your order ⭐ <br />Please go to the counter and show this receipt
-      </Typography>
+          <CircularProgress variant="indeterminate" />
+        </Box>
+      )}
 
-      <ReceiptBlock
-        receiptData={receiptData}
-      />
-    </Container >
+      {!isLoading && (
+        <Container sx={{
+          display: "grid",
+          placeItems: "center",
+          position: "absolute",
+          top: "15vh",
+        }}>
+          <Box
+            sx={{
+              position: "fixed",
+              top: 0,
+              background: "#F9FAFB",
+              width: "100%"
+            }}
+          >
+            <Logo sx={{ display: "flex", margin: "0 auto" }} />
+          </Box>
+  
+          <Typography
+            align="center"
+            variant="body2"
+            sx={{
+              color: "#FFF",
+              fontWeight: "bold",
+              background: "#888c05",
+              p: 2,
+              borderRadius: "1em",
+              width: "100%"
+            }}>
+          Thank you for placing your order ⭐ <br />Please go to the counter and show this receipt
+          </Typography>
+  
+          <ReceiptBlock
+            receiptData={receiptData}
+          />
+        </Container >
+      )}
+    </>
   )
 }
 
