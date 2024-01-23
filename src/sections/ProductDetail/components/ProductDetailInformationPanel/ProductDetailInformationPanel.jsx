@@ -23,6 +23,7 @@ const ProductDetailInformationPanel = ({
   // onAddonsClear,
   onAddonsChange,
   selectedAddons,
+  handleNoteChange,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -150,6 +151,7 @@ const ProductDetailInformationPanel = ({
           }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChange={handleNoteChange}
         />
       </Box>
     </div >
@@ -164,7 +166,8 @@ ProductDetailInformationPanel.propTypes = {
   addons: PropTypes.array,
   // onAddonsClear: PropTypes.func,
   onAddonsChange: PropTypes.func,
-  selectedAddons: PropTypes.array
+  selectedAddons: PropTypes.array,
+  handleNoteChange: PropTypes.func,
 };
 
 export default ProductDetailInformationPanel;

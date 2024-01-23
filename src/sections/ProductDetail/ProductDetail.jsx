@@ -39,6 +39,7 @@ const ProductDetail = () => {
   const [selectedAddonList, setSelectedAddonList] = useState([])
   const [totalPrice, setTotalPrice] = useState()
   const [unitPrice, setUnitPrice] = useState()
+  const [note, setNote] = useState("")
   // const [buttonDisabled, setButtonDisabled] = useState(false)
   const { productID } = useParams()
 
@@ -103,6 +104,11 @@ const ProductDetail = () => {
     }
   };
 
+  const handleNoteChange = (e) => {
+    setNote(e.target.value)
+    console.log(e.target.value)
+  }
+
   const handleSubmit = async () => {
     const userData = JSON.parse(sessionStorage.getItem("userData"))
     const lineItems = [
@@ -114,6 +120,7 @@ const ProductDetail = () => {
         unitPrice,
         totalPrice,
         variantID: selectedVariantID,
+        note,
       }
     ]
 
@@ -334,6 +341,7 @@ const ProductDetail = () => {
                     // onAddonsClear={clearAddons}
                     onAddonsChange={handleAddonsChange}
                     selectedAddons={selectedAddons}
+                    handleNoteChange={handleNoteChange}
                   />
                 </TabPanel>
                 <TabPanel value="2">
