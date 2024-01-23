@@ -193,17 +193,19 @@ const Review = () => {
         }}>
         Submit
       </Button>
-      <Button variant="outlined" color="primary"
-        sx={{
-          mt: 1,
-          width: "100%",
-          borderRadius: "31px",
-        }}
-        onClick={handleSubmit}
-      >
-        Remind me later
-      </Button>
 
+      {sessionStorage.getItem("isAuthenticated") &&
+        <Button variant="outlined" color="primary"
+          sx={{
+            mt: 1,
+            width: "100%",
+            borderRadius: "31px",
+          }}
+          onClick={handleSubmit}
+        >
+          Remind me later
+        </Button>
+      }
 
 
       <Modal

@@ -61,10 +61,10 @@ const NavConfig = () => {
         ...prevNavConfig.slice(2),
       ]);
     } else {
-      // Exclude "/favorites" route if isAuthenticated is null
+
       setNavConfig((prevNavConfig) => prevNavConfig.filter((item) => item.path !== "/favorites"));
     }
-  }, []); // Empty dependency array ensures that this effect runs once on mount
+  }, []);
 
   return navConfig;
 };
