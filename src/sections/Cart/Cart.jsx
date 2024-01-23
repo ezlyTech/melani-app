@@ -85,6 +85,7 @@ export default function Cart() {
       {
         variant_id: item.variantID,
         quantity: item.quantity,
+        line_note: item.note
       }
     ))
 
