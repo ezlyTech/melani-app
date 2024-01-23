@@ -115,6 +115,18 @@ const ReceiptBlock = ({ receiptData }) => {
               <Typography variant="caption" fontWeight={500}>
                 {`${item.quantity} x ₱${item.price.toFixed(2)}`}
               </Typography>
+
+              {item.line_modifiers.length > 0 && (
+                item.line_modifiers.map((modifier) => (
+                  <>
+                    <br />
+                    <Typography variant="caption" fontWeight={500}>
+                      {`+ ${modifier.option}(₱${modifier.price.toFixed(2)})`}
+                    </Typography>
+                  </>
+                ))
+              )}
+
             </Grid>
             <Grid item xs={4} >
               <strong>
