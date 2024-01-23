@@ -21,11 +21,13 @@ import UserContext from "src/UserContext";
 import Iconify from "src/components/iconify";
 import { useParams } from "react-router-dom";
 import axios from "axios"
+import BackButton from "src/components/BackButton";
 import {
   ProductDetailInformationPanel,
   ProductDetailUploadsPanel,
   ProductDetailReviewsPanel,
 } from "./components";
+
 
 const ProductDetail = () => {
   const { isCartUpdated, setIsCartUpdated } = useContext(UserContext)
@@ -270,8 +272,25 @@ const ProductDetail = () => {
 
   // }, [productID, isCartUpdated])
 
+  const backButtonStyle = {
+    position: "absolute",
+    top: 80,
+    left: 10,
+    zIndex: 1,
+    minWidth: 35, 
+    borderRadius: "50%", 
+    backgroundColor: "rgba(99, 115, 129, 0.5)",
+  }
+
+  const backButtonIconStyle = {
+    width: "100%",
+    height: "100%",
+    color: "primary.contrastText",
+  }
+
   return (
     <>
+      <BackButton buttonStyle={backButtonStyle} iconStyle={backButtonIconStyle}/>
       {isLoading && (
         <Box sx={{
           display: "flex",
