@@ -2,18 +2,38 @@ import {
   Box,
   Container,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Button,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios"
 import Logo from "src/components/logo";
 import { ReceiptBlock } from "src/sections/Receipt/components/Index";
+import html2canvas from "html2canvas";
+
 
 const Receipt = () => {
   const [receiptData, setReceiptData] = useState()
   const { receiptNo } = useParams()
   const [isLoading, setIsLoading] = useState(true)
+
+  const captureRef = useRef(null);
+
+  const handleDownload = async () => {
+    if (captureRef.current) {
+      try {
+        const canvas = await html2canvas(captureRef.current);
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "captured_screen.png";
+        link.click();
+      } catch (error) {
+        console.error("Error capturing screen:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,24 +84,39 @@ const Receipt = () => {
           >
             <Logo sx={{ display: "flex", margin: "0 auto" }} />
           </Box>
-  
-          <Typography
-            align="center"
-            variant="body2"
-            sx={{
-              color: "#FFF",
-              fontWeight: "bold",
-              background: "#888c05",
-              p: 2,
-              borderRadius: "1em",
-              width: "100%"
-            }}>
-          Thank you for placing your order ⭐ <br />Please go to the counter and show this receipt
-          </Typography>
-  
-          <ReceiptBlock
-            receiptData={receiptData}
-          />
+          <Box ref={captureRef}>
+            <Typography
+              align="center"
+              variant="body2"
+              sx={{
+                color: "#FFF",
+                fontWeight: "bold",
+                background: "#888c05",
+                p: 2,
+                borderRadius: "1em",
+                width: "100%"
+              }}>
+              Thank you for placing your order ⭐ <br />Please go to the counter and show this receipt
+            </Typography>
+
+            <ReceiptBlock
+              receiptData={receiptData}
+            />
+          </Box>
+          <Container>
+            <Button
+              onClick={handleDownload}
+              variant="outlined"
+              color="primary"
+              sx={{
+                mt: 1,
+                width: "100%",
+                borderRadius: "31px",
+              }}
+            >
+              Download as PNG
+            </Button>
+          </Container>
         </Container >
       )}
     </>

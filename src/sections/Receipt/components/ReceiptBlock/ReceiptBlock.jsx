@@ -201,7 +201,7 @@ const ReceiptBlock = ({ receiptData }) => {
       </Box>
       <Button
         fullWidth
-        size='large'
+        size='medium'
         variant='outlined'
         sx={{
           borderColor: "#888C03",
@@ -209,7 +209,6 @@ const ReceiptBlock = ({ receiptData }) => {
           color: "#FFF",
           borderRadius: "30px",
           mt: 5,
-          mb: 2
         }}
         onClick={redirectToReview}
       >
