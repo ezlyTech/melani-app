@@ -33,6 +33,7 @@ export default function Cart() {
     modifiedCartData[i].selectedAddons = modifiedCartData[i].selectedAddons.filter((addon) => addon.id !== id)
     setCartData(modifiedCartData)
     setUpdatedItemIndex([i, j])
+    console.log(modifiedCartData)
 
     sessionStorage.setItem("lineItems", JSON.stringify(modifiedCartData))
   }
@@ -141,7 +142,7 @@ export default function Cart() {
     if (updatedItemIndex && productData.length > 0) {
       i = updatedItemIndex[0]
 
-      matchedVariant = productData[i].variants.find((variant) => {
+      matchedVariant = productData[i]?.variants?.find((variant) => {
         if (cartData[i].selectedVariation.length === 1) {
           return variant.option1 === cartData[i].selectedVariation[0]
         }
@@ -165,7 +166,13 @@ export default function Cart() {
       const modifiedCartData = [...cartData]
       modifiedCartData[i].variantID = matchedVariant.variantID
       modifiedCartData[i].unitPrice = matchedVariant.price
-      modifiedCartData[i].totalPrice = modifiedCartData[i].quantity * matchedVariant.price
+
+      let totalAddons = 0
+      modifiedCartData[i].selectedAddons.forEach((addon) => {
+        totalAddons += addon.price
+      })
+
+      modifiedCartData[i].totalPrice = modifiedCartData[i].quantity * matchedVariant.price + totalAddons
       console.log("matched variant: ", matchedVariant)
       setCartData(modifiedCartData)
     }
