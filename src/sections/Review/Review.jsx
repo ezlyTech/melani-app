@@ -186,26 +186,26 @@ const Review = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-
-        <Button onClick={handleOpen} variant="contained" color="primary"
-          sx={{
-            mt: 2,
-            width: "100%",
-            borderRadius: "31px",
-          }}>
-          Submit
-        </Button>
-        <Button variant="outlined" color="primary"
-          sx={{
-            mt: 1,
-            width: "100%",
-            borderRadius: "31px",
-          }}
-          onClick={handleSubmit}
-        >
-          Remind me later
-        </Button>
       </>}
+
+      <Button onClick={handleOpen} variant="contained" color="primary"
+        sx={{
+          mt: 2,
+          width: "100%",
+          borderRadius: "31px",
+        }}>
+        Submit
+      </Button>
+      <Button variant="outlined" color="primary"
+        sx={{
+          mt: 1,
+          width: "100%",
+          borderRadius: "31px",
+        }}
+        onClick={handleSubmit}
+      >
+        Remind me later
+      </Button>
 
 
 
