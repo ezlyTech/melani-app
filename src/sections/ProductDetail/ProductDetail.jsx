@@ -82,12 +82,12 @@ const ProductDetail = () => {
     setSelectedAddons(modifiedAddons);
   };
 
-  const clearAddons = (index) => {
-    const clearedAddons = [...selectedAddons]
-    clearedAddons[index] = ""
-    setSelectedAddons(clearedAddons)
-    setSelectedAddonList([])
-  };
+  // const clearAddons = (index) => {
+  //   const clearedAddons = [...selectedAddons]
+  //   clearedAddons[index] = ""
+  //   setSelectedAddons(clearedAddons)
+  //   setSelectedAddonList([])
+  // };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -121,7 +121,6 @@ const ProductDetail = () => {
 
     // LOGIC TO FIND DUPLICATE ITEM
     if (currentCartItems) {
-      console.log(currentCartItems)
       const duplicateIndex = currentCartItems.findIndex((item) => {
         const isIdMatch = item.id === lineItems[0].id;
         const isVariationMatch = JSON.stringify(item.selectedVariation) === JSON.stringify(lineItems[0].selectedVariation);
@@ -139,8 +138,6 @@ const ProductDetail = () => {
         currentCartItems.push(lineItems[0])
         sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
       }
-      // END OF LOGIC TO FIND DUPLICATE ITEM
-
     } else {
       sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
     }

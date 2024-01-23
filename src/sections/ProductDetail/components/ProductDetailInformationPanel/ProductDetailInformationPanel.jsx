@@ -8,7 +8,7 @@ import {
   Chip,
   Box,
   Divider,
-  Button,
+  // Button,
   Checkbox
 } from "@mui/material";
 import PropTypes from "prop-types";
@@ -69,14 +69,14 @@ const ProductDetailInformationPanel = ({
             <Typography variant="subtitle2">
               {addon.name}
               <span style={{ float: "right" }}>
-                <Button
+                {/* <Button
                   sx={{ fontWeight: 500 }}
                   size="small"
                   disabled={selectedAddons[i] === ""}
                   onClick={() => onAddonsClear(i)}
                 >
                   Clear
-                </Button>
+                </Button> */}
 
               </span>
             </Typography>
