@@ -19,7 +19,7 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 
 const Review = () => {
-  const [itemData, setItemData] = useState()
+  const [itemData, setItemData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [expanded, setExpanded] = useState([]);
   const { receiptNo } = useParams()
