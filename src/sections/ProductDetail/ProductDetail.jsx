@@ -331,7 +331,7 @@ const ProductDetail = () => {
                     addons={productDetails.addons}
                     onVariationChange={handleVariationChange}
                     selectedVariation={selectedVariation}
-                    onAddonsClear={clearAddons}
+                    // onAddonsClear={clearAddons}
                     onAddonsChange={handleAddonsChange}
                     selectedAddons={selectedAddons}
                   />

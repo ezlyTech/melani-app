@@ -20,7 +20,7 @@ const ProductDetailInformationPanel = ({
   onVariationChange,
   selectedVariation,
   addons,
-  onAddonsClear,
+  // onAddonsClear,
   onAddonsChange,
   selectedAddons,
 }) => {
@@ -162,7 +162,7 @@ ProductDetailInformationPanel.propTypes = {
   onVariationChange: PropTypes.func,
   selectedVariation: PropTypes.array,
   addons: PropTypes.array,
-  onAddonsClear: PropTypes.func,
+  // onAddonsClear: PropTypes.func,
   onAddonsChange: PropTypes.func,
   selectedAddons: PropTypes.array
 };
