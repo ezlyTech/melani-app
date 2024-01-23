@@ -62,8 +62,26 @@ const Review = () => {
     router.push("/home");
   };
 
-  const handleSubmit = (e) => {
+  const handleRemindLaterBtn = async (e) => {
     e.preventDefault();
+
+    const userData = JSON.parse(sessionStorage.getItem("userData"))
+
+    const data = {
+      service_id: "service_pnfvpmj",
+      template_id: "template_bxnhv0k",
+      user_id: "e-Kil0995m2NiB2TH",
+      template_params: {
+        "from_name": "Melani Bakehouse",
+        "to_name": sessionStorage.getItem("username"),
+        "review_link": `http://localhost:3030/review/${receiptNo}`,
+        "reply_to": userData.email,
+      }
+    };
+
+    const sendEmail = await axios.post("https://api.emailjs.com/api/v1.0/email/send", data)
+    console.log(sendEmail.data)
+
     router.push("/home");
   };
 
@@ -201,7 +219,7 @@ const Review = () => {
             width: "100%",
             borderRadius: "31px",
           }}
-          onClick={handleSubmit}
+          onClick={handleRemindLaterBtn}
         >
           Remind me later
         </Button>
