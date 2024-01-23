@@ -82,13 +82,22 @@ export default function Cart() {
 
   const handlePlaceOrder = async () => {
     const name = sessionStorage.getItem("username")
-    const lineItems = cartData.map((item) => (
-      {
-        variant_id: item.variantID,
-        quantity: item.quantity,
-        line_note: item.note
-      }
-    ))
+
+    const lineItems = cartData.map((item) => {
+      const modifiers = item.selectedAddons.map((addon) => ({
+        modifier_option_id: addon.id,
+        price: addon.price
+      }))
+
+      return (
+        {
+          variant_id: item.variantID,
+          quantity: item.quantity,
+          line_note: item.note,
+          line_modifiers: modifiers,
+        }
+      )
+    })
 
     const data = {
       lineItems,
