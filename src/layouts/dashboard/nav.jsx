@@ -16,7 +16,7 @@ import Scrollbar from "src/components/scrollbar";
 // import { useAuth0 } from "@auth0/auth0-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NAV } from "./config-layout";
-import navConfig from "./config-navigation";
+import NavConfig from "./config-navigation";
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
@@ -24,6 +24,7 @@ export default function Nav({ openNav, onCloseNav }) {
   const { isAuthenticated } = useAuth0()
   // const { name } = useContext(UserContext)
   const [picture, setPicture] = useState("")
+  const navConfig = NavConfig();
 
   useEffect(() => {
     if (openNav) {
