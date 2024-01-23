@@ -102,6 +102,7 @@ const Review = () => {
   }, [reviewData])
 
   useEffect(() => {
+    const userData = JSON.parse(sessionStorage.getItem("userData"))
     const fetchData = async () => {
       try {
         const items = await axios.get(`http://localhost:3031/api/reviews/${receiptNo}`)
@@ -112,6 +113,8 @@ const Review = () => {
           itemID: item.id,
           itemName: item.name,
           customerName: sessionStorage.getItem("username"),
+          receiptNo,
+          customerEmail: userData.email,
           rating: null,
           review: null,
           image: [],
