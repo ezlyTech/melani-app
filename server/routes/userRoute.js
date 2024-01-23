@@ -29,37 +29,36 @@ userRoute.post('/', async (req, res) => {
   res.send("Successfully created user")
 })
 
-// ADD ITEM TO FAVORITES
-userRoute.post('/favorites', async (req, res) => {
-  const user = await usersModel.find({ email: req.body.email })
-
-  let favorites = []
-
-  if (!req.body.isFavorite) {
-    user[0].favorites.push(req.body.id)
-  } else {
-    favorites = user[0].favorites.filter((id) => id !== req.body.id)
-    user[0].favorites = favorites
-  }
-  await user[0].save()
-  console.log("Successsfully made changes to favorites")
-  res.send({ message: "Successsfully added item to favorites" })
-})
-
-// ADD ITEMS TO CART
 userRoute.post('/cart/add', async (req, res) => {
   const user = await usersModel.find({ email: req.body.email })
+  const cart = user[0].cart
 
-  const modifiedCart = user[0].cart
-  modifiedCart.push(req.body.lineItems[0])
-  console.log(modifiedCart)
+  // LOGIC TO FIND DUPLICATE ITEMS
+  const duplicateIndex = cart.findIndex((item) => {
+    const isIdMatch = item.id === req.body.lineItems[0].id;
+    const isVariationMatch = JSON.stringify(item.selectedVariation) === JSON.stringify(req.body.lineItems[0].selectedVariation);
+    const isAddonsMatch = JSON.stringify(item.selectedAddons) === JSON.stringify(req.body.lineItems[0].selectedAddons);
 
-  user[0].cart = modifiedCart
+    return isIdMatch && isVariationMatch && isAddonsMatch;
+  })
+
+  if (duplicateIndex > -1) {
+    console.log("Duplicate item detected")
+    cart[duplicateIndex].quantity += req.body.lineItems[0].quantity
+  } else {
+    cart.push(req.body.lineItems[0])
+  }
+
+  // Update the user's document with the modified cart
+  user[0].cart = cart;
+
+  // Save the user document
   await user[0].save()
 
   console.log("Successfully updated cart")
   res.send({ message: "Successfully updated cart" })
 })
+
 
 // REMOVE AN ITEM FROM THE CART
 userRoute.post('/cart/remove', async (req, res) => {
