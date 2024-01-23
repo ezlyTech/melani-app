@@ -170,18 +170,15 @@ const Review = () => {
                 />
               </Typography>
 
-              {/* <Button component="label" sx={{ color: "#000000", top: "4px" }}>
-                Upload Photo
-                <Input type="file" style={{ display: "none" }} />
-              </Button> */}
-
-              {/* Upload utton */}
-              <CloudinaryUploadWidget
-                uwConfig={uwConfig}
-                setReviewData={setReviewData}
-                reviewData={reviewData}
-                index={i}
-              />
+              {/* Upload button */}
+              <Box mt={1}>
+                <CloudinaryUploadWidget
+                  uwConfig={uwConfig}
+                  setReviewData={setReviewData}
+                  reviewData={reviewData}
+                  index={i}
+                />
+              </Box>
 
             </AccordionDetails>
           </Accordion>

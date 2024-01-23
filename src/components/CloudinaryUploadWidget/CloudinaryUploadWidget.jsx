@@ -1,11 +1,13 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { Button } from "@mui/material";
 
 const CloudinaryScriptContext = createContext();
 
 const CloudinaryUploadWidget = ({ uwConfig, setReviewData, index, reviewData }) => {
   const [loaded, setLoaded] = useState(false);
+  const [hasUploaded, setHasUploaded] = useState(false);
 
   useEffect(() => {
     // Check if the script is already loaded
@@ -33,6 +35,7 @@ const CloudinaryUploadWidget = ({ uwConfig, setReviewData, index, reviewData }) 
         (error, result) => {
           if (!error && result && result.event === "success") {
             console.log("Done! Here is the image info: ", result.info);
+            setHasUploaded(true);
 
             const modifiedReviewData = [...reviewData]
             modifiedReviewData[index].image.push(result.info.secure_url)
@@ -55,22 +58,16 @@ const CloudinaryUploadWidget = ({ uwConfig, setReviewData, index, reviewData }) 
 
   return (
     <CloudinaryScriptContext.Provider value={contextValue}>
-      <button
+      <Button
         type="submit"
         id="upload_widget"
-        className="cloudinary-button"
+        variant="outlined"
+        size="small"
         onClick={initializeCloudinaryWidget}
-        style={{
-          backgroundColor: "inherit",
-          color: "black",
-          border: "none",
-          fontWeight: "600",
-          marginTop: "4px",
-          fontSize: "0.9em"
-        }}
       >
-        Upload Photo
-      </button>
+        {hasUploaded ? "Uploaded (1)" : "Upload Photo"}
+      </Button>
+
     </CloudinaryScriptContext.Provider>
   );
 }
