@@ -85,6 +85,7 @@ const LoginGuest = () => {
                 width: "100%",
                 paddingBottom: "20px"
               }}
+              inputProps={{ maxLength: 20 }}
             />
 
             {/* <TextField

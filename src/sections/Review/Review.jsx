@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 const Review = () => {
   const [itemData, setItemData] = useState()
   const [reviewData, setReviewData] = useState([])
-  const [expanded, setExpanded] = useState(["panel1", "panel2", "panel3"]);
+  const [expanded, setExpanded] = useState([]);
   const { receiptNo } = useParams()
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true)
@@ -100,6 +100,11 @@ const Review = () => {
         }))
 
         setReviewData(reviewDataFormat)
+
+        // Initialize expanded state with identifiers for all panels
+        const defaultExpanded = items.data.map((_, i) => `panel${i}`);
+        setExpanded(defaultExpanded);
+
         setIsLoading(false)
       } catch (err) {
         console.log(err)
@@ -107,6 +112,7 @@ const Review = () => {
     }
     fetchData()
   }, [receiptNo])
+
 
   return (
     <Container>
@@ -120,16 +126,18 @@ const Review = () => {
       {!isLoading && <>
         {itemData.map((item, i) => (
           <Accordion
-            expanded={expanded.includes("panel1")}
-            onChange={handleChange("panel1")}
+            key={i}
+            expanded={expanded.includes(`panel${i}`)}
+            onChange={handleChange(`panel${i}`)}
             sx={{
               borderRadius: "15px",
               marginBottom: "8px"
-            }}>
+            }}
+          >
             <AccordionSummary
               //  expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
+              aria-controls={`panel${i}bh-content`}
+              id={`panel${i}bh-header`}
             >
               <Box sx={{ display: "flex", gap: "1em" }}>
                 <img src={item.image}
@@ -162,18 +170,15 @@ const Review = () => {
                 />
               </Typography>
 
-              {/* <Button component="label" sx={{ color: "#000000", top: "4px" }}>
-                Upload Photo
-                <Input type="file" style={{ display: "none" }} />
-              </Button> */}
-
-              {/* Upload utton */}
-              <CloudinaryUploadWidget
-                uwConfig={uwConfig}
-                setReviewData={setReviewData}
-                reviewData={reviewData}
-                index={i}
-              />
+              {/* Upload button */}
+              <Box mt={1}>
+                <CloudinaryUploadWidget
+                  uwConfig={uwConfig}
+                  setReviewData={setReviewData}
+                  reviewData={reviewData}
+                  index={i}
+                />
+              </Box>
 
             </AccordionDetails>
           </Accordion>
