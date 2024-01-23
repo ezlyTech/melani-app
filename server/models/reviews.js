@@ -8,6 +8,7 @@ const reviewsSchema = new Schema({
   customerName: String,
   rating: Number,
   review: String,
+  receiptNo: Number,
   image: {
     type: Array,
     of: String,

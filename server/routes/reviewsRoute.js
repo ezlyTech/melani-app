@@ -12,9 +12,15 @@ reviewsRoute.get('/:receiptNo', async (req, res) => {
       }
     });
 
-    const itemIDs = receipt.data.line_items.map(item => item.item_id)
+    let itemIDs = receipt.data.line_items.map(item => item.item_id)
 
-    const itemRequests = itemIDs.map(async (id) => {
+    const matchedReview = await reviewsModel.find({ receiptNo: req.params.receiptNo })
+    const matchedReviewIDS = matchedReview.map((review) => review.itemID)
+
+    const filteredItems = itemIDs.filter((id) => !matchedReviewIDS.includes(id))
+
+
+    const itemRequests = filteredItems.map(async (id) => {
       const item = await axios.get(`https://api.loyverse.com/v1.0/items/${id}`, {
         headers: {
           'Authorization': `Bearer ${process.env.VITE_LOYVERSE_TOKEN}`

@@ -45,6 +45,7 @@ const Review = () => {
 
   const handleOpen = async () => {
     try {
+      console.log("sdas", reviewData)
       const postReview = await axios.post("http://localhost:3031/api/reviews", reviewData)
 
       if (postReview.data) {
@@ -102,7 +103,6 @@ const Review = () => {
   }, [reviewData])
 
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"))
     const fetchData = async () => {
       try {
         const items = await axios.get(`http://localhost:3031/api/reviews/${receiptNo}`)
@@ -114,11 +114,12 @@ const Review = () => {
           itemName: item.name,
           customerName: sessionStorage.getItem("username"),
           receiptNo,
-          customerEmail: userData.email,
           rating: null,
           review: null,
           image: [],
         }))
+
+        console.log(reviewDataFormat)
 
         setReviewData(reviewDataFormat)
 
