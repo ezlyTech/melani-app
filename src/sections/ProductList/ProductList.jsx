@@ -94,8 +94,8 @@ const ProductList = () => {
   const applyFilters = (products) => {
     let filteredProducts = [...products];
 
-    if (!Number.isNaN(minPriceFilter || !Number.isNaN(maxPriceFilter))){
-      filteredProducts = filteredProducts.filter((product) => 
+    if (!Number.isNaN(minPriceFilter || !Number.isNaN(maxPriceFilter))) {
+      filteredProducts = filteredProducts.filter((product) =>
         parseFloat(product.price) >= minPriceFilter &&
         parseFloat(product.price) <= maxPriceFilter
       );
@@ -123,7 +123,7 @@ const ProductList = () => {
 
   const backButtonStyle = {
     zIndex: 1,
-    minWidth: 40, 
+    minWidth: 40,
   }
 
   return (
@@ -140,7 +140,7 @@ const ProductList = () => {
       )}
       {!isLoading && (
         <Container>
-          
+
           {error && <p>Error: {error}</p>}
           <div
             style={{
@@ -148,7 +148,7 @@ const ProductList = () => {
               gap: "8px",
               flexWrap: "wrap",
               marginBottom: "16px",
-              marginTop: ".5em",
+              // marginTop: ".5em",
             }}
           >
             {filters.price && (
@@ -165,7 +165,7 @@ const ProductList = () => {
             )}
           </div>
 
-          <Grid container spacing={2} sx={{ display: "flex", alignItems: "center" }}>
+          <Grid container spacing={2} sx={{ display: "flex", alignItems: "center", mt: "-2.5em" }}>
             <Grid item xs={1.3}>
               <BackButton buttonStyle={backButtonStyle} />
             </Grid>
@@ -184,8 +184,8 @@ const ProductList = () => {
                 minPriceFilter={minPriceFilter}
                 maxPriceFilter={maxPriceFilter}
                 onMinPriceFilterChange={handleMinPriceFilterChange}
-                onMaxPriceFilterChange = {handleMaxPriceFilterChange}
-                
+                onMaxPriceFilterChange={handleMaxPriceFilterChange}
+
               />
             </Grid>
           </Grid>
@@ -210,7 +210,7 @@ const ProductList = () => {
           </Grid>
         </Container >
       )}
-   
+
     </>
   );
 };
