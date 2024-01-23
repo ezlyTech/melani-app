@@ -124,6 +124,9 @@ const ProductDetail = () => {
     const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"))
 
     if (currentCartItems) {
+      if (currentCartItems.findIndex((item) => item.id === lineItems[0].id) > -1) {
+        console.log("duplicate item found")
+      }
       currentCartItems.push(lineItems[0])
       sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
     } else {
