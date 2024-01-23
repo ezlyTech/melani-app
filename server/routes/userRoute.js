@@ -44,15 +44,15 @@ userRoute.post('/cart/add', async (req, res) => {
 
   if (duplicateIndex > -1) {
     console.log("Duplicate item detected")
-    cart[duplicateIndex].quantity += req.body.lineItems[0].quantity
+
+    const modifiedCart = [...cart]
+    modifiedCart[duplicateIndex].quantity += req.body.lineItems[0].quantity
+    user[0].cart[duplicateIndex] = modifiedCart[duplicateIndex]
   } else {
     cart.push(req.body.lineItems[0])
+    user[0].cart = cart;
   }
 
-  // Update the user's document with the modified cart
-  user[0].cart = cart;
-
-  // Save the user document
   await user[0].save()
 
   console.log("Successfully updated cart")
