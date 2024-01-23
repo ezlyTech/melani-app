@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { ProductCard, TitleTypography } from "src/components";
 import axios from "axios"
 import { useParams, useNavigate } from "react-router-dom";
+import BackButton from "src/components/BackButton";
 import ProductFilter from "./components";
 
 const RATING_OPTIONS = [
@@ -120,6 +121,11 @@ const ProductList = () => {
 
   const filteredProducts = applyFilters(productData);
 
+  const backButtonStyle = {
+    zIndex: 1,
+    minWidth: 40, 
+  }
+
   return (
     <>
       {isLoading && (
@@ -160,7 +166,10 @@ const ProductList = () => {
           </div>
 
           <Grid container spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-            <Grid item xs={6}>
+            <Grid item xs={1.3}>
+              <BackButton buttonStyle={backButtonStyle} />
+            </Grid>
+            <Grid item xs={3.7}>
               <TitleTypography value={categoryName} />
             </Grid>
             <Grid item xs={6} >
@@ -180,8 +189,6 @@ const ProductList = () => {
               />
             </Grid>
           </Grid>
-
-
 
           <Grid container spacing={2}>
             {filteredProducts.map((product, index) => (
