@@ -117,20 +117,36 @@ const ProductDetail = () => {
       }
     ]
 
-    if (sessionStorage.getItem("isAuthenticated")) {
-      await axios.post("http://localhost:3031/api/users/cart/add", { lineItems, email: userData.email })
-    }
-
     const currentCartItems = JSON.parse(sessionStorage.getItem("lineItems"))
 
+    // LOGIC TO FIND DUPLICATE ITEM
     if (currentCartItems) {
-      if (currentCartItems.findIndex((item) => item.id === lineItems[0].id) > -1) {
-        console.log("duplicate item found")
+      console.log(currentCartItems)
+      const duplicateIndex = currentCartItems.findIndex((item) => {
+        const isIdMatch = item.id === lineItems[0].id;
+        const isVariationMatch = JSON.stringify(item.selectedVariation) === JSON.stringify(lineItems[0].selectedVariation);
+        const isAddonsMatch = JSON.stringify(item.selectedAddons) === JSON.stringify(lineItems[0].selectedAddons);
+
+        return isIdMatch && isVariationMatch && isAddonsMatch;
+      });
+
+      if (duplicateIndex > -1) {
+        console.log("Duplicate item found at index:", duplicateIndex);
+        const modifiedCart = [...currentCartItems]
+        modifiedCart[duplicateIndex].quantity += quantity
+        sessionStorage.setItem("lineItems", JSON.stringify(modifiedCart))
+      } else {
+        currentCartItems.push(lineItems[0])
+        sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
       }
-      currentCartItems.push(lineItems[0])
-      sessionStorage.setItem("lineItems", JSON.stringify(currentCartItems))
+      // END OF LOGIC TO FIND DUPLICATE ITEM
+
     } else {
       sessionStorage.setItem("lineItems", JSON.stringify(lineItems))
+    }
+
+    if (sessionStorage.getItem("isAuthenticated")) {
+      await axios.post("http://localhost:3031/api/users/cart/add", { lineItems, email: userData.email })
     }
 
     setIsCartUpdated(!isCartUpdated)
