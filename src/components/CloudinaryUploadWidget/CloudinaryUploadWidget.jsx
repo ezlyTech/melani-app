@@ -65,7 +65,7 @@ const CloudinaryUploadWidget = ({ uwConfig, setReviewData, index, reviewData }) 
         size="small"
         onClick={initializeCloudinaryWidget}
       >
-        {hasUploaded ? "Uploaded (1)" : "Upload Photo"}
+        {hasUploaded ? `Uploaded (${reviewData[index].image.length})` : "Upload Photo"}
       </Button>
 
     </CloudinaryScriptContext.Provider>
