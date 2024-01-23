@@ -76,9 +76,11 @@ const ProductCard = ({ product, handleFavoriteClick }) => {
           <Typography variant="body2" color="text.secondary">
             ₱ {product.price}.00
           </Typography>
-          <IconButton onClick={() => handleFavoriteClick(product.product_id, product.isFavorite)}>
-            <Iconify icon={product.isFavorite ? "eva:bookmark-fill" : "eva:bookmark-outline"} />
-          </IconButton>
+          {sessionStorage.getItem("isAuthenticated") && (
+            <IconButton onClick={() => handleFavoriteClick(product.product_id, product.isFavorite)}>
+              <Iconify icon={product.isFavorite ? "eva:bookmark-fill" : "eva:bookmark-outline"} />
+            </IconButton>
+          )}
         </Box>
       </CardContent>
     </Card>
