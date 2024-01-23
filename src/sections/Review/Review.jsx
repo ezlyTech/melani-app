@@ -205,29 +205,29 @@ const Review = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-      </>}
 
-      <Button onClick={handleOpen} variant="contained" color="primary"
-        sx={{
-          mt: 2,
-          width: "100%",
-          borderRadius: "31px",
-        }}>
-        Submit
-      </Button>
-
-      {sessionStorage.getItem("isAuthenticated") &&
-        <Button variant="outlined" color="primary"
+        <Button onClick={handleOpen} variant="contained" color="primary"
           sx={{
-            mt: 1,
+            mt: 2,
             width: "100%",
             borderRadius: "31px",
-          }}
-          onClick={handleRemindLaterBtn}
-        >
-          Remind me later
+          }}>
+          Submit
         </Button>
-      }
+
+        {sessionStorage.getItem("isAuthenticated") &&
+          <Button variant="outlined" color="primary"
+            sx={{
+              mt: 1,
+              width: "100%",
+              borderRadius: "31px",
+            }}
+            onClick={handleRemindLaterBtn}
+          >
+            Remind me later
+          </Button>
+        }
+      </>}
 
 
       <Modal
