@@ -277,8 +277,8 @@ const ProductDetail = () => {
     top: 80,
     left: 10,
     zIndex: 1,
-    minWidth: 35, 
-    borderRadius: "50%", 
+    minWidth: 35,
+    borderRadius: "50%",
     backgroundColor: "rgba(99, 115, 129, 0.5)",
   }
 
@@ -290,7 +290,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <BackButton buttonStyle={backButtonStyle} iconStyle={backButtonIconStyle}/>
+      <BackButton buttonStyle={backButtonStyle} iconStyle={backButtonIconStyle} />
       {isLoading && (
         <Box sx={{
           display: "flex",
@@ -336,7 +336,7 @@ const ProductDetail = () => {
                 </Typography>
               </Grid>
               <Grid item xs={4}>
-                <Typography sx={{ float: "right" }} fontWeight={600}>₱ {totalPrice}.00</Typography>
+                <Typography sx={{ float: "right", color: "#888C03", fontSize: "1.25rem" }} fontWeight={700}>₱ {totalPrice}.00</Typography>
               </Grid>
             </Grid>
 
