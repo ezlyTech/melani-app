@@ -29,6 +29,21 @@ userRoute.post('/', async (req, res) => {
   res.send("Successfully created user")
 })
 
+userRoute.post('/favorites', async (req, res) => {
+  const user = await usersModel.find({ email: req.body.email })
+
+  let favorites = []
+
+  if (!req.body.isFavorite) {
+    user[0].favorites.push(req.body.id)
+  } else {
+    favorites = user[0].favorites.filter((id) => id !== req.body.id)
+    user[0].favorites = favorites
+  }
+  await user[0].save()
+  res.send({ message: "Successsfully added item to favorites" })
+})
+
 userRoute.post('/cart/add', async (req, res) => {
   const user = await usersModel.find({ email: req.body.email })
   const cart = user[0].cart
