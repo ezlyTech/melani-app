@@ -18,6 +18,7 @@ export default function Home() {
   const [name, setName] = useState()
   const [categories, setCategories] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const [error, setError] = useState()
 
   useVerifySession()
 
@@ -30,7 +31,9 @@ export default function Home() {
         setCategories(itemData.data);
         setIsDataLoading(false);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching data:", err.message);
+        setIsDataLoading(false);
+        setError(err.message)
       }
     };
     if (!isAuthenticated) fetchData();
@@ -97,7 +100,7 @@ export default function Home() {
   return (
     <>
       {isDataLoading && <LinearProgress variant="indeterminate" />}
-      {!isDataLoading && (
+      {!isDataLoading && !error && (
         <>
           <Container>
             <Typography
@@ -123,6 +126,9 @@ export default function Home() {
             )}
           </Container>
         </>
+      )}
+      {!isDataLoading && error && (
+        <p style={{ textAlign: "center" }}>Error: {error}</p>
       )}
     </>
   );
