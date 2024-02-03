@@ -41,8 +41,14 @@ categoryRoute.get('/', async (req, res) => {
     console.log("successfully fetched categories")
     res.send(categories)
   } catch (err) {
-    console.log(err)
+    if (axios.isAxiosError(err)) {
+      console.error("Axios Error:", err.message);
+    } else {
+      console.error("Generic Error:", err.message);
+    }
+    res.status(500).send("Internal Server Error");
   }
+
 
 })
 

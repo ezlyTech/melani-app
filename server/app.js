@@ -35,6 +35,10 @@ app.get("/", (req, res) => {
   res.send("test");
 });
 
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 //ROUTES
 app.use('/api/categories', categoryRoute)
 app.use('/api/items', itemRoute)
